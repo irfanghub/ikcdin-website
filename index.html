@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IKC DIN Eindhoven — Islamski Kulturni Centar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script>window.IKC_LOGO="logo-icon.png";</script>
+<script src="europe-story.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+:root {
+  --bg: #0e1b14;
+  --surface: #16241c;
+  --card: #1c2c23;
+  --card2: #22332a;
+  --gold: #c9a84c;
+  --gold-light: #e8d07a;
+  --gold-dim: rgba(201,168,76,0.13);
+  --gold-border: rgba(201,168,76,0.24);
+  --green: #2a6040;
+  --green-dim: rgba(42,96,64,0.25);
+  --neon: #4ade80;
+  --neon-soft: rgba(74,222,128,0.55);
+  --neon-glow: rgba(74,222,128,0.32);
+  --emerald: #10b981;
+  --jade: #0fa968;
+  --text: #f0ede6;
+  --text-muted: #9ab7a3;
+  --text-soft: #c4d4c8;
+  --radius: 14px;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+/* Islamic geometric tile */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.055)' stroke-width='0.7'%3E%3Cpolygon points='60,4 116,32 116,88 60,116 4,88 4,32'/%3E%3Cpolygon points='60,20 100,42 100,78 60,100 20,78 20,42'/%3E%3Cpolygon points='60,36 84,52 84,68 60,84 36,68 36,52'/%3E%3Cline x1='60' y1='4' x2='60' y2='36'/%3E%3Cline x1='116' y1='32' x2='84' y2='52'/%3E%3Cline x1='116' y1='88' x2='84' y2='68'/%3E%3Cline x1='60' y1='116' x2='60' y2='84'/%3E%3Cline x1='4' y1='88' x2='36' y2='68'/%3E%3Cline x1='4' y1='32' x2='36' y2='52'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  opacity: 1;
+}
+#root { position: relative; z-index: 1; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; border-radius: 8px; font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.22s; text-decoration: none; }
+.btn-gold { background: var(--gold); color: #080d09; }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.3); }
+.btn-outline { background: transparent; border: 1.5px solid var(--gold-border); color: var(--text-soft); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost { background: rgba(255,255,255,0.06); color: var(--text-soft); }
+.btn-ghost:hover { background: rgba(255,255,255,0.1); }
+.btn-green { background: var(--green); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3); }
+.btn-green:hover { background: #357550; }
+
+.section { padding: 100px 0; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.section-title { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.15; color: var(--text); margin-bottom: 16px; }
+.section-sub { font-size: 16px; color: var(--text-muted); max-width: 520px; line-height: 1.75; }
+.divider { width: 56px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin: 18px 0 26px; }
+.card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--gold-border); padding: 28px; }
+
+input, textarea, select { width: 100%; padding: 12px 16px; background: var(--surface); border: 1.5px solid rgba(255,255,255,0.09); border-radius: 8px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s; }
+input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+textarea { resize: vertical; min-height: 80px; }
+select { appearance: none; }
+label { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; display: block; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(14,27,20,0.88); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(201,168,76,0.14); }
+.nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 32px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+.nav-logo img { width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(5,122,65,0.25)); }
+.nav-logo-text { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--text); letter-spacing: 0.02em; }
+.nav-logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link { font-size: 14px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: color 0.2s; cursor: pointer; border: none; background: transparent; font-family: var(--font-body); }
+.nav-link:hover { color: var(--gold); }
+.nav-link.active { color: var(--gold); background: rgba(201,168,76,0.08); }
+.lang-toggle { display: flex; background: var(--card); border-radius: 6px; border: 1px solid var(--gold-border); overflow: hidden; margin: 0 6px; }
+.lang-btn { padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-muted); font-family: var(--font-body); transition: all 0.2s; }
+.lang-btn.active { background: var(--gold); color: #080d09; }
+.mobile-nav { display: none; gap: 8px; align-items: center; }
+
+/* Mosque arch SVG */
+.arch-deco { position: absolute; right: 0; top: 0; bottom: 0; width: 520px; pointer-events: none; overflow: hidden; }
+
+/* Hero */
+.hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding-top: 70px; }
+.hero-bg { position: absolute; inset: 0; background-image: url("photo-interior-hires.jpg"); background-size: cover; background-position: center; filter: brightness(0.5) saturate(0.85) contrast(1.05); z-index: 0; }
+.hero::before { content: ''; position: absolute; inset: 0; background:
+  linear-gradient(100deg, rgba(14,27,20,0.95) 0%, rgba(14,27,20,0.78) 45%, rgba(14,27,20,0.4) 100%);
+  z-index: 1; pointer-events: none; }
+.hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(5,122,65,0.22) 0%, transparent 65%), radial-gradient(ellipse at 80% 30%, rgba(201,168,76,0.1) 0%, transparent 55%); pointer-events: none; z-index: 1; }
+.hero-content { position: relative; z-index: 2; padding: 100px 0 80px; }
+.bismillah { font-size: clamp(1.1rem, 2.5vw, 1.8rem); color: rgba(201,168,76,0.55); font-family: var(--font-display); font-style: italic; margin-bottom: 24px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 100px; padding: 6px 18px; font-size: 13px; color: var(--gold); margin-bottom: 28px; font-weight: 500; }
+.hero-salam { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--gold-light); margin: 14px 0 6px; letter-spacing: 0.01em; }
+.hero-salam::after { content: '·'; display: inline-block; margin-left: 14px; color: var(--gold); opacity: 0.5; }
+.hero-title { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 300; line-height: 1.06; color: var(--text); margin-bottom: 8px; }
+.hero-title strong { font-weight: 700; color: var(--gold); display: block; }
+.hero-sub { font-size: 17px; color: var(--text-muted); max-width: 460px; line-height: 1.75; margin: 20px 0 36px; }
+.hero-stats { display: flex; gap: 40px; margin-top: 48px; flex-wrap: wrap; }
+.hero-stat-num { font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.hero-stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.04em; }
+
+/* Prayer times */
+.prayer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 36px; }
+.prayer-card { background: var(--card); border-radius: 12px; border: 1px solid var(--gold-border); padding: 20px 12px; text-align: center; transition: all 0.25s; cursor: default; }
+.prayer-card.active { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-color: var(--gold); }
+.prayer-card.active .p-name, .prayer-card.active .p-alt, .prayer-card.active .p-time { color: #080d09; }
+.prayer-card.active .p-label { color: rgba(8,13,9,0.6); }
+.p-icon { font-size: 18px; margin-bottom: 8px; }
+.p-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.p-alt { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.p-time { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--gold); margin-top: 8px; }
+.p-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.06em; font-weight: 600; text-transform: uppercase; }
+
+/* Fundraising */
+.progress-track { background: rgba(255,255,255,0.07); border-radius: 100px; height: 16px; overflow: hidden; margin: 18px 0 10px; }
+.progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #a07a20, var(--gold), var(--gold-light), var(--gold)); background-size: 300% auto; animation: shimmergold 3s linear infinite; transition: width 1.8s cubic-bezier(0.16,1,0.3,1); }
+@keyframes shimmergold { 0%{background-position:0% center} 100%{background-position:300% center} }
+.fund-amount { font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--gold); line-height: 1; }
+
+/* Mekteb */
+.mekteb-section { position: relative; padding: 100px 0 110px; overflow: hidden; }
+.mekteb-section::before { content: ''; position: absolute; inset: 0; background:
+  radial-gradient(ellipse 60% 50% at 20% 30%, rgba(5,122,65,0.12) 0%, transparent 60%),
+  radial-gradient(ellipse 50% 40% at 85% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  pointer-events: none; }
+.mekteb-header { max-width: 720px; margin-bottom: 56px; }
+.mekteb-showcase { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
+.mekteb-phone-wrap { position: relative; display: flex; justify-content: center; padding: 20px 0; }
+.phone-stack { position: relative; display: flex; align-items: center; justify-content: center; }
+.phone-front { position: relative; z-index: 2; }
+.phone-shot { width: 100%; height: 100%; object-fit: contain; display: block; }
+.phone-frame { position: relative; width: 290px; height: 590px; background: linear-gradient(140deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 44px; padding: 12px; box-shadow:
+  0 40px 80px -20px rgba(0,0,0,0.7),
+  0 30px 50px -25px rgba(5,122,65,0.35),
+  inset 0 0 0 1.5px rgba(201,168,76,0.15),
+  inset 0 0 0 3px rgba(0,0,0,0.6);
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.phone-front { transform: rotate(-2deg); }
+.phone-front:hover { transform: rotate(0deg) translateY(-6px); }
+.phone-notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 96px; height: 24px; background: #000; border-radius: 0 0 14px 14px; z-index: 3; }
+.phone-notch::after { content: ''; position: absolute; top: 7px; right: 18px; width: 8px; height: 8px; border-radius: 50%; background: rgba(201,168,76,0.4); box-shadow: inset 0 0 0 1.5px rgba(0,0,0,0.8); }
+.phone-screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: linear-gradient(165deg, #061310 0%, #0a1f15 45%, #07140e 100%); position: relative; display: flex; flex-direction: column; }
+.phone-status { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px 8px; font-size: 10px; font-weight: 600; color: var(--text-soft); }
+.phone-status-icons { display: flex; gap: 4px; align-items: center; }
+.phone-content { flex: 1; padding: 12px 16px 0; overflow: hidden; }
+.phone-greet { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.phone-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #057A41, #0a9c54); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 14px; color: #fff; flex-shrink: 0; }
+.phone-greet-text { flex: 1; min-width: 0; }
+.phone-greet-hi { font-size: 10px; color: var(--text-muted); }
+.phone-greet-name { font-size: 13px; color: var(--text); font-weight: 600; font-family: var(--font-display); }
+.phone-bell { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 12px; position: relative; }
+.phone-bell::after { content: ''; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.phone-hero { background: linear-gradient(135deg, #0d2818 0%, #103a22 50%, #0a2818 100%); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 14px; margin-bottom: 14px; position: relative; overflow: hidden; }
+.phone-hero::before { content: ''; position: absolute; right: -20px; top: -30px; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, rgba(5,122,65,0.4) 0%, transparent 70%); }
+.phone-hero-label { font-size: 9px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 4px; position: relative; }
+.phone-hero-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 2px; position: relative; }
+.phone-hero-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 10px; position: relative; }
+.phone-hero-arabic { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold-light); text-align: center; padding: 6px 0; opacity: 0.92; position: relative; direction: rtl; }
+.phone-progress-wrap { position: relative; margin-bottom: 14px; }
+.phone-progress-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.phone-progress-label { font-size: 10px; color: var(--text-muted); }
+.phone-progress-pct { font-size: 12px; color: var(--gold); font-weight: 700; }
+.phone-progress-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 100px; overflow: hidden; }
+.phone-progress-fill { height: 100%; width: 80%; background: linear-gradient(90deg, #057A41, var(--gold)); border-radius: 100px; box-shadow: 0 0 12px rgba(201,168,76,0.4); }
+.phone-section-title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 8px; }
+.phone-lesson { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; margin-bottom: 6px; }
+.phone-lesson-day { width: 32px; height: 32px; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--gold); flex-shrink: 0; letter-spacing: 0.05em; }
+.phone-lesson-info { flex: 1; min-width: 0; }
+.phone-lesson-t { font-size: 11px; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-lesson-sub { font-size: 9px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-lesson-arrow { color: var(--gold); font-size: 11px; opacity: 0.7; }
+.phone-tabs { display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px 6px 14px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
+.phone-tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 8px; color: var(--text-muted); padding: 4px 0; }
+.phone-tab.active { color: var(--gold); }
+.phone-tab-icon { font-size: 14px; }
+.mekteb-float-badge { position: absolute; background: var(--card); border: 1px solid var(--gold-border); border-radius: 100px; padding: 8px 14px; font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.15); display: flex; align-items: center; gap: 6px; z-index: 5; }
+.mekteb-float-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+.mekteb-float-badge.b1 { top: 8%; right: -8%; transform: rotate(4deg); animation: floatA 4s ease-in-out infinite; }
+.mekteb-float-badge.b2 { bottom: 18%; left: -12%; transform: rotate(-3deg); animation: floatA 4.5s ease-in-out infinite reverse; }
+.mekteb-float-badge.b2::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+@keyframes floatA { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(-3deg); } }
+.mekteb-features { display: flex; flex-direction: column; gap: 4px; }
+.mekteb-feature-row { display: grid; grid-template-columns: 56px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px solid rgba(201,168,76,0.08); }
+.mekteb-feature-row:last-child { border-bottom: none; }
+.mekteb-feature-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, rgba(5,122,65,0.25), rgba(201,168,76,0.15)); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.mekteb-feature-t { font-family: var(--font-display); font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.mekteb-feature-d { font-size: 14px; color: var(--text-muted); line-height: 1.55; }
+.mekteb-cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.mekteb-new-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #057A41, #0a9c54); color: #f0ede6; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; letter-spacing: 0.1em; margin-left: 8px; vertical-align: middle; box-shadow: 0 4px 12px rgba(5,122,65,0.35); }
+
+/* Story strip — Naša priča */
+.story-section { padding: 0 0 100px; position: relative; overflow: hidden; }
+.story-hero { position: relative; min-height: 380px; padding: 56px 0 40px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); align-items: center; gap: 0; max-width: 1280px; margin: 0 auto; }
+@media (max-width: 900px) { .story-hero { grid-template-columns: 1fr; padding: 40px 0 32px; min-height: 0; } }
+.story-hero-text { position: relative; z-index: 3; padding: 0 32px 0 56px; }
+.story-hero-text .section-label { justify-content: flex-start !important; }
+.story-hero-text .divider { margin: 18px 0 0; }
+.story-hero-text .section-title { line-height: 1.05; margin-bottom: 4px; }
+.story-hero-subtitle { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 400; color: var(--gold-light); margin-top: 6px; }
+.story-hero-map-col { position: relative; height: 100%; min-height: 320px; margin-left: -8%; }
+.story-map { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.6; }
+.story-map svg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; }
+.story-map::after { content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 100% 100% at 0% 50%, rgba(14,27,20,0.55) 0%, transparent 50%);
+  z-index: 2;
+}
+.story-map .land-other path { fill: rgba(255,255,255,0.02); stroke: rgba(170,200,180,0.18); stroke-width: 0.16; stroke-linejoin: round; }
+.story-map .land-route path { fill: rgba(201,168,76,0.045); stroke: rgba(232,208,122,0.26); stroke-width: 0.22; stroke-linejoin: round; }
+.story-map .story-hi { fill: rgba(110,231,168,0.10) !important; stroke: rgba(142,240,182,0.78) !important; stroke-width: 0.34 !important; filter: drop-shadow(0 0 1.8px rgba(142,240,182,0.65)) drop-shadow(0 0 5px rgba(142,240,182,0.32)); }
+.story-map .story-route-glow { stroke: rgba(142,240,182,0.12); stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.story-map .story-route-line { stroke: rgba(142,240,182,0.75); stroke-width: 0.36; fill: none; stroke-linecap: round; stroke-dasharray: 1.6 1.4; filter: drop-shadow(0 0 1.5px rgba(142,240,182,0.55)); }
+.story-map .story-city { fill: rgba(232,208,122,0.45); }
+.story-map .story-city-major { fill: rgba(255,255,255,0.92); stroke: rgba(142,240,182,0.75); stroke-width: 0.38; filter: drop-shadow(0 0 1.8px rgba(142,240,182,0.7)); }
+.story-map .story-city-ring { fill: none; stroke: rgba(142,240,182,0.4); stroke-width: 0.18; }
+.story-head { max-width: 720px; margin: 0 auto; text-align: center; padding: 0 32px; }
+.story-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: rgba(201,168,76,0.18); height: 420px; }
+.story-cell { position: relative; overflow: hidden; cursor: pointer; }
+.story-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); filter: brightness(0.7) saturate(0.95); }
+.story-cell:hover img { filter: brightness(0.92) saturate(1.05); transform: scale(1.06); }
+.story-cell::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 30%, rgba(0,0,0,0.78) 100%); pointer-events: none; }
+.story-caption { position: absolute; left: 32px; right: 32px; bottom: 32px; z-index: 2; }
+.story-step { display: inline-block; font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.22em; color: var(--gold); margin-bottom: 12px; padding: 5px 12px; border: 1px solid var(--gold-border); border-radius: 100px; background: rgba(6,13,8,0.7); backdrop-filter: blur(8px); }
+.story-title { font-family: var(--font-display); font-size: 24px; color: #fff; font-weight: 600; margin-bottom: 6px; line-height: 1.2; }
+.story-text { font-size: 13px; color: var(--text-soft); max-width: 280px; }
+
+/* Contact backdrop */
+.contact-section { position: relative; overflow: hidden; }
+.contact-bg { position: absolute; inset: 0; background-image: url("photo-bosnia-collage.jpg"); background-size: cover; background-position: center 35%; filter: brightness(0.22) saturate(0.55) blur(1.5px); z-index: 0; }
+.contact-section::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,27,20,0.7) 0%, rgba(10,22,15,0.92) 100%); z-index: 1; pointer-events: none; }
+.contact-section .container { position: relative; z-index: 2; }
+
+/* Membership form */
+.form-section { background: var(--surface); border: 1px solid var(--gold-border); border-radius: 20px; padding: 48px; }
+.membership-option { border: 2px solid var(--gold-border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; }
+.membership-option.selected { border-color: var(--gold); background: var(--gold-dim); }
+.membership-option:hover { border-color: var(--gold); }
+.membership-price { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--gold); }
+
+/* News */
+/* Newsletter feed */
+.nl-section { background: linear-gradient(180deg, rgba(14,27,20,0) 0%, rgba(20,34,26,0.55) 50%, rgba(14,27,20,0) 100%); border-top: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); }
+.nl-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 8px; }
+.nl-mc-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,225,0,0.06); border: 1px solid rgba(255,225,0,0.18); border-radius: 100px; padding: 6px 14px; font-size: 11px; color: #ffe066; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+.nl-mc-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffe066; box-shadow: 0 0 10px rgba(255,224,102,0.7); animation: nl-pulse 2.4s ease-in-out infinite; }
+@keyframes nl-pulse { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.18); } }
+.nl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 32px; }
+@media (max-width: 920px) { .nl-grid { grid-template-columns: 1fr; } }
+.nl-card { position: relative; background: var(--card); border: 1px solid var(--gold-border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.3s; text-decoration: none; }
+.nl-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 22px 50px -22px rgba(201,168,76,0.35); }
+.nl-card-cover { height: 130px; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(5,122,65,0.35) 0%, rgba(201,168,76,0.22) 100%); border-bottom: 1px solid var(--gold-border); }
+.nl-card-cover::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 25% 30%, rgba(201,168,76,0.35) 0%, transparent 45%), radial-gradient(circle at 75% 70%, rgba(5,122,65,0.45) 0%, transparent 50%); }
+.nl-card-cover::after { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 12px); opacity: 0.6; }
+.nl-cover-glyph { position: absolute; bottom: 14px; left: 18px; font-family: var(--font-display); font-style: italic; font-size: 28px; color: rgba(255,255,255,0.92); letter-spacing: 0.02em; z-index: 2; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.nl-cover-edition { position: absolute; top: 12px; right: 14px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.18); padding: 4px 10px; border-radius: 100px; backdrop-filter: blur(6px); z-index: 2; }
+.nl-card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.nl-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.nl-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: 0.6; }
+.nl-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+.nl-snippet { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; flex: 1; }
+.nl-card-foot { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px 18px; border-top: 1px solid rgba(201,168,76,0.08); margin-top: auto; }
+.nl-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.nl-tag { font-size: 10px; padding: 3px 9px; border-radius: 100px; background: rgba(5,122,65,0.18); color: #6ee7a8; border: 1px solid rgba(110,231,168,0.22); letter-spacing: 0.04em; font-weight: 600; }
+.nl-open { font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px; transition: gap 0.25s; }
+.nl-card:hover .nl-open { gap: 8px; }
+.nl-foot { margin-top: 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 18px 22px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(201,168,76,0.22); border-radius: 14px; }
+.nl-foot-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; max-width: 640px; }
+.nl-foot-note strong { color: var(--gold); font-weight: 600; }
+.nl-sub { display: flex; gap: 0; align-items: stretch; max-width: 360px; width: 100%; }
+.nl-sub input { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--gold-border); border-right: none; border-radius: 100px 0 0 100px; padding: 10px 16px; color: var(--text); font-size: 13px; outline: none; font-family: inherit; }
+.nl-sub input:focus { border-color: var(--gold); }
+.nl-sub button { background: var(--gold); color: #1a1208; border: none; border-radius: 0 100px 100px 0; padding: 10px 18px; font-weight: 700; font-size: 13px; cursor: pointer; letter-spacing: 0.02em; transition: filter 0.2s; }
+.nl-sub button:hover { filter: brightness(1.1); }
+
+.news-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--gold-border); transition: all 0.25s; cursor: pointer; overflow: hidden; }
+.news-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+.news-stripe { height: 4px; background: linear-gradient(90deg, var(--green), var(--gold)); }
+.event-row { display: flex; align-items: center; gap: 20px; background: var(--card); border-radius: 12px; border: 1px solid var(--gold-border); padding: 18px 24px; transition: border-color 0.2s; }
+.event-row:hover { border-color: var(--gold); }
+.event-date-box { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 10px; padding: 10px 14px; text-align: center; flex-shrink: 0; min-width: 58px; }
+.event-day { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.event-month { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* Contact */
+.contact-icon { width: 44px; height: 44px; background: var(--gold-dim); border-radius: 10px; border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.map-frame { width: 100%; height: 400px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gold-border); }
+
+/* Dashboard */
+.modal-overlay { position: fixed; inset: 0; background: rgba(4,8,5,0.9); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal { background: var(--card); border-radius: 20px; border: 1px solid var(--gold-border); width: 100%; max-width: 460px; padding: 40px; position: relative; }
+.dash-modal { max-width: 720px; padding: 0; overflow: hidden; }
+.dash-tab { padding: 12px 16px; border: none; background: none; cursor: pointer; font-size: 13px; font-weight: 500; font-family: var(--font-body); transition: color 0.2s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.dash-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.dash-tab:not(.active) { color: var(--text-muted); }
+.fin-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.fin-row:last-child { border-bottom: none; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 600; }
+.badge-green { background: rgba(42,96,64,0.35); color: #6ecfa0; border: 1px solid rgba(42,96,64,0.5); }
+.badge-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+
+/* Islamic section divider */
+.star-divider { display: flex; align-items: center; gap: 16px; margin: 0 0 60px; }
+.star-divider::before, .star-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-border), transparent); }
+.star-glyph { font-size: 20px; color: var(--gold); opacity: 0.7; flex-shrink: 0; }
+
+/* Logo mark used inline as a brand-bullet */
+.logo-mark { display: inline-block; vertical-align: -0.18em; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(5,122,65,0.35)); }
+.logo-mark-sm { width: 1em; height: 1em; }
+.logo-mark-md { width: 1.4em; height: 1.4em; }
+.logo-mark-lg { width: 2em; height: 2em; }
+.logo-mark-xl { width: 38px; height: 38px; opacity: 0.85; }
+.hero-badge .logo-mark { vertical-align: -0.28em; }
+.hero-salam .logo-mark { vertical-align: -0.22em; margin-right: 6px; }
+.hero-salam::after { display: none; }
+
+/* Footer */
+footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); padding: 60px 0 32px; }
+.footer-link { display: block; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; cursor: pointer; border: none; background: none; font-family: var(--font-body); text-align: left; }
+.footer-link:hover { color: var(--gold); }
+
+/* Animations */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.65s ease both; }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(48px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal-scale.in { opacity: 1; transform: none; }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal-left.in { opacity: 1; transform: none; }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal-right.in { opacity: 1; transform: none; }
+.stagger > * { transition-delay: calc(var(--i, 0) * 90ms); }
+
+/* Scroll progress bar — top of viewport */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, var(--neon) 0%, var(--jade) 50%, var(--gold) 100%); box-shadow: 0 0 14px var(--neon-glow), 0 0 28px rgba(74,222,128,0.18); z-index: 999; transition: width 0.12s linear; }
+
+/* Ambient particles */
+.ambient-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.ambient-particles .pt { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--neon-soft); box-shadow: 0 0 10px var(--neon-glow), 0 0 22px rgba(74,222,128,0.18); animation: drift 22s linear infinite; opacity: 0; }
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.7; }
+  85% { opacity: 0.5; }
+  100% { transform: translate3d(var(--dx, 80px), -110vh, 0) scale(1.1); opacity: 0; }
+}
+
+/* Cursor spotlight — hero only */
+.cursor-spotlight { position: absolute; width: 600px; height: 600px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(74,222,128,0.16) 0%, rgba(74,222,128,0.05) 35%, transparent 65%); mix-blend-mode: screen; transition: opacity 0.4s; z-index: 1; opacity: 0; }
+.hero:hover .cursor-spotlight { opacity: 1; }
+
+/* Neon glow utility */
+.neon-glow { box-shadow: 0 0 0 1px rgba(74,222,128,0.22), 0 0 24px -4px var(--neon-glow), inset 0 0 0 1px rgba(74,222,128,0.06); }
+.neon-edge { position: relative; }
+.neon-edge::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, var(--neon-soft), transparent 40%, transparent 60%, var(--gold) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: 0.5; transition: opacity 0.3s; }
+.neon-edge:hover::after { opacity: 1; }
+
+/* Active prayer card pulse + neon */
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(74,222,128,0.55), 0 0 28px -4px var(--neon-glow), 0 0 60px -10px rgba(74,222,128,0.35); }
+  50% { box-shadow: 0 0 0 1px rgba(74,222,128,0.85), 0 0 44px -2px rgba(74,222,128,0.55), 0 0 90px -10px rgba(74,222,128,0.5); }
+}
+
+/* Parallax hero bg */
+.hero-bg { transform: translateY(var(--py, 0px)) scale(1.08); transition: transform 0.05s linear; }
+
+/* Section header animated underline */
+.section-title { position: relative; }
+
+/* Prayer icon svg styling */
+.p-svg { width: 32px; height: 32px; margin: 0 auto 6px; display: block; color: var(--gold); transition: color 0.3s, filter 0.3s; filter: drop-shadow(0 0 10px rgba(201,168,76,0.25)); }
+.prayer-card.active .p-svg { color: #080d09; filter: drop-shadow(0 0 8px rgba(74,222,128,0.4)); }
+.prayer-card:hover:not(.active) { border-color: var(--neon-soft); box-shadow: 0 0 0 1px rgba(74,222,128,0.2), 0 12px 28px -10px var(--neon-glow); transform: translateY(-3px); }
+.prayer-card { transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, background 0.3s; }
+.prayer-card.active { animation: neonPulse 3.4s ease-in-out infinite; }
+
+/* Card hover lift with neon glow on relevant blocks */
+.news-card { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.3s; }
+.news-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -16px var(--neon-glow), 0 0 0 1px rgba(74,222,128,0.18); }
+.event-row { transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.event-row:hover { transform: translateX(6px); box-shadow: -4px 0 0 var(--neon), 0 8px 24px -12px var(--neon-glow); }
+
+/* Button neon variant + hover */
+.btn-gold { position: relative; overflow: hidden; }
+.btn-gold::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.7s; }
+.btn-gold:hover::before { transform: translateX(100%); }
+.btn-outline:hover { box-shadow: 0 0 0 1px var(--neon-soft), 0 8px 28px -10px var(--neon-glow); border-color: var(--neon-soft); color: var(--neon); }
+
+/* Floating moon orb (hero replacement for mosque) */
+.hero-orb { position: absolute; right: -120px; top: 50%; transform: translateY(-50%); width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, rgba(74,222,128,0.18) 0%, rgba(42,96,64,0.12) 25%, rgba(6,13,8,0) 60%); pointer-events: none; z-index: 1; filter: blur(6px); animation: orbBreath 8s ease-in-out infinite; }
+@keyframes orbBreath { 0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.85; } 50% { transform: translateY(-52%) scale(1.05); opacity: 1; } }
+.hero-orb-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(74,222,128,0.12); animation: ringSpin 32s linear infinite; }
+.hero-orb-ring.r2 { inset: 40px; border-color: rgba(201,168,76,0.08); animation-duration: 48s; animation-direction: reverse; }
+.hero-orb-ring.r3 { inset: 90px; border-color: rgba(74,222,128,0.18); border-style: dashed; animation-duration: 60s; }
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+
+/* Section breathing green ambient */
+.section, .mekteb-section, .story-section, .contact-section { position: relative; }
+
+/* Mekteb feature icon — add neon */
+.mekteb-feature-row { transition: padding-left 0.3s; }
+.mekteb-feature-row:hover { padding-left: 8px; }
+.mekteb-feature-row:hover .mekteb-feature-icon { box-shadow: 0 0 0 1px var(--neon-soft), 0 0 24px -6px var(--neon-glow); border-color: var(--neon-soft); }
+.mekteb-feature-icon { transition: box-shadow 0.3s, border-color 0.3s; }
+
+/* Progress fill — green-tinged */
+.progress-fill { background: linear-gradient(90deg, var(--jade), var(--gold), var(--neon), var(--gold-light), var(--jade)); background-size: 300% auto; box-shadow: 0 0 16px rgba(74,222,128,0.22); }
+
+/* Number stat reveal */
+.hero-stat-num { transition: text-shadow 0.4s; }
+.hero-stat-num:hover { text-shadow: 0 0 24px var(--neon-glow); }
+
+/* Story strip hover green glow */
+.story-cell::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(74,222,128,0.18) 100%); opacity: 0; transition: opacity 0.5s; z-index: 1; pointer-events: none; }
+.story-cell:hover::before { opacity: 1; }
+
+/* Float badge soft pulse */
+.mekteb-float-badge { animation-name: badgeFloat !important; }
+@keyframes badgeFloat { 0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); } 50% { transform: translateY(-10px) rotate(var(--rot, 0deg)); } }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-particles, .hero-orb-ring, .hero-orb { animation: none; }
+  .reveal, .reveal-scale, .reveal-left, .reveal-right { opacity: 1; transform: none; transition: none; }
+}
+
+/* Notification */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--gold-border); border-radius: 12px; padding: 14px 24px; font-size: 14px; color: var(--text); z-index: 2000; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: fadeUp 0.4s ease; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .mobile-nav { display: flex; }
+  .prayer-grid { grid-template-columns: repeat(3, 1fr); }
+  .mekteb-card { grid-template-columns: 1fr; padding: 32px; }
+  .mekteb-showcase { grid-template-columns: 1fr; gap: 60px; }
+  .mekteb-phone-wrap { order: 2; }
+  .mekteb-features { order: 1; }
+  .mekteb-float-badge.b1 { right: 0; }
+  .mekteb-float-badge.b2 { left: 0; }
+  .arch-deco { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  .story-strip { grid-template-columns: 1fr; height: auto; }
+  .story-cell { height: 320px; }
+}
+@media (max-width: 600px) {
+  .section { padding: 64px 0; }
+  .container { padding: 0 20px; }
+  .prayer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ── PRAYER TIME CALCULATOR (Eindhoven 51.44°N 5.47°E) ─────────────
+function calcPrayerTimes(date) {
+  const lat = 51.4416, lng = 5.4697;
+  const toRad = d => d * Math.PI / 180;
+  const toDeg = r => r * 180 / Math.PI;
+  const D = Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(2000,0,1)) / 86400000) + 1;
+  const g = (357.529 + 0.98560028 * D) % 360;
+  const q = (280.459 + 0.98564736 * D) % 360;
+  const L = (q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2*g))) % 360;
+  const e = 23.439 - 0.0000004 * D;
+  const RA = toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15;
+  const SD = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
+  const EqT = q/15 - (RA < 0 ? RA+24 : RA > 24 ? RA-24 : RA);
+  // DST: last Sun March to last Sun October
+  const isDST = (() => {
+    const y = date.getFullYear();
+    const lastSunMarch = new Date(y,2,31); while(lastSunMarch.getDay()!==0) lastSunMarch.setDate(lastSunMarch.getDate()-1);
+    const lastSunOct = new Date(y,9,31); while(lastSunOct.getDay()!==0) lastSunOct.setDate(lastSunOct.getDate()-1);
+    return date >= lastSunMarch && date < lastSunOct;
+  })();
+  const TZ = isDST ? 2 : 1;
+  const noon = 12 - lng/15 - EqT + TZ;
+  const hourAngle = a => toDeg(Math.acos((Math.sin(toRad(a)) - Math.sin(toRad(lat))*Math.sin(toRad(SD))) / (Math.cos(toRad(lat))*Math.cos(toRad(SD))))) / 15;
+  const asrAngle = () => { const t = Math.abs(lat - SD); return toDeg(Math.atan(1/(Math.tan(toRad(t))+1)))*-1 + 90; };
+  const norm = h => { while (h < 0) h += 24; while (h >= 24) h -= 24; return h; };
+  const fmt = h => { h = norm(h); const hh=Math.floor(h), mm=Math.round((h-hh)*60); return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`; };
+  try {
+    const sunrise = noon - hourAngle(-0.833);
+    const sunset  = noon + hourAngle(-0.833);
+    // 1/7-night fallback for high latitudes (when sun doesn't dip to -18°/-17°)
+    const nightLen = (24 - sunset) + sunrise; // hours of true night
+    const fajrAngled = noon - hourAngle(-18);
+    const ishaAngled = noon + hourAngle(-17);
+    const fajr = Number.isFinite(fajrAngled) ? fajrAngled : (sunrise - nightLen / 7);
+    const isha = Number.isFinite(ishaAngled) ? ishaAngled : (sunset + nightLen / 7);
+    return [
+      fmt(fajr),
+      fmt(sunrise),
+      fmt(noon),
+      fmt(noon + hourAngle(asrAngle())),
+      fmt(sunset),
+      fmt(isha),
+    ];
+  } catch { return ['03:30','05:30','13:38','17:14','21:45','23:30']; }
+}
+
+// ── TRANSLATIONS ───────────────────────────────────────────────────
+const T = {
+  nl: {
+    nav: ['Home','Ons Verhaal','Mekteb','Inzameling','Word Lid','Contact'],
+    sections: ['home','verhaal','mekteb','inzameling','aanmelden','contact'],
+    login:'Inloggen', logout:'Uitloggen', member:'Ledenportaal',
+    badge: 'Bosnische Islamitische Gemeenschap · Eindhoven',
+    salam: 'Esselamu Alejkum',
+    htitle: 'Welkom bij', hstrong: 'IKC Din',
+    hsub: 'Een hechte gemeenschap van bijna 300 leden in het hart van Eindhoven. Samen groeien in geloof, kennis en verbondenheid.',
+    stat1:'leden', stat2:'jaar actief', stat3:'diensten/week',
+    photo_hint: '📷 Voeg hier een foto toe van de gemeenschap of het gebouw',
+    story_label:'Naša priča · Ons verhaal',
+    story_title:'Van Bosnië naar Nederland',
+    story_subtitle:'één gemeenschap',
+    story:[
+      {step:'01 · Korijeni', t:'Onze wortels in Bosnië', d:'Cultuur, geloof en traditie meegenomen van generatie op generatie.', img:'photo-bosnia-collage.jpg'},
+      {step:'02 · Naš dom', t:'Ons centrum in Eindhoven', d:'Sinds 2008 op Hugo de Grootplein — een vaste plek voor de Bosnische gemeenschap.', img:'photo-exterior.jpg'},
+      {step:'03 · Mjesto molitve', t:'Onze gebedsruimte', d:'Open voor iedereen — voor het gebed, voor de mekteb, voor verbinding.', img:'photo-interior-hires.jpg'}
+    ],
+    prayer_label:'Gebedstijden vandaag', prayer_sub:'Vaktija',
+    pnames:[['Fajr','Sabah'],['Opkomst','Izlazak'],['Dhuhr','Podne'],['Asr','Ikindija'],['Maghrib','Akšam'],['Isha','Jacija']],
+    picons:['🌙','🌅','☀️','🌤','🌆','⭐'],
+    fund_label:'Geldinzameling', fund_title:'Eigen woning voor onze imam',
+    fund_sub:'Samen bouwen we aan een stabiele toekomst. Help ons een eigen pand te verwerven voor onze imam en gemeenschap.',
+    fund_raised:'Ingezameld', fund_goal:'Doelstelling', fund_donors:'donateurs',
+    donate_ideal:'Doneer via iDEAL', donate_qr:'Scan QR-code',
+    mekteb_label:'Islamitisch onderwijs',
+    mekteb_title:'Mekteb IKC Din',
+    mekteb_sub:'Onze islamitische school biedt Koran-onderwijs, Arabisch en islamitische vorming voor kinderen en jongeren in Eindhoven. Met de Mekteb-app volgen ouders de voortgang van hun kind — overal en altijd.',
+    mekteb_cta:'Open Mekteb App',
+    mekteb_cta_parents:'Voor ouders',
+    mekteb_new:'NIEUW',
+    mekteb_features:[
+      {icon:'📖', t:'Koran-voortgang per kind', d:'Volg welke sure zijn afgerond en wat er nu wordt geleerd.'},
+      {icon:'📅', t:'Lessen & huiswerk', d:'Rooster, opdrachten en herinneringen op één plek.'},
+      {icon:'💬', t:'Direct contact met leerkracht', d:'Ouders en hodža communiceren rechtstreeks via de app.'},
+      {icon:'🏆', t:'Beloningen & motivatie', d:'Kinderen verdienen badges voor consistentie en groei.'}
+    ],
+    mekteb_phone:{greet:'Selamu alejkum',name:'Ajla',today:'Vandaag\'s les',lesson:'Sura Al-Fatiha',ayah:'Ayah 5 van 7',progress:'Voortgang',upcoming:'Aankomende lessen',items:[{day:'ZO',t:'Tedžvid',sub:'14:00 · Hodža Mehmedović'},{day:'DI',t:'Arabisch schrijven',sub:'18:30 · Online'},{day:'ZA',t:'Sura Al-Falaq',sub:'14:00 · IKC Din'}],tabs:['Home','Lessen','Quran','Profiel']},
+    mekteb_badge1:'Huiswerk gedaan ✓',
+    mekteb_badge2:'3 dagen streak 🔥',
+    news_label:'Nieuws & aankondigingen', news_title:'Laatste berichten',
+    events_label:'Evenementen', events_title:'Aankomende activiteiten',
+    nl_label:'Nieuwsbrieven', nl_title:'Recente edities uit onze inbox',
+    nl_sub:'Elke nieuwsbrief die we versturen verschijnt automatisch hier — via Mailchimp.',
+    nl_live:'Live · Mailchimp feed',
+    nl_open:'Lees online',
+    nl_archive:'Volledig archief →',
+    nl_foot:'Wil je geen editie missen? Schrijf je in en ontvang de nieuwsbrief direct in je inbox.',
+    nl_email_ph:'jouw@email.nl',
+    nl_subscribe:'Abonneren',
+    nl_min_ago:'min geleden', nl_hours_ago:'u geleden', nl_days_ago:'d geleden', nl_weeks_ago:'w geleden',
+    nl_opens:'opens', nl_clicks:'kliks',
+    reg_label:'Word lid', reg_title:'Schrijf je in bij IKC Din',
+    reg_sub:'Sluit je aan bij onze gemeenschap. Na inschrijving nemen we binnen 2 werkdagen contact op.',
+    reg_name:'Volledige naam', reg_email:'E-mailadres', reg_phone:'Telefoonnummer',
+    reg_dob:'Geboortedatum', reg_address:'Adres & woonplaats',
+    reg_type:'Soort lidmaatschap', reg_ind:'Individueel', reg_fam:'Gezin',
+    reg_yr:'/ jaar', reg_note:'Eventuele opmerkingen (optioneel)',
+    reg_consent:'Ik ga akkoord met de verwerking van mijn gegevens door IKC Din.',
+    reg_submit:'Inschrijving versturen',
+    reg_success:'Bedankt! We nemen binnen 2 werkdagen contact met je op. Ahlan wa sahlan! 🌙',
+    contact_label:'Contact', contact_title:'Vind ons in Eindhoven',
+    route:'Route plannen', send:'Stuur bericht',
+    dash_title:'Ledenportaal', dash_welcome:'Ahlan wa sahlan,',
+    dash_tab:['Overzicht','Financiën','Inzameling','Lidmaatschap','Beheer'],
+    fin_title:'Financieel overzicht stichting', fin_conf:'Vertrouwelijk 🔒',
+    fin_year:'2025–2026',
+    admin_title:'Beheerpanel — Inzameling',
+    admin_sub:'Update het ingezamelde bedrag. Wijzigingen zijn direct zichtbaar op de website.',
+    admin_save:'Opslaan',
+    admin_saved:'✓ Bijgewerkt!',
+  },
+  bs: {
+    nav:['Početna','Naša Priča','Mekteb','Prikupljanje','Prijava','Kontakt'],
+    sections:['home','verhaal','mekteb','inzameling','aanmelden','contact'],
+    login:'Prijava', logout:'Odjava', member:'Portal članova',
+    badge:'Bosanska islamska zajednica · Eindhoven',
+    salam:'Esselamu Alejkum',
+    htitle:'Dobrodošli u', hstrong:'IKC Din',
+    hsub:'Zajednica od skoro 300 članova u srcu Eindhovena. Zajedno rastemo u vjeri, znanju i povezanosti.',
+    stat1:'članova', stat2:'god. aktivni', stat3:'službi/tjed.',
+    photo_hint:'📷 Dodajte ovdje fotografiju zajednice ili zgrade',
+    story_label:'Naša priča',
+    story_title:'Iz Bosne u Holandiju',
+    story_subtitle:'jedna zajednica',
+    story:[
+      {step:'01 · Korijeni', t:'Naši korijeni u Bosni', d:'Kultura, vjera i tradicija prenešeni s generacije na generaciju.', img:'photo-bosnia-collage.jpg'},
+      {step:'02 · Naš dom', t:'Naš centar u Eindhovenu', d:'Od 2008. na Hugo de Grootpleinu — stalno mjesto bosanske zajednice.', img:'photo-exterior.jpg'},
+      {step:'03 · Mjesto molitve', t:'Naš mihrab i mušala', d:'Otvoreno za sve — za namaz, za mekteb, za povezanost.', img:'photo-interior-hires.jpg'}
+    ],
+    prayer_label:'Danas vaktija', prayer_sub:'Namaz',
+    pnames:[['Sabah','Fajr'],['Izlazak','Sunrise'],['Podne','Dhuhr'],['Ikindija','Asr'],['Akšam','Maghrib'],['Jacija','Isha']],
+    picons:['🌙','🌅','☀️','🌤','🌆','⭐'],
+    fund_label:'Prikupljanje sredstava', fund_title:'Vlastiti stan za našeg imama',
+    fund_sub:'Zajedno gradimo stabilnu budućnost za IKC Din. Pomozite nam da steknemo vlastiti prostor.',
+    fund_raised:'Prikupljeno', fund_goal:'Cilj', fund_donors:'donatora',
+    donate_ideal:'Donirajte putem iDEAL', donate_qr:'Skenirajte QR',
+    mekteb_label:'Islamsko obrazovanje',
+    mekteb_title:'Mekteb IKC Din',
+    mekteb_sub:'Naš mekteb nudi nastavu Kur\'ana, arapskog jezika i islamskog odgoja za djecu i mlade u Eindhovenu. Putem aplikacije roditelji prate napredak svog djeteta — bilo gdje, bilo kada.',
+    mekteb_cta:'Otvorite Mekteb App',
+    mekteb_cta_parents:'Za roditelje',
+    mekteb_new:'NOVO',
+    mekteb_features:[
+      {icon:'📖', t:'Napredak Kur\'ana po djetetu', d:'Pratite koje sure su završene i šta se trenutno uči.'},
+      {icon:'📅', t:'Lekcije i zadaće', d:'Raspored, zadaci i podsjetnici — sve na jednom mjestu.'},
+      {icon:'💬', t:'Direktan kontakt sa hodžom', d:'Roditelji i učitelj komuniciraju direktno preko aplikacije.'},
+      {icon:'🏆', t:'Nagrade i motivacija', d:'Djeca dobijaju značke za dosljednost i napredak.'}
+    ],
+    mekteb_phone:{greet:'Selam alejkum',name:'Ajla',today:'Današnja lekcija',lesson:'Sura El-Fatiha',ayah:'Ajet 5 od 7',progress:'Napredak',upcoming:'Sljedeće lekcije',items:[{day:'NED',t:'Tedžvid',sub:'14:00 · Hodža Mehmedović'},{day:'UTO',t:'Arapski jezik',sub:'18:30 · Online'},{day:'SUB',t:'Sura El-Felek',sub:'14:00 · IKC Din'}],tabs:['Početna','Lekcije','Kur\'an','Profil']},
+    mekteb_badge1:'Zadaća završena ✓',
+    mekteb_badge2:'3 dana u nizu 🔥',
+    news_label:'Vijesti i obavijesti', news_title:'Najnovije vijesti',
+    events_label:'Događaji', events_title:'Predstojeće aktivnosti',
+    nl_label:'Newsletteri', nl_title:'Najnovija izdanja iz našeg inboxa',
+    nl_sub:'Svaki newsletter koji pošaljemo automatski se pojavljuje ovdje — putem Mailchimpa.',
+    nl_live:'Uživo · Mailchimp feed',
+    nl_open:'Otvorite',
+    nl_archive:'Cijeli arhiv →',
+    nl_foot:'Ne želite propustiti nijedno izdanje? Prijavite se i newsletter stiže direktno u vaš inbox.',
+    nl_email_ph:'vasa@email.ba',
+    nl_subscribe:'Pretplatite se',
+    nl_min_ago:'min prije', nl_hours_ago:'h prije', nl_days_ago:'d prije', nl_weeks_ago:'sed. prije',
+    nl_opens:'otvaranja', nl_clicks:'klikova',
+    reg_label:'Postanite član', reg_title:'Upišite se u IKC Din',
+    reg_sub:'Pridružite se našoj zajednici. Nakon prijave kontaktiraćemo vas u roku od 2 radna dana.',
+    reg_name:'Puno ime', reg_email:'E-adresa', reg_phone:'Broj telefona',
+    reg_dob:'Datum rođenja', reg_address:'Adresa i grad',
+    reg_type:'Vrsta članstva', reg_ind:'Individualno', reg_fam:'Porodično',
+    reg_yr:'/ godišnje', reg_note:'Napomene (opciono)',
+    reg_consent:'Prihvatam obradu mojih podataka od strane IKC Din.',
+    reg_submit:'Pošaljite prijavu',
+    reg_success:'Hvala! Kontaktiraćemo vas u roku od 2 radna dana. Ahlan wa sahlan! 🌙',
+    contact_label:'Kontakt', contact_title:'Pronađite nas u Eindhovenu',
+    route:'Planirajte rutu', send:'Pošaljite poruku',
+    dash_title:'Portal članova', dash_welcome:'Ahlan wa sahlan,',
+    dash_tab:['Pregled','Finansije','Prikupljanje','Članstvo','Upravljanje'],
+    fin_title:'Finansijski pregled fondacije', fin_conf:'Povjerljivo 🔒',
+    fin_year:'2025–2026',
+    admin_title:'Panel upravljanja — Prikupljanje',
+    admin_sub:'Ažurirajte prikupljeni iznos. Promjene su odmah vidljive na web stranici.',
+    admin_save:'Sačuvaj',
+    admin_saved:'✓ Ažurirano!',
+  }
+};
+
+const NEWS = [
+  {tag_nl:'Aankondiging',tag_bs:'Obavijest',title_nl:'Vrijdaggebed: nieuwe tijden per mei',title_bs:'Džuma: novo vrijeme od maja',body_nl:'Vanaf mei starten de vrijdaggebeden om 13:30. Wij verzoeken iedereen op tijd aanwezig te zijn.',body_bs:'Od maja džuma počinje u 13:30. Molimo sve da budu na vrijeme.',date:'14 april 2026'},
+  {tag_nl:'Mekteb',tag_bs:'Mekteb',title_nl:'Inschrijvingen schooljaar 2026-27 open',title_bs:'Upisi u mekteb 2026-27 otvoreni',body_nl:'Schrijf uw kinderen in voor het nieuwe mekteb-jaar. Beperkte plaatsen beschikbaar.',body_bs:'Upišite svoju djecu za novu mektebsku godinu. Ograničen broj mjesta.',date:'8 april 2026'},
+  {tag_nl:'Gemeenschap',tag_bs:'Zajednica',title_nl:'Iftar-avond: meer dan 200 aanwezigen',title_bs:'Iftar večer: više od 200 prisutnih',body_nl:'Een prachtige bijeenkomst met leden, families en gasten uit heel Eindhoven. Barakallah.',body_bs:'Prekrasan susret sa članovima, porodicama i gostima iz cijelog Eindhovena.',date:'2 april 2026'},
+];
+
+// Simulated Mailchimp campaign archive feed.
+// In production: fetch from https://us21.campaign-archive.com/feed?u=XXX&id=YYY (RSS)
+//  → parse with DOMParser → map to this shape.
+const NEWSLETTERS = [
+  {
+    id: 'mc-2026-04',
+    edition: 'Editie #14',
+    sent_iso: '2026-04-22T10:00:00+02:00',
+    sent_ago_days: 3,
+    subject_nl: 'Ramadan Mubarak \u2014 programma, iftars & lailatul qadr',
+    subject_bs: 'Ramazan Mubarek \u2014 program, iftari i lejletul kadr',
+    snippet_nl: 'Beste broeders en zusters, met vreugde delen we het volledige Ramadan-programma 2026 \u2014 dagelijkse teravih, gezamenlijke iftars op zaterdag en het programma voor de laatste tien nachten.',
+    snippet_bs: 'Dragi bra\u0107o i sestre, sa rado\u0161\u0107u dijelimo kompletan program Ramazana 2026 \u2014 dnevne teravije, zajedni\u010dki iftari subotom i program zadnjih deset no\u0107i.',
+    tags_nl: ['Ramadan', 'Programma'],
+    tags_bs: ['Ramazan', 'Program'],
+    cover_glyph: 'Ramadan',
+    opens: 187, clicks: 64,
+    url: '#',
+  },
+  {
+    id: 'mc-2026-03',
+    edition: 'Editie #13',
+    sent_iso: '2026-04-08T18:30:00+02:00',
+    sent_ago_days: 17,
+    subject_nl: 'Mekteb-inschrijving 2026\u201327 \u00b7 ouderavond 3 mei',
+    subject_bs: 'Upis u mekteb 2026\u201327 \u00b7 roditeljski 3. maj',
+    snippet_nl: 'De inschrijvingen voor het nieuwe mekteb-jaar zijn officieel geopend. Plekken zijn beperkt \u2014 dit jaar verwachten we meer dan 60 kinderen. Lees over de groepen, het rooster en de eerste ouderavond.',
+    snippet_bs: 'Slu\u017ebeno su otvoreni upisi za novu mektebsku godinu. Mjesta su ograni\u010dena \u2014 ove godine o\u010dekujemo vi\u0161e od 60 djece. Pro\u010ditajte o grupama, rasporedu i prvom roditeljskom sastanku.',
+    tags_nl: ['Mekteb', 'Inschrijving'],
+    tags_bs: ['Mekteb', 'Upis'],
+    cover_glyph: 'Mekteb',
+    opens: 142, clicks: 51,
+    url: '#',
+  },
+  {
+    id: 'mc-2026-02',
+    edition: 'Editie #12',
+    sent_iso: '2026-03-21T09:00:00+01:00',
+    sent_ago_days: 35,
+    subject_nl: 'Inzameling imam-woning \u00b7 stand €225.000 + nieuwe vrijwilligers',
+    subject_bs: 'Prikupljanje za stan imama \u00b7 €225.000 + novi volonteri',
+    snippet_nl: 'Alhamdulillah \u2014 we zijn halverwege ons doel. In deze editie: een update over de inzameling, foto\u2019s van de iftar op 9 maart, en een oproep voor vrijwilligers voor de Ramadan-keuken.',
+    snippet_bs: 'Alhamdulillah \u2014 na pola smo puta do cilja. U ovom izdanju: a\u017euriranje o prikupljanju, slike sa iftara od 9. marta i poziv za volontere u ramazanskoj kuhinji.',
+    tags_nl: ['Inzameling', 'Vrijwilligers'],
+    tags_bs: ['Prikupljanje', 'Volonteri'],
+    cover_glyph: 'Update',
+    opens: 168, clicks: 39,
+    url: '#',
+  },
+];
+
+const EVENTS = [
+  {day:'25',m_nl:'APR',m_bs:'APR',t_nl:'Halaqa — Kennisvergadering',t_bs:'Halaqa — Učenje',meta_nl:'Vr 20:30 · IKC Din',meta_bs:'Pet 20:30 · IKC Din',b_nl:'Wekelijks',b_bs:'Sedmično'},
+  {day:'3',m_nl:'MEI',m_bs:'MAJ',t_nl:'Mekteb Ouderavond',t_bs:'Roditeljski sastanak',meta_nl:'Za 14:00 · IKC Din',meta_bs:'Sub 14:00 · IKC Din',b_nl:'Nieuw',b_bs:'Novo'},
+  {day:'10',m_nl:'MEI',m_bs:'MAJ',t_nl:'BBQ — Inzameling Imam-woning',t_bs:'BBQ — Prikupljanje za stan',meta_nl:'Zo 15:00 · Nader te bepalen',meta_bs:'Ned 15:00 · TBD',b_nl:'Inzameling',b_bs:'Prikupljanje'},
+  {day:'17',m_nl:'MEI',m_bs:'MAJ',t_nl:'Koran-recitatieavond',t_bs:'Večer kiraeta',meta_nl:'Za 19:00 · IKC Din',meta_bs:'Sub 19:00 · IKC Din',b_nl:'Educatie',b_bs:'Obrazovanje'},
+];
+
+const FINANCIALS = [
+  {nl:'Totale inkomsten dit jaar',bs:'Ukupni prihodi ove godine',v:'€ 68.400',t:'pos'},
+  {nl:'Huurkosten locatie',bs:'Troškovi najma prostora',v:'− € 24.000',t:'neg'},
+  {nl:'Salaris imam & personeel',bs:'Plaća imama i osoblja',v:'− € 19.200',t:'neg'},
+  {nl:'Mekteb — kosten & materialen',bs:'Troškovi mekteba i materijala',v:'− € 6.800',t:'neg'},
+  {nl:'Onderhoud & overige kosten',bs:'Održavanje i ostali troškovi',v:'− € 4.100',t:'neg'},
+  {nl:'Bijdrage reservefonds woning',bs:'Doprinos rezervnom fondu',v:'+ € 14.300',t:'pos'},
+];
+
+// ── COMPONENTS ─────────────────────────────────────────────────────
+
+function MosqueArch({ color='rgba(201,168,76,0.13)', size=480 }) {
+  const w = size, h = size * 1.2;
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Minarets */}
+      <rect x={w*0.08} y={h*0.22} width={w*0.07} height={h*0.68} rx={4} fill={color}/>
+      <rect x={w*0.85} y={h*0.22} width={w*0.07} height={h*0.68} rx={4} fill={color}/>
+      {/* Minaret tops */}
+      <ellipse cx={w*0.115} cy={h*0.22} rx={w*0.035} ry={h*0.04} fill={color}/>
+      <ellipse cx={w*0.885} cy={h*0.22} rx={w*0.035} ry={h*0.04} fill={color}/>
+      {/* Crescents on minarets */}
+      <path d={`M${w*0.09},${h*0.16} Q${w*0.115},${h*0.13} ${w*0.14},${h*0.16} Q${w*0.115},${h*0.21} ${w*0.09},${h*0.16}Z`} fill={color}/>
+      <path d={`M${w*0.86},${h*0.16} Q${w*0.885},${h*0.13} ${w*0.91},${h*0.16} Q${w*0.885},${h*0.21} ${w*0.86},${h*0.16}Z`} fill={color}/>
+      {/* Main body */}
+      <rect x={w*0.18} y={h*0.42} width={w*0.64} height={h*0.48} rx={2} fill={color}/>
+      {/* Main dome */}
+      <path d={`M${w*0.18},${h*0.42} Q${w*0.18},${h*0.1} ${w*0.5},${h*0.06} Q${w*0.82},${h*0.1} ${w*0.82},${h*0.42} Z`} fill={color}/>
+      {/* Inner arch (entrance) */}
+      <path d={`M${w*0.36},${h*0.9} L${w*0.36},${h*0.65} Q${w*0.36},${h*0.52} ${w*0.5},${h*0.52} Q${w*0.64},${h*0.52} ${w*0.64},${h*0.65} L${w*0.64},${h*0.9} Z`} fill="rgba(0,0,0,0.15)"/>
+      {/* Stars */}
+      {[[w*0.5, h*0.28],[w*0.3, h*0.55],[w*0.7, h*0.55]].map(([cx,cy],i)=>(
+        <circle key={i} cx={cx} cy={cy} r={3} fill={color}/>
+      ))}
+      {/* Crescent on dome */}
+      <path d={`M${w*0.46},${h*0.07} Q${w*0.5},${h*0.02} ${w*0.54},${h*0.07} Q${w*0.5},${h*0.12} ${w*0.46},${h*0.07}Z`} fill={color} opacity={1.5}/>
+    </svg>
+  );
+}
+
+function LogoMark({ size = 'sm', style }) {
+  const cls = 'logo-mark logo-mark-' + size;
+  return <img src={window.IKC_LOGO} alt="" aria-hidden="true" className={cls} style={style}/>;
+}
+
+function StarDivider() {
+  return (
+    <div className="star-divider">
+      <LogoMark size="xl"/>
+    </div>
+  );
+}
+
+// ── PRAYER TIME ICONS — custom minimal SVGs, no emoji ──
+function PrayerIcon({ idx, className = 'p-svg' }) {
+  // 0 Fajr/Sabah (pre-dawn): crescent + small stars
+  // 1 Izlazak/Sunrise: rising sun over horizon, three rays
+  // 2 Podne/Dhuhr: full sun with 8 rays
+  // 3 Ikindija/Asr: sun lower-right with slanted long rays
+  // 4 Akšam/Maghrib: setting sun (half below horizon) with cloud
+  // 5 Jacija/Isha: crescent moon with stars
+  const C = 'currentColor';
+  switch (idx) {
+    case 0: // Sabah / Fajr — pre-dawn crescent with stars + horizon
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 8 A7 7 0 1 0 21 22 A5.5 5.5 0 1 1 21 8 Z" fill={C}/>
+          <circle cx="9" cy="9" r="0.9" fill={C}/>
+          <circle cx="6" cy="14" r="0.7" fill={C}/>
+          <circle cx="12" cy="5" r="0.6" fill={C}/>
+          <path d="M3 27 L29 27" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+          <path d="M6 30 L26 30" stroke={C} strokeWidth="1" strokeLinecap="round" opacity="0.3"/>
+        </svg>
+      );
+    case 1: // Izlazak / Sunrise — half sun rising with rays + horizon + up arrow line
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 21 A7 7 0 0 1 23 21 Z" fill={C}/>
+          <path d="M3 21 L29 21" stroke={C} strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M16 4 L16 9" stroke={C} strokeWidth="1.6" strokeLinecap="round"/>
+          <path d="M6 11 L8.5 13.5" stroke={C} strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M26 11 L23.5 13.5" stroke={C} strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M13 6.5 L14 9" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
+          <path d="M19 6.5 L18 9" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
+          <path d="M5 26 L27 26" stroke={C} strokeWidth="1" strokeLinecap="round" opacity="0.4"/>
+        </svg>
+      );
+    case 2: // Podne / Dhuhr — full sun, 8 rays
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="5.5" fill={C}/>
+          {[0,45,90,135,180,225,270,315].map(a => {
+            const r1 = 9.5, r2 = 13;
+            const rad = a * Math.PI / 180;
+            const x1 = 16 + Math.cos(rad) * r1, y1 = 16 + Math.sin(rad) * r1;
+            const x2 = 16 + Math.cos(rad) * r2, y2 = 16 + Math.sin(rad) * r2;
+            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke={C} strokeWidth="1.7" strokeLinecap="round"/>;
+          })}
+        </svg>
+      );
+    case 3: // Ikindija / Asr — sun in upper-left, long slanted rays (afternoon shadow feel)
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5" fill={C}/>
+          <path d="M12 4 L12 6.5" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M4 12 L6.5 12" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M6 6 L7.8 7.8" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M18 6 L16.2 7.8" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M6 18 L7.8 16.2" stroke={C} strokeWidth="1.5" strokeLinecap="round"/>
+          {/* slanted long afternoon ray */}
+          <path d="M18 18 L28 28" stroke={C} strokeWidth="1.7" strokeLinecap="round" opacity="0.85"/>
+          <path d="M16 20 L24 28" stroke={C} strokeWidth="1.3" strokeLinecap="round" opacity="0.55"/>
+          <path d="M20 16 L28 24" stroke={C} strokeWidth="1.3" strokeLinecap="round" opacity="0.55"/>
+        </svg>
+      );
+    case 4: // Akšam / Maghrib — setting sun: half below horizon + downward arrow accent
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 19 A7 7 0 0 0 23 19 Z" fill={C}/>
+          <path d="M3 19 L29 19" stroke={C} strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M16 4 L16 9" stroke={C} strokeWidth="1.4" strokeLinecap="round" opacity="0.55"/>
+          <path d="M14 6 L16 4 L18 6" stroke={C} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.55" transform="rotate(180 16 5)"/>
+          <path d="M6 11 L8.5 13.5" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.55"/>
+          <path d="M26 11 L23.5 13.5" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.55"/>
+          <path d="M5 24 L27 24" stroke={C} strokeWidth="1" strokeLinecap="round" opacity="0.4"/>
+          <path d="M8 28 L24 28" stroke={C} strokeWidth="0.9" strokeLinecap="round" opacity="0.25"/>
+        </svg>
+      );
+    case 5: // Jacija / Isha — crescent moon with three stars
+      return (
+        <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 7 A9 9 0 1 0 22 25 A7 7 0 1 1 22 7 Z" fill={C}/>
+          <path d="M9 6 L9.6 7.6 L11.2 7.6 L9.9 8.6 L10.4 10.2 L9 9.25 L7.6 10.2 L8.1 8.6 L6.8 7.6 L8.4 7.6 Z" fill={C} opacity="0.9"/>
+          <circle cx="6" cy="15" r="0.7" fill={C}/>
+          <circle cx="11" cy="22" r="0.8" fill={C}/>
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+function QRBox() {
+  return (
+    <svg width={72} height={72} viewBox="0 0 72 72">
+      <rect width={72} height={72} fill="white"/>
+      <rect x={2} y={2} width={20} height={20} fill="#0f1d13"/><rect x={4} y={4} width={16} height={16} fill="white"/><rect x={7} y={7} width={10} height={10} fill="#0f1d13"/>
+      <rect x={50} y={2} width={20} height={20} fill="#0f1d13"/><rect x={52} y={4} width={16} height={16} fill="white"/><rect x={55} y={7} width={10} height={10} fill="#0f1d13"/>
+      <rect x={2} y={50} width={20} height={20} fill="#0f1d13"/><rect x={4} y={52} width={16} height={16} fill="white"/><rect x={7} y={55} width={10} height={10} fill="#0f1d13"/>
+      {[26,30,34,38,42,46].map(x=>[26,30,34,38,42,46,50].map(y=>Math.sin(x*y)>0.2&&<rect key={`${x}-${y}`} x={x} y={y} width={3} height={3} fill="#0f1d13"/>))}
+    </svg>
+  );
+}
+
+// ── NAV ────────────────────────────────────────────────────────────
+function Nav({ lang, setLang, onLogin, loggedIn, user, onLogout, page, setPage }) {
+  const t = T[lang];
+  const go = id => { setPage(id); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  return (
+    <nav>
+      <div className="nav-inner">
+        <div className="nav-logo" onClick={()=>go('home')}>
+          <img src={window.IKC_LOGO} alt="IKC DIN Logo"/>
+          <div>
+            <div className="nav-logo-text">IKC DIN</div>
+            <div className="nav-logo-sub">Islamski Kulturni Centar · Eindhoven</div>
+          </div>
+        </div>
+        <div className="nav-links">
+          {t.nav.map((n,i)=>(
+            <button key={i} className={`nav-link${page===t.sections[i]?' active':''}`} onClick={()=>go(t.sections[i])}>{n}</button>
+          ))}
+          <div style={{width:1,height:22,background:'rgba(255,255,255,0.1)',margin:'0 6px'}}/>
+          <div className="lang-toggle">
+            <button className={`lang-btn${lang==='nl'?' active':''}`} onClick={()=>setLang('nl')}>NL</button>
+            <button className={`lang-btn${lang==='bs'?' active':''}`} onClick={()=>setLang('bs')}>BS</button>
+          </div>
+          {loggedIn
+            ? <><span style={{fontSize:13,color:'var(--gold)',fontWeight:500,marginLeft:8}}>👤 {user.name.split(' ')[0]}</span>
+                <button className="btn btn-ghost" style={{padding:'6px 14px',fontSize:13}} onClick={onLogout}>{t.logout}</button></>
+            : <button className="btn btn-gold" style={{padding:'7px 20px',fontSize:13,marginLeft:4}} onClick={onLogin}>{t.login}</button>
+          }
+        </div>
+        <div className="mobile-nav">
+          <div className="lang-toggle">
+            <button className={`lang-btn${lang==='nl'?' active':''}`} onClick={()=>setLang('nl')}>NL</button>
+            <button className={`lang-btn${lang==='bs'?' active':''}`} onClick={()=>setLang('bs')}>BS</button>
+          </div>
+          {!loggedIn && <button className="btn btn-gold" style={{padding:'7px 14px',fontSize:12}} onClick={onLogin}>{t.login}</button>}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+// ── HERO ───────────────────────────────────────────────────────────
+function Hero({ lang, setPage }) {
+  const t = T[lang];
+  const bgRef = useRef(null);
+  const spotRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (bgRef.current) {
+        const y = window.scrollY;
+        bgRef.current.style.setProperty('--py', (y * 0.25) + 'px');
+      }
+    };
+    const onMove = (e) => {
+      if (!spotRef.current) return;
+      const rect = spotRef.current.parentElement.getBoundingClientRect();
+      spotRef.current.style.left = (e.clientX - rect.left) + 'px';
+      spotRef.current.style.top = (e.clientY - rect.top) + 'px';
+      spotRef.current.style.opacity = '1';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const heroEl = spotRef.current?.parentElement;
+    heroEl?.addEventListener('mousemove', onMove);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      heroEl?.removeEventListener('mousemove', onMove);
+    };
+  }, []);
+
+  return (
+    <section className="hero" id="hero">
+      <div className="hero-bg" ref={bgRef}></div>
+      <div className="cursor-spotlight" ref={spotRef}></div>
+      <div className="hero-orb" aria-hidden="true">
+        <div className="hero-orb-ring"></div>
+        <div className="hero-orb-ring r2"></div>
+        <div className="hero-orb-ring r3"></div>
+      </div>
+      <div className="container">
+        <div className="hero-content fade-up">
+          <div className="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+          <div className="hero-salam"><LogoMark size="md"/>{t.salam}</div>
+          <h1 className="hero-title">
+            {t.htitle}<br/>
+            <strong>{t.hstrong}</strong>
+          </h1>
+          <p className="hero-sub">{t.hsub}</p>
+          <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+            <button className="btn btn-gold" onClick={()=>{ setPage('aanmelden'); window.scrollTo({top:0,behavior:'smooth'}); }}>
+              ✍️ {lang==='nl'?'Word lid':'Postanite član'}
+            </button>
+            <button className="btn btn-outline" onClick={()=>document.getElementById('vaktija')?.scrollIntoView({behavior:'smooth'})}>
+              <LogoMark size="sm"/> {lang==='nl'?'Bekijk gebedstijden':'Vaktija'}
+            </button>
+          </div>
+          <div className="hero-stats">
+            {[['~300',t.stat1],['17',t.stat2],['7',t.stat3]].map(([n,l],i)=>(
+              <div key={i}>
+                <div className="hero-stat-num">{n}</div>
+                <div className="hero-stat-label">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── PRAYER TIMES ───────────────────────────────────────────────────
+function PrayerTimes({ lang }) {
+  const t = T[lang];
+  const [times, setTimes] = useState([]);
+  const [active, setActive] = useState(0);
+  const today = new Date();
+
+  useEffect(() => {
+    const pts = calcPrayerTimes(today);
+    setTimes(pts);
+    const nowMin = today.getHours()*60+today.getMinutes();
+    const mins = pts.map(s=>parseInt(s)*60+parseInt(s.split(':')[1]));
+    setActive(mins.reduce((a,m,i)=>m<=nowMin?i:a,0));
+  }, []);
+
+  const dateStr = today.toLocaleDateString(lang==='nl'?'nl-NL':'hr',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  return (
+    <section id="vaktija" style={{padding:'80px 0',background:'rgba(18,32,24,0.7)',borderTop:'1px solid rgba(201,168,76,0.12)',borderBottom:'1px solid rgba(201,168,76,0.12)'}}>
+      <div className="container">
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',flexWrap:'wrap',gap:16,marginBottom:4}}>
+          <div>
+            <div className="section-label"><LogoMark size="sm"/> {t.prayer_label}</div>
+            <div style={{fontFamily:'var(--font-display)',fontSize:'1.4rem',color:'var(--text)',textTransform:'capitalize'}}>{dateStr}</div>
+          </div>
+          <div style={{fontSize:12,color:'var(--text-muted)',fontStyle:'italic'}}>Eindhoven · 51.44°N · Hanafi / MWL</div>
+        </div>
+        <div className="prayer-grid stagger">
+          {t.pnames.map(([name,alt],i)=>(
+            <div key={i} className={`prayer-card reveal-scale${i===active?' active':''}`} style={{'--i':i}}>
+              <PrayerIcon idx={i}/>
+              <div className="p-name">{name}</div>
+              <div className="p-alt">{alt}</div>
+              <div className="p-time">{times[i]||'--:--'}</div>
+              {i===active&&<div className="p-label">NU ACTIEF</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── NAŠA PRIČA ───────────────────────────────────────
+function NasaPrica({ lang }) {
+  const t = T[lang];
+  return (
+    <section className="story-section" id="verhaal">
+      <div className="story-hero">
+        <div className="story-hero-text">
+          <div className="section-label"><LogoMark size="sm"/> {t.story_label}</div>
+          <h2 className="section-title">
+            {t.story_title}
+            <span className="story-hero-subtitle" style={{display:'block'}}>{t.story_subtitle}</span>
+          </h2>
+          <div className="divider"/>
+        </div>
+        <div className="story-hero-map-col">
+          <div className="story-map" aria-hidden="true">
+            <svg viewBox="0 0 160 126" preserveAspectRatio="xMidYMid meet" dangerouslySetInnerHTML={{__html: window.EUROPE_STORY_SVG || ''}}/>
+          </div>
+        </div>
+      </div>
+      <div className="story-strip stagger" style={{marginTop: 24}}>
+        {t.story.map((s,i)=>(
+          <div key={i} className="story-cell reveal" style={{'--i':i}}>
+            <img src={s.img} alt={s.t}/>
+            <div className="story-caption">
+              <span className="story-step">{s.step}</span>
+              <div className="story-title">{s.t}</div>
+              <div className="story-text">{s.d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── FUNDRAISING ────────────────────────────────────────────────────
+function Fundraising({ lang, raisedOverride }) {
+  const t = T[lang];
+  const goal = 450000;
+  const raised = raisedOverride || 225000;
+  const pct = Math.round(raised/goal*100);
+  const [anim, setAnim] = useState(false);
+  const ref = useRef(null);
+  useEffect(()=>{
+    const obs = new IntersectionObserver(([e])=>{if(e.isIntersecting)setAnim(true)},{threshold:0.3});
+    if(ref.current)obs.observe(ref.current);
+    return()=>obs.disconnect();
+  },[]);
+  const fmt = n=>'€ '+n.toLocaleString('nl-NL');
+
+  return (
+    <section className="section" id="inzameling" ref={ref}>
+      <div className="container">
+        <StarDivider/>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 400px',gap:64,alignItems:'center'}}>
+          <div className="reveal-left">
+            <div className="section-label"><LogoMark size="sm"/> {t.fund_label}</div>
+            <h2 className="section-title">{t.fund_title}</h2>
+            <div className="divider"/>
+            <p className="section-sub" style={{marginBottom:36}}>{t.fund_sub}</p>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:6}}>
+              <div><div className="fund-amount">{fmt(raised)}</div><div style={{fontSize:13,color:'var(--text-muted)',marginTop:2}}>{t.fund_raised}</div></div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontFamily:'var(--font-display)',fontSize:'1.6rem',fontWeight:600,color:'var(--text-soft)'}}>{fmt(goal)}</div>
+                <div style={{fontSize:13,color:'var(--text-muted)'}}>{t.fund_goal}</div>
+              </div>
+            </div>
+            <div className="progress-track">
+              <div className="progress-fill" style={{width:anim?`${pct}%`:'0%'}}/>
+            </div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:13,color:'var(--text-muted)',marginTop:6}}>
+              <span>{pct}% {lang==='nl'?'bereikt':'postignuto'}</span>
+              <span style={{color:'var(--gold)'}}>847 {t.fund_donors}</span>
+            </div>
+            <div style={{display:'flex',gap:12,marginTop:32,flexWrap:'wrap'}}>
+              <a href="https://betaalverzoek.rabobank.nl" target="_blank" className="btn btn-gold">💳 {t.donate_ideal}</a>
+              <button className="btn btn-outline">📱 {t.donate_qr}</button>
+            </div>
+          </div>
+          <div className="reveal-right">
+            <div className="card" style={{padding:32}}>
+              <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:20}}>
+                🏡 {lang==='nl'?'Voortgang Imam-woning':'Napredak Stan Imama'}
+              </div>
+              <div style={{background:'var(--surface)',borderRadius:12,padding:24,border:'1px solid var(--gold-border)',marginBottom:24}}>
+                <div style={{fontFamily:'var(--font-display)',fontSize:'2.2rem',fontWeight:700,color:'var(--gold)'}}>{fmt(raised)}</div>
+                <div style={{fontSize:13,color:'var(--text-muted)',marginBottom:14}}>{lang==='nl'?`van de ${fmt(goal)}`:`od ${fmt(goal)}`}</div>
+                <div style={{height:10,background:'rgba(255,255,255,0.07)',borderRadius:100,overflow:'hidden'}}>
+                  <div style={{height:'100%',width:anim?`${pct}%`:'0%',background:'linear-gradient(90deg,#a07a20,var(--gold),var(--gold-light))',borderRadius:100,transition:'width 2s cubic-bezier(0.16,1,0.3,1)'}}/>
+                </div>
+                <div style={{fontSize:12,color:'var(--text-muted)',marginTop:8}}>{fmt(goal-raised)} {lang==='nl'?'nog te gaan':'još potrebno'}</div>
+              </div>
+              <div style={{display:'flex',gap:16,alignItems:'center'}}>
+                <div style={{background:'white',borderRadius:10,padding:12,flexShrink:0}}><QRBox/></div>
+                <div>
+                  <div style={{fontSize:13,fontWeight:600,color:'var(--text)',marginBottom:6}}>{lang==='nl'?'Scan & doneer':'Skenirajte i donirajte'}</div>
+                  <div style={{fontSize:12,color:'var(--text-muted)',lineHeight:1.65}}>
+                    IKC DIN Eindhoven<br/>
+                    IBAN: NL12 RABO 0123 4567 89<br/>
+                    <span style={{color:'var(--gold)'}}>t.a.v. Imam-woning</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── MEKTEB ─────────────────────────────────────────────────────────
+function PhoneMock({ lang }) {
+  return (
+    <div className="phone-stack">
+      <div className="phone-frame phone-front">
+        <div className="phone-notch"/>
+        <div className="phone-screen">
+          <img src="mekteb-screen-roles.png" alt="Mekteb startscherm" className="phone-shot"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function _PhoneMockOld({ lang }) {
+  const p = T[lang].mekteb_phone;
+  const initials = p.name.charAt(0);
+  return (
+    <div className="phone-frame">
+      <div className="phone-notch"/>
+      <div className="phone-screen">
+        <div className="phone-status">
+          <span>9:41</span>
+          <span className="phone-status-icons">◆◆◆ • 100%</span>
+        </div>
+        <div className="phone-content">
+          <div className="phone-greet">
+            <div className="phone-avatar">{initials}</div>
+            <div className="phone-greet-text">
+              <div className="phone-greet-hi">{p.greet}</div>
+              <div className="phone-greet-name">{p.name}</div>
+            </div>
+            <div className="phone-bell">🔔</div>
+          </div>
+          <div className="phone-hero">
+            <div className="phone-hero-label">★ {p.today}</div>
+            <div className="phone-hero-title">{p.lesson}</div>
+            <div className="phone-hero-sub">{p.ayah}</div>
+            <div className="phone-hero-arabic">بِسْمِ اللَّهِ</div>
+          </div>
+          <div className="phone-progress-wrap">
+            <div className="phone-progress-row">
+              <span className="phone-progress-label">{p.progress}</span>
+              <span className="phone-progress-pct">80%</span>
+            </div>
+            <div className="phone-progress-track"><div className="phone-progress-fill"/></div>
+          </div>
+          <div className="phone-section-title">{p.upcoming}</div>
+          {p.items.map((it,i)=>(
+            <div key={i} className="phone-lesson">
+              <div className="phone-lesson-day">{it.day}</div>
+              <div className="phone-lesson-info">
+                <div className="phone-lesson-t">{it.t}</div>
+                <div className="phone-lesson-sub">{it.sub}</div>
+              </div>
+              <div className="phone-lesson-arrow">›</div>
+            </div>
+          ))}
+        </div>
+        <div className="phone-tabs">
+          {p.tabs.map((tab,i)=>{
+            const icons = ['🏠','📖','★','👤'];
+            return (
+              <div key={i} className={'phone-tab' + (i===0?' active':'')}>
+                <div className="phone-tab-icon">{icons[i]}</div>
+                <div>{tab}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Mekteb({ lang }) {
+  const t = T[lang];
+  return (
+    <section className="section mekteb-section" id="mekteb">
+      <div className="container">
+        <StarDivider/>
+        <div className="mekteb-header">
+          <div className="section-label">📚 {t.mekteb_label} <span className="mekteb-new-pill">✨ {t.mekteb_new}</span></div>
+          <h2 className="section-title" style={{marginBottom:14}}>{t.mekteb_title}</h2>
+          <div className="divider"/>
+          <p className="section-sub" style={{maxWidth:640}}>{t.mekteb_sub}</p>
+        </div>
+        <div className="mekteb-showcase">
+          <div className="mekteb-phone-wrap reveal-left">
+            <PhoneMock lang={lang}/>
+            <div className="mekteb-float-badge b1">{t.mekteb_badge1}</div>
+            <div className="mekteb-float-badge b2">{t.mekteb_badge2}</div>
+          </div>
+          <div className="mekteb-features stagger">
+            {t.mekteb_features.map((f,i)=>(
+              <div key={i} className="mekteb-feature-row reveal-right" style={{'--i':i}}>
+                <div className="mekteb-feature-icon">{f.icon}</div>
+                <div>
+                  <div className="mekteb-feature-t">{f.t}</div>
+                  <div className="mekteb-feature-d">{f.d}</div>
+                </div>
+              </div>
+            ))}
+            <div className="mekteb-cta-row">
+              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-gold" style={{padding:'13px 28px',fontSize:15}}>
+                🌙 {t.mekteb_cta} ↗
+              </a>
+              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-outline" style={{padding:'13px 28px',fontSize:15}}>
+                👪 {t.mekteb_cta_parents}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── NEWS + EVENTS ──────────────────────────────────────────────────
+function NewsEvents({ lang }) {
+  const t = T[lang];
+  return (
+    <section className="section" id="nieuws">
+      <div className="container">
+        <StarDivider/>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:64,alignItems:'start'}}>
+          <div>
+            <div className="section-label">📰 {t.news_label}</div>
+            <h2 className="section-title">{t.news_title}</h2>
+            <div className="divider"/>
+            <div style={{display:'flex',flexDirection:'column',gap:14,marginTop:8}} className="stagger">
+              {NEWS.map((n,i)=>(
+                <div key={i} className="news-card reveal-left" style={{'--i':i}} onMouseOver={e=>e.currentTarget.style.borderColor='var(--gold)'} onMouseOut={e=>e.currentTarget.style.borderColor='var(--gold-border)'}>
+                  <div className="news-stripe"/>
+                  <div style={{padding:'18px 22px'}}>
+                    <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:6}}>{lang==='nl'?n.tag_nl:n.tag_bs}</div>
+                    <div style={{fontFamily:'var(--font-display)',fontSize:'1.1rem',fontWeight:600,color:'var(--text)',marginBottom:6,lineHeight:1.3}}>{lang==='nl'?n.title_nl:n.title_bs}</div>
+                    <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.6}}>{lang==='nl'?n.body_nl:n.body_bs}</div>
+                    <div style={{fontSize:12,color:'var(--text-muted)',marginTop:10,opacity:0.7}}>{n.date}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="section-label">📅 {t.events_label}</div>
+            <h2 className="section-title">{t.events_title}</h2>
+            <div className="divider"/>
+            <div style={{display:'flex',flexDirection:'column',gap:12,marginTop:8}} className="stagger">
+              {EVENTS.map((e,i)=>(
+                <div key={i} className="event-row reveal-right" style={{'--i':i}}>
+                  <div className="event-date-box">
+                    <div className="event-day">{e.day}</div>
+                    <div className="event-month">{lang==='nl'?e.m_nl:e.m_bs}</div>
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:500,color:'var(--text)',fontSize:14}}>{lang==='nl'?e.t_nl:e.t_bs}</div>
+                    <div style={{fontSize:12,color:'var(--text-muted)',marginTop:2}}>{lang==='nl'?e.meta_nl:e.meta_bs}</div>
+                  </div>
+                  <span style={{fontSize:11,padding:'3px 10px',borderRadius:100,background:'var(--gold-dim)',color:'var(--gold)',border:'1px solid var(--gold-border)',whiteSpace:'nowrap',fontWeight:600}}>
+                    {lang==='nl'?e.b_nl:e.b_bs}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── NEWSLETTER FEED (Mailchimp) ────────────────────────────────────
+function NewsletterFeed({ lang }) {
+  const t = T[lang];
+  const fmtDate = iso => {
+    const d = new Date(iso);
+    const locale = lang === 'nl' ? 'nl-NL' : 'hr';
+    return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  const ago = days => {
+    if (days < 1) return '<1 ' + t.nl_days_ago;
+    if (days < 7) return days + ' ' + t.nl_days_ago;
+    return Math.round(days / 7) + ' ' + t.nl_weeks_ago;
+  };
+  return (
+    <section className="section nl-section" id="nieuwsbrieven">
+      <div className="container">
+        <StarDivider/>
+        <div className="nl-head">
+          <div>
+            <div className="section-label">✉️ {t.nl_label}</div>
+            <h2 className="section-title">{t.nl_title}</h2>
+            <div className="divider"/>
+            <p className="section-sub" style={{maxWidth: 620}}>{t.nl_sub}</p>
+          </div>
+          <div className="nl-mc-pill" title="Auto-sync via Mailchimp RSS">
+            <span className="nl-mc-dot"></span>
+            {t.nl_live}
+          </div>
+        </div>
+
+        <div className="nl-grid stagger">
+          {NEWSLETTERS.map((n, i) => (
+            <a
+              key={n.id}
+              className="nl-card reveal"
+              href={n.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ '--i': i }}
+            >
+              <div className="nl-card-cover">
+                <span className="nl-cover-edition">{n.edition}</span>
+                <span className="nl-cover-glyph">{n.cover_glyph}</span>
+              </div>
+              <div className="nl-card-body">
+                <div className="nl-meta">
+                  <span>{fmtDate(n.sent_iso)}</span>
+                  <span className="nl-meta-dot"></span>
+                  <span>{ago(n.sent_ago_days)}</span>
+                </div>
+                <div className="nl-title">{lang === 'nl' ? n.subject_nl : n.subject_bs}</div>
+                <div className="nl-snippet">{lang === 'nl' ? n.snippet_nl : n.snippet_bs}</div>
+              </div>
+              <div className="nl-card-foot">
+                <div className="nl-tags">
+                  {(lang === 'nl' ? n.tags_nl : n.tags_bs).map((tag, j) => (
+                    <span key={j} className="nl-tag">{tag}</span>
+                  ))}
+                </div>
+                <span className="nl-open">{t.nl_open} →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="nl-foot">
+          <div className="nl-foot-note">
+            <strong>{t.nl_live}</strong> · {t.nl_foot}
+          </div>
+          <form
+            className="nl-sub"
+            onSubmit={e => {
+              e.preventDefault();
+              const email = e.target.elements.email.value;
+              if (!email) return;
+              alert(lang === 'nl'
+                ? `Bedankt! We hebben ${email} toegevoegd aan de nieuwsbriefgroep.`
+                : `Hvala! Dodali smo ${email} u newsletter grupu.`);
+              e.target.reset();
+            }}
+          >
+            <input name="email" type="email" placeholder={t.nl_email_ph} required/>
+            <button type="submit">{t.nl_subscribe}</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── MEMBERSHIP FORM ────────────────────────────────────────────────
+function MemberForm({ lang }) {
+  const t = T[lang];
+  const [form, setForm] = useState({name:'',email:'',phone:'',dob:'',address:'',type:'ind',note:'',consent:false});
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+  const submit = async () => {
+    if(!form.name||!form.email||!form.consent) return;
+    setLoading(true);
+    await new Promise(r=>setTimeout(r,1200));
+    setSent(true); setLoading(false);
+  };
+
+  return (
+    <section className="section" id="aanmelden" style={{background:'rgba(18,30,22,0.6)'}}>
+      <div className="container">
+        <StarDivider/>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1.4fr',gap:64,alignItems:'start'}}>
+          <div>
+            <div className="section-label">✍️ {t.reg_label}</div>
+            <h2 className="section-title">{t.reg_title}</h2>
+            <div className="divider"/>
+            <p className="section-sub">{t.reg_sub}</p>
+            <div style={{marginTop:40}}>
+              <img src={window.IKC_LOGO} alt="IKC DIN" style={{width:140,height:140,objectFit:'contain',display:'block',marginBottom:20,filter:'drop-shadow(0 6px 24px rgba(5,122,65,0.3))'}}/>
+              <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.8}}>
+                📍 Hugo de Grootplein 47B<br/>
+                5652 LL Eindhoven<br/>
+                ✉️ info@icc-din.com<br/>
+                📞 +31 6 28454044
+              </div>
+            </div>
+          </div>
+          <div className="form-section">
+            {sent ? (
+              <div style={{textAlign:'center',padding:'40px 20px'}}>
+                <div style={{fontSize:56,marginBottom:20}}>🌙</div>
+                <div style={{fontFamily:'var(--font-display)',fontSize:'1.6rem',fontWeight:600,marginBottom:12,color:'var(--gold)'}}>
+                  {lang==='nl'?'Alhamdulillah!':'Alhamdulillah!'}
+                </div>
+                <div style={{fontSize:15,color:'var(--text-muted)',lineHeight:1.7,maxWidth:340,margin:'0 auto'}}>{t.reg_success}</div>
+                <button className="btn btn-outline" style={{marginTop:28}} onClick={()=>setSent(false)}>
+                  {lang==='nl'?'Nog iemand aanmelden':'Prijavite još jednu osobu'}
+                </button>
+              </div>
+            ) : (
+              <div style={{display:'flex',flexDirection:'column',gap:18}}>
+                <div className="form-row">
+                  <div className="form-field"><label>{t.reg_name} *</label><input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Adnan Kovač"/></div>
+                  <div className="form-field"><label>{t.reg_email} *</label><input type="email" value={form.email} onChange={e=>set('email',e.target.value)} placeholder="naam@email.com"/></div>
+                </div>
+                <div className="form-row">
+                  <div className="form-field"><label>{t.reg_phone}</label><input value={form.phone} onChange={e=>set('phone',e.target.value)} placeholder="+31 6 ..."/></div>
+                  <div className="form-field"><label>{t.reg_dob}</label><input type="date" value={form.dob} onChange={e=>set('dob',e.target.value)}/></div>
+                </div>
+                <div className="form-field"><label>{t.reg_address}</label><input value={form.address} onChange={e=>set('address',e.target.value)} placeholder="Straatnaam 1, Eindhoven"/></div>
+                <div>
+                  <label>{t.reg_type}</label>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:4}}>
+                    {[['ind',t.reg_ind,'€ 60'],['fam',t.reg_fam,'€ 120']].map(([v,label,price])=>(
+                      <div key={v} className={`membership-option${form.type===v?' selected':''}`} onClick={()=>set('type',v)}>
+                        <div style={{fontSize:13,fontWeight:600,color:'var(--text)',marginBottom:4}}>{label}</div>
+                        <div className="membership-price">{price}</div>
+                        <div style={{fontSize:12,color:'var(--text-muted)',marginTop:2}}>{t.reg_yr}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="form-field"><label>{t.reg_note}</label><textarea value={form.note} onChange={e=>set('note',e.target.value)} placeholder="..."/></div>
+                <label style={{display:'flex',alignItems:'flex-start',gap:10,cursor:'pointer',marginTop:4}}>
+                  <input type="checkbox" checked={form.consent} onChange={e=>set('consent',e.target.checked)} style={{width:'auto',marginTop:3,accentColor:'var(--gold)'}}/>
+                  <span style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.5}}>{t.reg_consent} *</span>
+                </label>
+                <button className="btn btn-gold" style={{justifyContent:'center',padding:14,marginTop:4,opacity:(!form.name||!form.email||!form.consent)?0.5:1}} onClick={submit} disabled={loading||!form.name||!form.email||!form.consent}>
+                  {loading?'⏳ …':`✍️ ${t.reg_submit}`}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── CONTACT ────────────────────────────────────────────────────────
+function Contact({ lang }) {
+  const t = T[lang];
+  return (
+    <section className="section contact-section" id="contact" style={{borderTop:'1px solid rgba(201,168,76,0.1)'}}>
+      <div className="contact-bg"></div>
+      <div className="container">
+        <StarDivider/>
+        <div className="section-label">📍 {t.contact_label}</div>
+        <h2 className="section-title">{t.contact_title}</h2>
+        <div className="divider"/>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1.3fr',gap:48,marginTop:40,alignItems:'start'}}>
+          <div>
+            {[
+              {icon:'📍',l:'Hugo de Grootplein 47B\n5652 LL Eindhoven'},
+              {icon:'📞',l:'+31 6 28454044'},
+              {icon:'✉️',l:'info@icc-din.com'},
+              {icon:'🕐',l:lang==='nl'?'Dagelijks · gebedstijden\nVrijdag Jumua: 13:30':'Svakodnevno · namaz\nPetak Džuma: 13:30'},
+            ].map((c,i)=>(
+              <div key={i} style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
+                <div className="contact-icon">{c.icon}</div>
+                <div style={{fontSize:14,color:'var(--text-soft)',lineHeight:1.7,whiteSpace:'pre-line',paddingTop:10}}>{c.l}</div>
+              </div>
+            ))}
+            <div style={{display:'flex',gap:10,flexWrap:'wrap',marginTop:8}}>
+              <a href="https://maps.google.com/?q=Hugo+de+Grootplein+47B+Eindhoven" target="_blank" className="btn btn-gold">🗺️ {t.route}</a>
+              <a href="mailto:info@icc-din.com" className="btn btn-outline">✉️ {t.send}</a>
+            </div>
+          </div>
+          <div className="map-frame">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2485.9!2d5.4697!3d51.4416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6d9a7!2sHugo+de+Grootplein+47B%2C+Eindhoven!5e0!3m2!1snl!2snl!4v1"
+              width="100%" height="100%" style={{border:0,filter:'invert(0.88) hue-rotate(190deg) saturate(0.7) brightness(0.85)'}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── LOGIN MODAL ────────────────────────────────────────────────────
+function LoginModal({ lang, onClose, onLogin }) {
+  const t = T[lang];
+  const [email,setEmail]=useState(''); const [pass,setPass]=useState('');
+  const [err,setErr]=useState(''); const [loading,setLoading]=useState(false);
+  const handle = async () => {
+    setLoading(true); setErr('');
+    await new Promise(r=>setTimeout(r,800));
+    if(email==='lid@ikc-din.nl'&&pass==='din2026') onLogin({name:'Adnan Kovač',id:'LID-0142',since:'2018',paid:true});
+    else if(email==='bestuur@ikc-din.nl'&&pass==='bestuur2026') onLogin({name:'Mevlida Husić',id:'BST-0003',since:'2012',paid:true,board:true});
+    else { setErr(lang==='nl'?'Onjuiste inloggegevens.':'Pogrešni podaci za prijavu.'); }
+    setLoading(false);
+  };
+  return (
+    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal fade-up">
+        <button onClick={onClose} style={{position:'absolute',top:16,right:16,background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:20}}>✕</button>
+        <div style={{textAlign:'center',marginBottom:28}}>
+          <img src={window.IKC_LOGO} alt="IKC DIN" style={{width:84,height:84,objectFit:'contain',marginBottom:16,filter:'drop-shadow(0 4px 14px rgba(5,122,65,0.3))'}}/>
+          <div style={{fontFamily:'var(--font-display)',fontSize:'1.5rem',fontWeight:600}}>IKC DIN</div>
+          <div style={{fontSize:13,color:'var(--text-muted)',marginTop:2}}>{lang==='nl'?'Ledenportaal':'Portal članova'}</div>
+        </div>
+        <div style={{display:'flex',flexDirection:'column',gap:14}}>
+          <div><label>{lang==='nl'?'E-mailadres':'E-adresa'}</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="lid@ikc-din.nl" onKeyDown={e=>e.key==='Enter'&&handle()}/></div>
+          <div><label>{lang==='nl'?'Wachtwoord':'Lozinka'}</label><input type="password" value={pass} onChange={e=>setPass(e.target.value)} placeholder="••••••••" onKeyDown={e=>e.key==='Enter'&&handle()}/></div>
+          {err&&<div style={{fontSize:13,color:'#e07c7c',background:'rgba(192,57,43,0.12)',border:'1px solid rgba(192,57,43,0.25)',borderRadius:8,padding:'10px 14px'}}>{err}</div>}
+          <button className="btn btn-gold" style={{justifyContent:'center',padding:13,marginTop:4}} onClick={handle} disabled={loading}>{loading?'⏳ …':t.login}</button>
+        </div>
+        <div style={{fontSize:11,color:'var(--text-muted)',textAlign:'center',marginTop:16,lineHeight:1.7}}>
+          Demo: <b style={{color:'var(--gold)'}}>lid@ikc-din.nl</b> / <b style={{color:'var(--gold)'}}>din2026</b><br/>
+          {lang==='nl'?'Neem contact op voor toegang tot uw account':'Kontaktirajte nas za pristup vašem nalogu'}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── DASHBOARD ──────────────────────────────────────────────────────
+function Dashboard({ lang, user, onClose, onRaisedChange }) {
+  const t = T[lang];
+  const [tab,setTab]=useState('overview');
+  const [raised,setRaised]=useState(()=>parseInt(localStorage.getItem('ikc-raised')||'225000'));
+  const [adminInput,setAdminInput]=useState(raised.toString());
+  const [savedMsg,setSavedMsg]=useState('');
+  const goal=450000;
+  const pct=Math.round(raised/goal*100);
+  const fmt=n=>'€ '+n.toLocaleString('nl-NL');
+
+  const saveRaised=()=>{
+    const v=parseInt(adminInput.replace(/\D/g,''));
+    if(v>0&&v<=goal){
+      localStorage.setItem('ikc-raised',v.toString());
+      setRaised(v); onRaisedChange(v);
+      setSavedMsg(t.admin_saved);
+      setTimeout(()=>setSavedMsg(''),2500);
+    }
+  };
+
+  const tabs = t.dash_tab.filter((_,i)=>user.board||i!==4);
+
+  return (
+    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal dash-modal fade-up">
+        <div style={{padding:'22px 28px',borderBottom:'1px solid var(--gold-border)',background:'var(--surface)',display:'flex',justifyContent:'space-between',alignItems:'center',gap:16}}>
+          <div style={{display:'flex',alignItems:'center',gap:14}}>
+            <img src={window.IKC_LOGO} alt="IKC DIN" style={{width:44,height:44,objectFit:'contain'}}/>
+            <div>
+              <div style={{fontSize:11,color:'var(--gold)',fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase'}}>{t.dash_title}</div>
+              <div style={{fontFamily:'var(--font-display)',fontSize:'1.1rem',fontWeight:600}}>{t.dash_welcome} {user.name.split(' ')[0]}</div>
+              <div style={{fontSize:11,color:'var(--text-muted)'}}>{user.id} {user.board?'· ⭐ Bestuur / Uprava':'· ✓ Actief lid'}</div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:20,flexShrink:0}}>✕</button>
+        </div>
+        <div style={{display:'flex',borderBottom:'1px solid rgba(255,255,255,0.07)',background:'var(--surface)',padding:'0 20px',overflowX:'auto'}}>
+          {tabs.map((label,i)=>{
+            const ids=['overview','financials','fundraising','membership','admin'];
+            return <button key={i} className={`dash-tab${tab===ids[i]?' active':''}`} onClick={()=>setTab(ids[i])}>{['🏠','📊','🏡','👤','⚙️'][i]} {label}</button>;
+          })}
+        </div>
+        <div style={{padding:28,maxHeight:'58vh',overflowY:'auto'}}>
+          {tab==='overview'&&(
+            <div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:14,marginBottom:24}}>
+                {[['✓','Status',lang==='nl'?'Actief lid':'Aktivan član','badge-green'],
+                  ['€120',lang==='nl'?'Betaald 2026':'Plaćeno 2026',null,'badge-gold'],
+                  ['€500',lang==='nl'?'Donaties totaal':'Donacije ukupno',null,'badge-gold']
+                ].map(([v,l,sub,cls],i)=>(
+                  <div key={i} className="card" style={{padding:20}}>
+                    <div style={{fontFamily:'var(--font-display)',fontSize:'1.8rem',fontWeight:700,color:'var(--gold)'}}>{v}</div>
+                    <div style={{fontSize:12,color:'var(--text-muted)',marginTop:4}}>{l}</div>
+                    {sub&&<div className={`badge ${cls}`} style={{marginTop:8}}>{sub}</div>}
+                  </div>
+                ))}
+              </div>
+              <div className="card" style={{padding:20}}>
+                <div style={{fontSize:12,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:14}}>
+                  {lang==='nl'?'Snelkoppelingen':'Prečice'}
+                </div>
+                {[
+                  {icon:'📚',label:lang==='nl'?'Mekteb App':'Mekteb App',href:'https://mekteb-app-ikc-din.vercel.app'},
+                  {icon:'🗺️',label:'Google Maps · IKC Din',href:'https://maps.google.com/?q=Hugo+de+Grootplein+47B+Eindhoven'},
+                  {icon:'✉️',label:'info@icc-din.com',href:'mailto:info@icc-din.com'},
+                ].map((l,i)=>(
+                  <a key={i} href={l.href} target="_blank" style={{display:'flex',alignItems:'center',gap:12,padding:'10px 0',borderBottom:'1px solid rgba(255,255,255,0.05)',textDecoration:'none',color:'var(--text-soft)',fontSize:14,transition:'color 0.2s'}} onMouseOver={e=>e.currentTarget.style.color='var(--gold)'} onMouseOut={e=>e.currentTarget.style.color='var(--text-soft)'}>
+                    <span style={{fontSize:18}}>{l.icon}</span>{l.label}<span style={{marginLeft:'auto',color:'var(--text-muted)'}}>→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+          {tab==='financials'&&(
+            <div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
+                <div><div style={{fontFamily:'var(--font-display)',fontSize:'1.2rem',fontWeight:600}}>{t.fin_title}</div><div style={{fontSize:13,color:'var(--text-muted)',marginTop:2}}>{t.fin_year}</div></div>
+                <span className="badge badge-gold">{t.fin_conf}</span>
+              </div>
+              <div className="card" style={{padding:0,overflow:'hidden'}}>
+                {FINANCIALS.map((f,i)=>(
+                  <div key={i} className="fin-row" style={{padding:'14px 20px'}}>
+                    <div style={{fontSize:14,color:'var(--text-soft)'}}>{lang==='nl'?f.nl:f.bs}</div>
+                    <div style={{fontSize:14,fontWeight:600,color:f.t==='pos'?'#6ecfa0':'#e07c7c'}}>{f.v}</div>
+                  </div>
+                ))}
+                <div style={{padding:'16px 20px',background:'rgba(201,168,76,0.07)',borderTop:'1px solid var(--gold-border)',display:'flex',justifyContent:'space-between'}}>
+                  <div style={{fontWeight:600}}>{lang==='nl'?'Netto resultaat':'Neto rezultat'}</div>
+                  <div style={{fontWeight:700,color:'#6ecfa0'}}>+ € 14.300</div>
+                </div>
+              </div>
+              <div style={{fontSize:12,color:'var(--text-muted)',marginTop:14,lineHeight:1.6}}>ℹ️ {lang==='nl'?'Bijgewerkt 1 april 2026. Volledige jaarrekening via het bestuur.':'Ažurirano 1. aprila 2026. Puni finansijski izvještaj putem uprave.'}</div>
+            </div>
+          )}
+          {tab==='fundraising'&&(
+            <div>
+              <div style={{fontFamily:'var(--font-display)',fontSize:'1.2rem',fontWeight:600,marginBottom:6}}>{lang==='nl'?'Inzameling Imam-woning':'Prikupljanje Stan Imama'}</div>
+              <div style={{fontSize:13,color:'var(--text-muted)',marginBottom:20}}>19 april 2026</div>
+              <div style={{background:'var(--surface)',borderRadius:12,padding:22,border:'1px solid var(--gold-border)',marginBottom:20}}>
+                <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}>
+                  <div><div style={{fontSize:11,color:'var(--text-muted)',marginBottom:4}}>{t.fund_raised.toUpperCase()}</div><div style={{fontFamily:'var(--font-display)',fontSize:'1.8rem',fontWeight:700,color:'var(--gold)'}}>{fmt(raised)}</div></div>
+                  <div style={{textAlign:'right'}}><div style={{fontSize:11,color:'var(--text-muted)',marginBottom:4}}>{t.fund_goal.toUpperCase()}</div><div style={{fontFamily:'var(--font-display)',fontSize:'1.8rem',fontWeight:700,color:'var(--text-soft)'}}>{fmt(goal)}</div></div>
+                </div>
+                <div style={{height:10,background:'rgba(255,255,255,0.07)',borderRadius:100,overflow:'hidden'}}>
+                  <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#a07a20,var(--gold),var(--gold-light))',borderRadius:100}}/>
+                </div>
+                <div style={{fontSize:12,color:'var(--text-muted)',marginTop:8}}>{pct}% · 847 {t.fund_donors}</div>
+              </div>
+              {[['€ 500',lang==='nl'?'Jouw totale bijdrage':'Vaš ukupni doprinos','🌟'],['€ 150',lang==='nl'?'Bijdragen 2026':'Doprinosi 2026','📅'],['#142',lang==='nl'?'Positie donateurlijst':'Pozicija na listi','🏆']].map(([v,l,ic],i)=>(
+                <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'var(--card)',border:'1px solid var(--gold-border)',borderRadius:10,padding:'14px 20px',marginBottom:10}}>
+                  <span style={{fontSize:14,color:'var(--text-soft)'}}>{ic} {l}</span>
+                  <span style={{fontWeight:600,color:'var(--gold)'}}>{v}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {tab==='membership'&&(
+            <div>
+              <div style={{background:'linear-gradient(135deg,#0d2016,#132a1c)',border:'1px solid var(--gold-border)',borderRadius:16,padding:28,marginBottom:24,position:'relative',overflow:'hidden'}}>
+                <div style={{position:'absolute',right:-30,top:-30,width:160,height:160,borderRadius:'50%',background:'radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%)'}}/>
+                <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.1em',color:'var(--gold)',marginBottom:12}}>IKC DIN · LEDENPAS / ČLANSKA KARTA</div>
+                <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:16}}>
+                  <img src={window.IKC_LOGO} alt="IKC DIN" style={{width:52,height:52,objectFit:'contain'}}/>
+                  <div>
+                    <div style={{fontFamily:'var(--font-display)',fontSize:'1.3rem',fontWeight:700}}>{user.name}</div>
+                    <div style={{fontSize:12,color:'var(--text-muted)'}}>Lid since {user.since} · {user.id}</div>
+                  </div>
+                </div>
+                <div style={{display:'flex',gap:10}}>
+                  <span className="badge badge-green">✓ Actief</span>
+                  {user.board&&<span className="badge badge-gold">⭐ Bestuur</span>}
+                </div>
+              </div>
+              {[['E-mail',user.id==='LID-0142'?'lid@ikc-din.nl':'bestuur@ikc-din.nl'],
+                [lang==='nl'?'Lidnummer':'Broj člana',user.id],
+                [lang==='nl'?'Lid sinds':'Član od',user.since],
+                [lang==='nl'?'Contributie':'Doprinos','€ 120 / jaar'],
+                [lang==='nl'?'Status 2026':'Status 2026','✓ '+(lang==='nl'?'Voldaan':'Plaćeno')],
+              ].map(([l,v],i)=>(
+                <div key={i} className="fin-row">
+                  <div style={{fontSize:14,color:'var(--text-muted)'}}>{l}</div>
+                  <div style={{fontSize:14,fontWeight:500,color:'var(--text)'}}>{v}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          {tab==='admin'&&user.board&&(
+            <div>
+              <div style={{fontFamily:'var(--font-display)',fontSize:'1.2rem',fontWeight:600,marginBottom:6}}>{t.admin_title}</div>
+              <div style={{fontSize:13,color:'var(--text-muted)',marginBottom:28}}>{t.admin_sub}</div>
+              <div className="card" style={{padding:28}}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
+                  <div style={{flex:1}}>
+                    <label>{lang==='nl'?'Huidig ingezameld bedrag':'Trenutno prikupljeni iznos'}</label>
+                    <div style={{display:'flex',gap:10,marginTop:6}}>
+                      <span style={{alignSelf:'center',color:'var(--gold)',fontSize:18,fontWeight:600}}>€</span>
+                      <input value={adminInput} onChange={e=>setAdminInput(e.target.value.replace(/[^0-9]/g,''))} style={{fontSize:20,fontFamily:'var(--font-display)',fontWeight:700}} placeholder="225000"/>
+                    </div>
+                  </div>
+                </div>
+                <div style={{height:10,background:'rgba(255,255,255,0.07)',borderRadius:100,overflow:'hidden',marginBottom:12}}>
+                  <div style={{height:'100%',width:`${Math.min(100,parseInt(adminInput||0)/goal*100)}%`,background:'linear-gradient(90deg,var(--gold),var(--gold-light))',borderRadius:100,transition:'width 0.4s'}}/>
+                </div>
+                <div style={{fontSize:13,color:'var(--text-muted)',marginBottom:20}}>{Math.min(100,Math.round(parseInt(adminInput||0)/goal*100))}% van {fmt(goal)}</div>
+                <button className="btn btn-green" onClick={saveRaised} style={{padding:'11px 24px'}}>
+                  {savedMsg||`💾 ${t.admin_save}`}
+                </button>
+              </div>
+              <div style={{marginTop:24,padding:20,background:'var(--surface)',borderRadius:12,border:'1px solid rgba(201,168,76,0.15)',fontSize:13,color:'var(--text-muted)',lineHeight:1.7}}>
+                ⚠️ {lang==='nl'?'Alleen bestemd voor bestuursleden. Wijzigingen zijn direct zichtbaar op de website voor alle bezoekers.':'Samo za članove uprave. Promjene su odmah vidljive na web stranici za sve posjetitelje.'}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── FOOTER ─────────────────────────────────────────────────────────
+function Footer({ lang, onLogin, setPage }) {
+  const t = T[lang];
+  const go = id => { setPage(id); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  return (
+    <footer>
+      <div className="container">
+        <div style={{display:'grid',gridTemplateColumns:'280px 1fr 1fr 1fr',gap:48,alignItems:'start'}}>
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:18}}>
+              <img src={window.IKC_LOGO} alt="IKC DIN" style={{width:54,height:54,objectFit:'contain'}}/>
+              <div>
+                <div style={{fontFamily:'var(--font-display)',fontSize:20,fontWeight:700}}>IKC DIN</div>
+                <div style={{fontSize:10,color:'var(--text-muted)',letterSpacing:'0.1em'}}>EINDHOVEN · EST. 2008</div>
+              </div>
+            </div>
+            <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.8}}>
+              {lang==='nl'?'Bosnische islamitische gemeenschap in Eindhoven. Een thuis voor bijna 300 leden en hun families.':'Bosanska islamska zajednica u Eindhovenu. Dom za skoro 300 članova i njihovih porodica.'}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:16}}>{lang==='nl'?'Navigatie':'Navigacija'}</div>
+            {t.sections.map((id,i)=>(
+              <button key={i} className="footer-link" onClick={()=>go(id)}>{t.nav[i]}</button>
+            ))}
+          </div>
+          <div>
+            <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:16}}>{lang==='nl'?'Diensten':'Usluge'}</div>
+            <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" className="footer-link">Mekteb App</a>
+            <button className="footer-link" onClick={onLogin}>{t.member}</button>
+            <a href="mailto:info@icc-din.com" className="footer-link">info@icc-din.com</a>
+            <a href="tel:+31628454044" className="footer-link">+31 6 28454044</a>
+          </div>
+          <div>
+            <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:16}}>{lang==='nl'?'Adres':'Adresa'}</div>
+            <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:2}}>Hugo de Grootplein 47B<br/>5652 LL Eindhoven<br/>Nederland</div>
+            <a href="https://maps.google.com/?q=Hugo+de+Grootplein+47B+Eindhoven" target="_blank" className="footer-link" style={{marginTop:12}}>🗺️ Open in Google Maps</a>
+          </div>
+        </div>
+        <div style={{marginTop:48,paddingTop:24,borderTop:'1px solid rgba(255,255,255,0.05)',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}}>
+          <div style={{fontSize:12,color:'var(--text-muted)'}}>© 2026 IKC DIN Eindhoven · Stichting Islamski Kulturni Centar Din</div>
+          <div style={{fontSize:14,color:'rgba(201,168,76,0.45)',fontFamily:'var(--font-display)',fontStyle:'italic'}}>اللَّهُ أَكْبَرُ · سُبْحَانَ اللَّهِ</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── SCROLL PROGRESS ──
+function ScrollProgress() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      if (ref.current) ref.current.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return <div className="scroll-progress" ref={ref}></div>;
+}
+
+// ── AMBIENT FLOATING PARTICLES ──
+function AmbientParticles({ count = 14 }) {
+  const dots = Array.from({ length: count }, (_, i) => {
+    const left = (i * 7.3 + 4) % 100;
+    const delay = (i * 1.4) % 22;
+    const dx = (i % 2 === 0 ? 60 : -60) + ((i * 13) % 50);
+    const size = 1.5 + (i % 3) * 0.8;
+    return { left, delay, dx, size, i };
+  });
+  return (
+    <div className="ambient-particles" aria-hidden="true">
+      {dots.map(d => (
+        <span key={d.i} className="pt" style={{
+          left: d.left + '%',
+          bottom: '-10px',
+          width: d.size + 'px',
+          height: d.size + 'px',
+          animationDelay: '-' + d.delay + 's',
+          '--dx': d.dx + 'px',
+        }}/>
+      ))}
+    </div>
+  );
+}
+
+// ── REVEAL OBSERVER ──
+function useRevealObserver() {
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  });
+}
+
+// ── APP ────────────────────────────────────────────────────────────
+function App() {
+  const [lang,setLang]=useState(()=>localStorage.getItem('ikc-lang')||'nl');
+  const [page,setPage]=useState(()=>localStorage.getItem('ikc-page')||'home');
+  const [showLogin,setShowLogin]=useState(false);
+  const [user,setUser]=useState(()=>{try{return JSON.parse(localStorage.getItem('ikc-user')||'null')}catch{return null}});
+  const [showDash,setShowDash]=useState(false);
+  const [raised,setRaised]=useState(()=>parseInt(localStorage.getItem('ikc-raised')||'225000'));
+
+  useEffect(()=>{localStorage.setItem('ikc-lang',lang)},[lang]);
+  useEffect(()=>{localStorage.setItem('ikc-page',page)},[page]);
+  useRevealObserver();
+
+  const handleLogin=u=>{setUser(u);localStorage.setItem('ikc-user',JSON.stringify(u));setShowLogin(false);setShowDash(true)};
+  const handleLogout=()=>{setUser(null);localStorage.removeItem('ikc-user');setShowDash(false)};
+
+  return (
+    <>
+      <ScrollProgress/>
+      <AmbientParticles count={16}/>
+      <Nav lang={lang} setLang={setLang} onLogin={()=>setShowLogin(true)} loggedIn={!!user} user={user} onLogout={handleLogout} page={page} setPage={setPage}/>
+      {user&&!showDash&&(
+        <div style={{position:'fixed',bottom:24,right:24,zIndex:400}}>
+          <button className="btn btn-gold" style={{boxShadow:'0 8px 32px rgba(201,168,76,0.3)',padding:'12px 20px'}} onClick={()=>setShowDash(true)}>
+            👤 {lang==='nl'?'Mijn portaal':'Moj portal'}
+          </button>
+        </div>
+      )}
+
+      {page==='home' && (
+        <>
+          <Hero lang={lang} setPage={setPage}/>
+          <NewsEvents lang={lang}/>
+          <NewsletterFeed lang={lang}/>
+          <PrayerTimes lang={lang}/>
+        </>
+      )}
+      {page==='verhaal' && <NasaPrica lang={lang}/>}
+      {page==='mekteb' && <Mekteb lang={lang}/>}
+      {page==='inzameling' && <Fundraising lang={lang} raisedOverride={raised}/>}
+      {page==='aanmelden' && <MemberForm lang={lang}/>}
+      {page==='contact' && <Contact lang={lang}/>}
+
+      <Footer lang={lang} onLogin={()=>setShowLogin(true)} setPage={setPage}/>
+      {showLogin&&<LoginModal lang={lang} onClose={()=>setShowLogin(false)} onLogin={handleLogin}/>}
+      {showDash&&user&&<Dashboard lang={lang} user={user} onClose={()=>setShowDash(false)} onRaisedChange={setRaised}/>}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="56" fill="#060d08"/>
+  <circle cx="40" cy="28" r="18" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+  <path d="M32,40 L32,28 Q32,18 40,16 Q48,18 48,28 L48,40 Z" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.5"/>
+  <path d="M37,15 Q40,11 43,15 Q40,19 37,15Z" fill="#c9a84c"/>
+</svg>
+</template>
+</body>
+</html>
