@@ -137,11 +137,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
   radial-gradient(ellipse 50% 40% at 85% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
   pointer-events: none; }
 .mekteb-header { max-width: 720px; margin-bottom: 56px; }
+.mekteb-intro-grid { display: grid; grid-template-columns: 1fr minmax(280px, 360px); gap: 56px; align-items: center; margin-bottom: 64px; }
+.mekteb-intro-facts { grid-template-columns: 1fr !important; margin-top: 0 !important; }
 .mekteb-showcase { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
 .mekteb-phone-wrap { position: relative; display: flex; justify-content: center; padding: 20px 0; }
 .phone-stack { position: relative; display: flex; align-items: center; justify-content: center; }
 .phone-front { position: relative; z-index: 2; }
 .phone-shot { width: 100%; height: 100%; object-fit: contain; display: block; }
+.phone-hotspot { cursor: pointer; transition: background .18s, box-shadow .18s; }
+.phone-hotspot:hover { background: rgba(201,168,76,0.16); box-shadow: inset 0 0 0 1.5px var(--gold); }
+.mekteb-tap-hint { text-align: center; margin-top: 22px; font-size: 13px; font-weight: 500; color: var(--gold-light); letter-spacing: 0.02em; }
 .phone-frame { position: relative; width: 290px; height: 590px; background: linear-gradient(140deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 44px; padding: 12px; box-shadow:
   0 40px 80px -20px rgba(0,0,0,0.7),
   0 30px 50px -25px rgba(5,122,65,0.35),
@@ -201,16 +206,61 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
 .mekteb-cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
 .mekteb-new-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #057A41, #0a9c54); color: #f0ede6; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; letter-spacing: 0.1em; margin-left: 8px; vertical-align: middle; box-shadow: 0 4px 12px rgba(5,122,65,0.35); }
 
+/* ─────────── Mekteb — over de mekteb (kern icc-din) ─────────── */
+.mekteb-about { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 40px; align-items: stretch; margin-top: 64px; }
+.mekteb-about-quote { position: relative; background: linear-gradient(165deg, rgba(201,168,76,0.13), rgba(28,44,35,0.96) 65%); border: 1px solid var(--gold-border); border-radius: 20px; padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.mekteb-about-quote::before { content:''; position:absolute; top:0; left:36px; right:36px; height:2px; background: linear-gradient(90deg, var(--gold), transparent); }
+.mekteb-about-quote-mark { font-family: var(--font-display); font-size: 64px; line-height: 0.6; color: var(--gold); opacity: 0.6; margin-bottom: 18px; }
+.mekteb-about-ayah { font-family: var(--font-display); font-size: clamp(1.4rem, 2.1vw, 1.9rem); font-weight: 400; line-height: 1.4; color: var(--text); font-style: italic; }
+.mekteb-about-ayah-src { margin-top: 18px; font-size: 13px; letter-spacing: 0.08em; color: var(--gold-light); font-weight: 600; }
+.mekteb-about-body { display: flex; flex-direction: column; }
+.mekteb-about-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mekteb-about-title { font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 600; color: var(--text); line-height: 1.18; margin-bottom: 16px; }
+.mekteb-about-text { font-size: 15.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 16px; }
+.mekteb-about-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+.mekteb-about-fact { display: flex; flex-direction: column; gap: 10px; padding: 18px 18px; background: rgba(28,44,35,0.6); border: 1px solid rgba(201,168,76,0.14); border-radius: 14px; }
+.mekteb-about-fact-ico { width: 40px; height: 40px; border-radius: 11px; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 19px; }
+.mekteb-about-fact-t { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.mekteb-about-fact-d { font-size: 13.5px; color: var(--text-soft); line-height: 1.5; }
+@media (max-width: 900px) {
+  .mekteb-about { grid-template-columns: 1fr; gap: 24px; margin-top: 44px; }
+  .mekteb-about-facts { grid-template-columns: 1fr; }
+  .mekteb-intro-grid { grid-template-columns: 1fr; gap: 32px; margin-bottom: 44px; }
+}
+
+/* ─────────── Mekteb photo mosaic ─────────── */
+.mekteb-mosaic-wrap { position: relative; z-index: 1; margin-top: 96px; }
+.mekteb-mosaic-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; padding-bottom: 18px; border-bottom: 1px solid var(--gold-border); }
+.mekteb-mosaic-head-l { display: flex; flex-direction: column; gap: 6px; }
+.mekteb-mosaic-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 8px; }
+.mekteb-mosaic-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); opacity: 0.7; }
+.mekteb-mosaic-title { font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 400; color: var(--text); font-style: italic; line-height: 1.15; }
+.mekteb-mosaic-meta { font-size: 12.5px; color: var(--text-muted); letter-spacing: 0.05em; max-width: 360px; text-align: right; line-height: 1.65; }
+.mekteb-mosaic-meta .dot { color: var(--gold); margin: 0 6px; opacity: 0.7; }
+.mekteb-mosaic { columns: 4; column-gap: 10px; }
+.mekteb-mosaic-item { break-inside: avoid; margin: 0 0 10px; border-radius: 10px; overflow: hidden; position: relative; display: block; background: var(--card); border: 1px solid var(--gold-border); transition: border-color .35s, box-shadow .35s, transform .35s; }
+.mekteb-mosaic-item img { width: 100%; height: auto; display: block; transition: transform .6s ease, filter .4s; filter: saturate(0.9) contrast(1.02); }
+.mekteb-mosaic-item::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(14,27,20,0) 60%, rgba(14,27,20,0.5) 100%); pointer-events:none; opacity:0.9; transition: opacity .35s; }
+.mekteb-mosaic-item::before { content:''; position:absolute; inset:0; box-shadow: inset 0 0 0 1px rgba(201,168,76,0.08); border-radius: 10px; pointer-events:none; z-index: 2; }
+.mekteb-mosaic-item:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 16px 36px rgba(0,0,0,0.4), 0 0 0 1px var(--gold-border); }
+.mekteb-mosaic-item:hover img { transform: scale(1.04); filter: saturate(1.05) contrast(1.04); }
+.mekteb-mosaic-item:hover::after { opacity: 0.35; }
+.mekteb-mosaic-count { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; font-size: 12px; color: var(--text-muted); letter-spacing: 0.06em; }
+.mekteb-mosaic-count span { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--gold-light); line-height: 1; }
+@media (max-width: 1100px) { .mekteb-mosaic { columns: 3; } }
+@media (max-width: 760px) { .mekteb-mosaic { columns: 2; } .mekteb-mosaic-meta { text-align: left; } }
+@media (max-width: 420px) { .mekteb-mosaic { columns: 1; } }
+
 /* Story strip — Naša priča */
 .story-section { padding: 0 0 100px; position: relative; overflow: hidden; }
-.story-hero { position: relative; min-height: 380px; padding: 56px 0 40px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); align-items: center; gap: 0; max-width: 1280px; margin: 0 auto; }
+.story-hero { position: relative; min-height: 280px; padding: 16px 0 24px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); align-items: center; gap: 0; max-width: 1280px; margin: 0 auto; }
 @media (max-width: 900px) { .story-hero { grid-template-columns: 1fr; padding: 40px 0 32px; min-height: 0; } }
 .story-hero-text { position: relative; z-index: 3; padding: 0 32px 0 56px; }
 .story-hero-text .section-label { justify-content: flex-start !important; }
 .story-hero-text .divider { margin: 18px 0 0; }
 .story-hero-text .section-title { line-height: 1.05; margin-bottom: 4px; }
 .story-hero-subtitle { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 400; color: var(--gold-light); margin-top: 6px; }
-.story-hero-map-col { position: relative; height: 100%; min-height: 320px; margin-left: -8%; }
+.story-hero-map-col { position: relative; height: 100%; min-height: 250px; margin-left: -8%; }
 .story-map { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.6; }
 .story-map svg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; }
 .story-map::after { content: ''; position: absolute; inset: 0;
@@ -462,6 +512,228 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
   .container { padding: 0 20px; }
   .prayer-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ─────────── Lidmaatschap / Usluge ─────────── */
+.lid-hero { padding: 130px 0 60px; position: relative; }
+.lid-hero::before { content:''; position:absolute; left:50%; top:80px; transform: translateX(-50%); width: 280px; height: 280px; background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 70%); pointer-events: none; }
+.lid-head { text-align: center; max-width: 720px; margin: 0 auto; position: relative; }
+.lid-head .section-label { justify-content: center; }
+.lid-head .divider { margin: 18px auto 26px; }
+.lid-head .section-sub { margin: 0 auto; }
+
+.usluge-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+.usluge-pillar { background: var(--card); border: 1px solid var(--gold-border); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; }
+.usluge-pillar:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(0,0,0,0.35); border-color: rgba(201,168,76,0.5); }
+.usluge-pillar-img { height: 210px; background-size: cover; background-position: center; position: relative; }
+.usluge-pillar-img::after { content:''; position:absolute; inset:0; background: linear-gradient(0deg, rgba(14,27,20,0.78) 0%, rgba(14,27,20,0.05) 55%, transparent 100%); }
+.usluge-pillar-glyph { position: absolute; left: 22px; bottom: 18px; z-index: 2; width: 46px; height: 46px; border-radius: 50%; background: rgba(14,27,20,0.85); border: 1px solid rgba(201,168,76,0.45); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.usluge-pillar-body { padding: 26px 28px 30px; flex: 1; display: flex; flex-direction: column; }
+.usluge-pillar-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
+.usluge-pillar-title { font-family: var(--font-display); font-size: 1.55rem; line-height: 1.2; margin-bottom: 10px; color: var(--text); font-weight: 600; }
+.usluge-pillar-desc { font-size: 14.5px; color: var(--text-muted); line-height: 1.65; }
+
+.usluge-section { padding: 70px 0 90px; }
+.usluge-intro { text-align: center; max-width: 660px; margin: 0 auto; }
+.usluge-intro .section-label { justify-content: center; }
+.usluge-intro .divider { margin: 18px auto 22px; }
+.usluge-intro .section-sub { margin: 0 auto; }
+.usluge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 44px; }
+.usluge-card { background: var(--card); border: 1px solid var(--gold-border); border-radius: 16px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 14px; transition: border-color .25s, transform .25s; }
+.usluge-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+.usluge-card.featured { background: linear-gradient(160deg, rgba(201,168,76,0.09) 0%, rgba(28,44,35,0.95) 60%); border-color: rgba(201,168,76,0.4); position: relative; }
+.usluge-card.featured::before { content: ''; position: absolute; top: 0; left: 28px; right: 28px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+.usluge-card-head { display: flex; align-items: center; gap: 14px; }
+.usluge-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.usluge-card-title { font-family: var(--font-display); font-size: 1.3rem; color: var(--text); font-weight: 600; line-height: 1.25; }
+.usluge-card-blurb { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+.usluge-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 4px; padding: 0; }
+.usluge-list li { font-size: 14px; color: var(--text-soft); line-height: 1.5; padding-left: 18px; position: relative; }
+.usluge-list li::before { content: '◆'; position: absolute; left: 0; color: var(--gold); font-size: 8px; top: 6px; }
+.usluge-badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 100px; font-size: 11px; color: var(--gold-light); font-weight: 500; letter-spacing: 0.06em; }
+
+.benefits-section { padding: 80px 0; background: linear-gradient(180deg, rgba(14,27,20,0.4), rgba(22,36,28,0.92)); border-top: 1px solid rgba(201,168,76,0.13); border-bottom: 1px solid rgba(201,168,76,0.13); }
+.benefits-intro { text-align: center; max-width: 620px; margin: 0 auto; }
+.benefits-intro .section-label { justify-content: center; }
+.benefits-intro .divider { margin: 18px auto 22px; }
+.benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 36px; }
+.benefit-item { display: flex; gap: 14px; padding: 18px 20px; background: rgba(28,44,35,0.6); border-radius: 12px; border: 1px solid rgba(201,168,76,0.12); transition: border-color .2s, background .2s; }
+.benefit-item:hover { border-color: rgba(201,168,76,0.35); background: rgba(28,44,35,0.85); }
+.benefit-check { width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.benefit-text { font-size: 14.5px; color: var(--text-soft); line-height: 1.55; padding-top: 4px; }
+
+@media (max-width: 960px) {
+  .usluge-pillars { grid-template-columns: 1fr; }
+  .usluge-grid { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .lid-hero { padding: 110px 0 40px; }
+}
+
+/* ─────────── Lidmaatschap OPTIE 2 — levensdomeinen ─────────── */
+.o2-hero { padding: 100px 0 50px; text-align: center; position: relative; }
+.o2-hero::before { content:''; position:absolute; left:50%; top:90px; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 70%); pointer-events: none; }
+.o2-hero .section-label { justify-content: center; }
+.o2-hero .lid-price-pill { display: inline-flex; }
+.o2-toc { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.o2-toc a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 100px; border: 1px solid var(--gold-border); background: var(--card); color: var(--text-soft); font-size: 13px; text-decoration: none; transition: all .2s; }
+.o2-toc a:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.o2-domain { padding: 64px 0; border-top: 1px solid rgba(201,168,76,0.1); }
+.o2-domain:nth-child(even) { background: rgba(22,36,28,0.4); }
+.o2-dom-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 54px; align-items: center; }
+.o2-domain.flip .o2-dom-grid { grid-template-columns: 1.08fr 0.92fr; }
+.o2-domain.flip .o2-dom-text { order: 2; }
+.o2-dom-icon { width: 58px; height: 58px; border-radius: 15px; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 18px; }
+.o2-dom-text h2 { font-family: var(--font-display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 600; color: var(--text); line-height: 1.12; margin-bottom: 14px; }
+.o2-dom-blurb { font-size: 15.5px; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px; }
+.o2-dom-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; padding: 0; }
+.o2-dom-list li { font-size: 14px; color: var(--text-soft); padding-left: 18px; position: relative; line-height: 1.5; list-style: none; }
+.o2-dom-list li::before { content:'◆'; position:absolute; left:0; top:6px; color: var(--gold); font-size: 8px; }
+.o2-collage { display: grid; gap: 10px; }
+.o2-collage.vjera   { grid-template-columns: 1.3fr 1fr; grid-template-rows: 158px 158px; }
+.o2-collage.vjera .o2-collage-item:nth-child(1) { grid-row: span 2; }
+.o2-collage.mekteb  { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 150px 150px; }
+.o2-collage.mekteb .o2-collage-item:nth-child(1) { grid-column: span 2; }
+.o2-collage.kultura { grid-template-columns: 1fr 1fr; grid-template-rows: 155px 155px; }
+.o2-collage-item { border-radius: 14px; overflow: hidden; position: relative; background-size: cover; background-position: center; background-color: var(--card); border: 1px solid rgba(201,168,76,0.18); transition: transform .3s ease, box-shadow .3s ease; }
+.o2-collage-item:hover { transform: scale(1.015); box-shadow: 0 16px 36px rgba(0,0,0,0.4); }
+.o2-collage-item::after { content:''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(14,27,20,0) 38%, rgba(14,27,20,0.62) 100%); }
+.o2-collage-label { position: absolute; left: 14px; bottom: 12px; z-index: 2; font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold-light); font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
+.o2-dom-textfull { max-width: 760px; margin: 0 auto; text-align: center; }
+.o2-dom-textfull .o2-dom-icon { margin: 0 auto 18px; }
+.o2-dom-textfull h2 { font-family: var(--font-display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 600; color: var(--text); line-height: 1.12; margin-bottom: 14px; }
+.o2-dom-textfull .o2-dom-list { max-width: 640px; margin: 22px auto 0; text-align: left; }
+@media (max-width: 900px) {
+  .o2-hero { padding: 110px 0 40px; }
+  .o2-dom-grid, .o2-domain.flip .o2-dom-grid { grid-template-columns: 1fr; gap: 30px; }
+  .o2-domain.flip .o2-dom-text { order: 0; }
+  .o2-dom-list, .o2-dom-textfull .o2-dom-list { grid-template-columns: 1fr; }
+}
+
+/* ─────────── Lidmaatschap photo collage ─────────── */
+.lid-collage {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  grid-template-rows: 200px 200px;
+  gap: 12px;
+  margin-top: 56px;
+}
+.lid-collage-item {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--card);
+  border: 1px solid rgba(201,168,76,0.18);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.lid-collage-item:hover { transform: scale(1.015); box-shadow: 0 16px 36px rgba(0,0,0,0.35); }
+.lid-collage-item.big { grid-column: span 1; grid-row: span 2; }
+.lid-collage-item.tall { grid-row: span 2; }
+.lid-collage-item::after {
+  content:''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(14,27,20,0) 40%, rgba(14,27,20,0.55) 100%);
+}
+.lid-collage-label {
+  position: absolute; left: 16px; bottom: 14px; z-index: 2;
+  font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold-light); font-weight: 600;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+}
+.lid-price-pill {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-top: 22px; padding: 10px 22px;
+  background: rgba(201,168,76,0.12); border: 1px solid var(--gold-border);
+  border-radius: 100px; font-size: 14px; color: var(--gold-light);
+  white-space: nowrap;
+}
+.lid-price-pill .lid-price-amt { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+.lid-price-pill .lid-price-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.4); }
+
+@media (max-width: 960px) {
+  .lid-collage { grid-template-columns: 1fr 1fr; grid-template-rows: 160px 160px 160px 160px; }
+  .lid-collage-item.big { grid-column: span 2; grid-row: span 2; }
+  .lid-collage-item.tall { grid-row: span 1; }
+}
+
+/* ─────────── Story detail modal ─────────── */
+.story-cell { cursor: pointer; transition: transform .3s ease; }
+.story-cell:hover { transform: translateY(-3px); }
+.story-cell:hover .story-cell-readmore { color: var(--gold); }
+.story-cell-readmore {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; font-size: 12.5px; color: var(--gold-light);
+  letter-spacing: 0.05em; font-weight: 500;
+}
+
+.story-modal-backdrop {
+  position: fixed; inset: 0; background: rgba(8,16,11,0.78);
+  backdrop-filter: blur(10px); z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px;
+  animation: fadeIn .25s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.story-modal {
+  background: var(--surface);
+  border: 1px solid var(--gold-border);
+  border-radius: 22px;
+  max-width: 880px; width: 100%; max-height: 92vh;
+  display: grid; grid-template-columns: 320px 1fr;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  animation: modalIn .35s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: none; } }
+.story-modal-img {
+  background-size: cover; background-position: center;
+  position: relative; min-height: 280px;
+}
+.story-modal-img::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(14,27,20,0.0) 0%, rgba(14,27,20,0.5) 100%);
+}
+.story-modal-body { padding: 44px 44px 40px; overflow-y: auto; }
+.story-modal-step {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-bottom: 12px;
+}
+.story-modal-title {
+  font-family: var(--font-display);
+  font-size: 2rem; line-height: 1.15; color: var(--text);
+  margin-bottom: 18px; font-weight: 600;
+}
+.story-modal-lead {
+  font-size: 16px; color: var(--gold-light);
+  line-height: 1.65; margin-bottom: 18px;
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+}
+.story-modal-body p { font-size: 14.5px; color: var(--text-soft); line-height: 1.75; margin-bottom: 14px; }
+.story-modal-quote {
+  border-left: 3px solid var(--gold);
+  padding: 12px 0 12px 20px; margin: 22px 0 8px;
+  font-family: var(--font-display); font-size: 18px; font-style: italic;
+  color: var(--gold-light); line-height: 1.5;
+}
+.story-modal-activities { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+.story-modal-activity { font-size: 13px; color: var(--text-soft); padding-left: 14px; position: relative; line-height: 1.5; }
+.story-modal-activity::before { content: '◆'; position: absolute; left: 0; color: var(--gold); font-size: 7px; top: 7px; }
+.story-modal-close {
+  position: absolute; top: 16px; right: 16px; z-index: 3;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(14,27,20,0.78); border: 1px solid rgba(201,168,76,0.32);
+  color: var(--gold-light); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.story-modal-close:hover { background: var(--gold); color: #080d09; transform: rotate(90deg); }
+
+@media (max-width: 760px) {
+  .story-modal { grid-template-columns: 1fr; max-height: 96vh; }
+  .story-modal-img { min-height: 200px; }
+  .story-modal-body { padding: 28px; }
+  .story-modal-title { font-size: 1.55rem; }
+  .story-modal-activities { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -519,8 +791,8 @@ function calcPrayerTimes(date) {
 // ── TRANSLATIONS ───────────────────────────────────────────────────
 const T = {
   nl: {
-    nav: ['Home','Ons Verhaal','Mekteb','Inzameling','Word Lid','Contact'],
-    sections: ['home','verhaal','mekteb','inzameling','aanmelden','contact'],
+    nav: ['Home','Ons Verhaal','Lidmaatschap','Mekteb','Inzameling','Contact'],
+    sections: ['home','verhaal','aanmelden','mekteb','inzameling','contact'],
     login:'Inloggen', logout:'Uitloggen', member:'Ledenportaal',
     badge: 'Bosnische Islamitische Gemeenschap · Eindhoven',
     salam: 'Esselamu Alejkum',
@@ -557,7 +829,7 @@ const T = {
     ],
     mekteb_phone:{greet:'Selamu alejkum',name:'Ajla',today:'Vandaag\'s les',lesson:'Sura Al-Fatiha',ayah:'Ayah 5 van 7',progress:'Voortgang',upcoming:'Aankomende lessen',items:[{day:'ZO',t:'Tedžvid',sub:'14:00 · Hodža Mehmedović'},{day:'DI',t:'Arabisch schrijven',sub:'18:30 · Online'},{day:'ZA',t:'Sura Al-Falaq',sub:'14:00 · IKC Din'}],tabs:['Home','Lessen','Quran','Profiel']},
     mekteb_badge1:'Huiswerk gedaan ✓',
-    mekteb_badge2:'3 dagen streak 🔥',
+    mekteb_badge2:'Taak: leer Soera El-Fatiha 📖',
     news_label:'Nieuws & aankondigingen', news_title:'Laatste berichten',
     events_label:'Evenementen', events_title:'Aankomende activiteiten',
     nl_label:'Nieuwsbrieven', nl_title:'Recente edities uit onze inbox',
@@ -575,7 +847,7 @@ const T = {
     reg_name:'Volledige naam', reg_email:'E-mailadres', reg_phone:'Telefoonnummer',
     reg_dob:'Geboortedatum', reg_address:'Adres & woonplaats',
     reg_type:'Soort lidmaatschap', reg_ind:'Individueel', reg_fam:'Gezin',
-    reg_yr:'/ jaar', reg_note:'Eventuele opmerkingen (optioneel)',
+    reg_yr:'/ maand', reg_note:'Eventuele opmerkingen (optioneel)',
     reg_consent:'Ik ga akkoord met de verwerking van mijn gegevens door IKC Din.',
     reg_submit:'Inschrijving versturen',
     reg_success:'Bedankt! We nemen binnen 2 werkdagen contact met je op. Ahlan wa sahlan! 🌙',
@@ -591,8 +863,8 @@ const T = {
     admin_saved:'✓ Bijgewerkt!',
   },
   bs: {
-    nav:['Početna','Naša Priča','Mekteb','Prikupljanje','Prijava','Kontakt'],
-    sections:['home','verhaal','mekteb','inzameling','aanmelden','contact'],
+    nav:['Početna','Naša Priča','Članstvo','Mekteb','Prikupljanje','Kontakt'],
+    sections:['home','verhaal','aanmelden','mekteb','inzameling','contact'],
     login:'Prijava', logout:'Odjava', member:'Portal članova',
     badge:'Bosanska islamska zajednica · Eindhoven',
     salam:'Esselamu Alejkum',
@@ -629,7 +901,7 @@ const T = {
     ],
     mekteb_phone:{greet:'Selam alejkum',name:'Ajla',today:'Današnja lekcija',lesson:'Sura El-Fatiha',ayah:'Ajet 5 od 7',progress:'Napredak',upcoming:'Sljedeće lekcije',items:[{day:'NED',t:'Tedžvid',sub:'14:00 · Hodža Mehmedović'},{day:'UTO',t:'Arapski jezik',sub:'18:30 · Online'},{day:'SUB',t:'Sura El-Felek',sub:'14:00 · IKC Din'}],tabs:['Početna','Lekcije','Kur\'an','Profil']},
     mekteb_badge1:'Zadaća završena ✓',
-    mekteb_badge2:'3 dana u nizu 🔥',
+    mekteb_badge2:'Zadaća: nauči suru El-Fatiha 📖',
     news_label:'Vijesti i obavijesti', news_title:'Najnovije vijesti',
     events_label:'Događaji', events_title:'Predstojeće aktivnosti',
     nl_label:'Newsletteri', nl_title:'Najnovija izdanja iz našeg inboxa',
@@ -647,7 +919,7 @@ const T = {
     reg_name:'Puno ime', reg_email:'E-adresa', reg_phone:'Broj telefona',
     reg_dob:'Datum rođenja', reg_address:'Adresa i grad',
     reg_type:'Vrsta članstva', reg_ind:'Individualno', reg_fam:'Porodično',
-    reg_yr:'/ godišnje', reg_note:'Napomene (opciono)',
+    reg_yr:'/ mjesečno', reg_note:'Napomene (opciono)',
     reg_consent:'Prihvatam obradu mojih podataka od strane IKC Din.',
     reg_submit:'Pošaljite prijavu',
     reg_success:'Hvala! Kontaktiraćemo vas u roku od 2 radna dana. Ahlan wa sahlan! 🌙',
@@ -663,6 +935,213 @@ const T = {
     admin_saved:'✓ Ažurirano!',
   }
 };
+
+// ── LIDMAATSCHAP / USLUGE DATA ─────────────────────────────
+const FEATURED_USLUGE = [
+  {
+    key:'iftar',
+    img:'photo-vjencanje.jpg',
+    glyph:'🌙',
+    tag:{nl:'Ramadan & gemeenschap',bs:'Ramazan i zajednica'},
+    title:{nl:'Iftars met familie & vrienden',bs:'Iftari s porodicom i prijateljima'},
+    desc:{nl:'Tijdens Ramadan kun je onze Divanhana reserveren voor een familie-iftar. Eigen tafel, eigen sfeer — samen ifaren in een warme, huiselijke setting.',bs:'Tokom Ramazana možete rezervisati našu Divanhanu za porodični iftar. Vlastiti sto, vlastita atmosfera — zajednički iftar u toploj, domaćoj sredini.'}
+  },
+  {
+    key:'mekteb',
+    img:'photo-mekteb-sport.jpg',
+    glyph:'📖',
+    tag:{nl:'Voor kinderen',bs:'Za djecu'},
+    title:{nl:'Mekteb — Islamitisch onderwijs',bs:'Mekteb — Islamsko obrazovanje'},
+    desc:{nl:'Wekelijkse lessen Qur\'an, geloofsleer en Bosanski jezik voor kinderen van 5–15 jaar. Met onze eigen Mekteb-app voor ouders en leerlingen.',bs:'Sedmični časovi Kur\'ana, vjeronauke i bosanskog jezika za djecu od 5 do 15 godina. Sa našom vlastitom mekteb aplikacijom za roditelje i učenike.'}
+  },
+  {
+    key:'lezingen',
+    img:'photo-vecer-duhovnosti.jpg',
+    glyph:'🕌',
+    tag:{nl:'Educatie',bs:'Obrazovanje'},
+    title:{nl:'Lezingen & seminars',bs:'Predavanja i seminari'},
+    desc:{nl:'Regelmatige islamitische lezingen, hutbe en thematische seminars over geloof, opvoeding, dagelijks leven en actuele onderwerpen.',bs:'Redovna islamska predavanja, hutbe i tematski seminari o vjeri, odgoju, svakodnevnom životu i aktuelnim temama.'}
+  }
+];
+
+const USLUGE = [
+  {
+    key:'religieus', icon:'🕋',
+    title:{nl:'Religieuze ceremonies',bs:'Vjerski obredi'},
+    blurb:{nl:'Begeleiding bij de belangrijke momenten in een moslimleven — van geboorte tot het laatste afscheid.',bs:'Pratnja u najvažnijim trenucima muslimanskog života — od rođenja do posljednjeg ispraćaja.'},
+    items:[
+      {nl:'Islamitisch huwelijk (Šerijatsko vjenčanje)',bs:'Šerijatsko vjenčanje'},
+      {nl:'Sunet (besnijdenisceremonie)',bs:'Sunet'},
+      {nl:'Akika & naamgeving baby',bs:'Akika i nadijevanje imena'},
+      {nl:'Dženaze namaz & uitvaartbegeleiding',bs:'Dženaze i pratnja kod ukopa'},
+      {nl:'Tevhid & mevlud bijeenkomsten',bs:'Tevhidi i mevludi'},
+      {nl:'Begeleiding bij bekering tot Islam',bs:'Pratnja kod prelaska na islam'}
+    ]
+  },
+  {
+    key:'obrazovanje', icon:'📚',
+    title:{nl:'Mekteb & educatie',bs:'Mekteb i obrazovanje'},
+    blurb:{nl:'Doorlopend leren — van eerste Qur\'an-lessen voor 5-jarigen tot diepgaande studiekringen voor volwassenen.',bs:'Kontinuirano učenje — od prvih kur\'anskih lekcija za petogodišnjake do dubokih studijskih krugova za odrasle.'},
+    items:[
+      {nl:'Mekteb voor kinderen (5–15 jaar) — met eigen app',bs:'Mekteb za djecu (5–15 god.) — s vlastitom aplikacijom'},
+      {nl:'Qur\'an-lessen voor volwassenen (tedžvid)',bs:'Časovi Kur\'ana za odrasle (tedžvid)'},
+      {nl:'Hifz-begeleiding',bs:'Hifz pratnja'},
+      {nl:'Bosanski jezik voor kinderen',bs:'Bosanski jezik za djecu'},
+      {nl:'Begeleiding nieuwe moslims (šehadet)',bs:'Pratnja za nove muslimane (šehadet)'},
+      {nl:'Ouderworkshops — opvoeding & mentale gezondheid',bs:'Radionice za roditelje — odgoj i mentalno zdravlje'}
+    ]
+  },
+  {
+    key:'divanhana', icon:'🍽️', featured:true,
+    tag:{nl:'Tot 50 personen',bs:'Do 50 osoba'},
+    title:{nl:'Divanhana — evenementenruimte',bs:'Divanhana — prostor za događaje'},
+    blurb:{nl:'Onze gezellige Divanhana is beschikbaar voor leden voor familie- en gemeenschapsmomenten. Volledig uitgerust met keuken, geluidsinstallatie en grote TV.',bs:'Naša ugodna Divanhana dostupna je članovima za porodične i zajedničke trenutke. Potpuno opremljena kuhinjom, ozvučenjem i velikim televizorom.'},
+    items:[
+      {nl:'Bruiloften & verlovingen (svadbe & zaruke)',bs:'Svadbe i zaruke'},
+      {nl:'Familie-iftars tijdens Ramadan',bs:'Porodični iftari u Ramazanu'},
+      {nl:'Sunet- & akika-feesten',bs:'Sunetluci i akika-proslave'},
+      {nl:'Bajram-recepties (bajramske posjete)',bs:'Bajramske posjete'},
+      {nl:'Tevhidi (gedenkbijeenkomsten)',bs:'Tevhidi'},
+      {nl:'Verjaardagen & kinderfeestjes',bs:'Rođendani i dječje proslave'},
+      {nl:'Sportwedstrijden samen kijken op groot scherm',bs:'Zajedničko gledanje sportskih utakmica na velikom ekranu'}
+    ]
+  },
+  {
+    key:'coworking', icon:'💻', featured:true,
+    tag:{nl:'Nieuw',bs:'Novo'},
+    title:{nl:'Werk- & studieruimte',bs:'Radni i studijski prostor'},
+    blurb:{nl:'Werk overdag of \'s avonds in een rustige, schone en gastvrije omgeving — met het gebed binnen handbereik.',bs:'Radite preko dana ili navečer u mirnoj, čistoj i gostoljubivoj sredini — s namazom nadohvat ruke.'},
+    items:[
+      {nl:'ZZP-werkruimte overdag en \'s avonds',bs:'Radni prostor za freelancere danju i navečer'},
+      {nl:'Twee kleine klaslokalen als vergaderruimte',bs:'Dvije manje učionice kao sale za sastanke'},
+      {nl:'Snelle wifi',bs:'Brz wifi'},
+      {nl:'Koffie & versnaperingen (tegen kleine bijdrage)',bs:'Kafa i osvježenje (uz simboličan doprinos)'},
+      {nl:'Stille studieruimte voor scholieren & studenten',bs:'Tihi prostor za učenje za đake i studente'},
+      {nl:'Gebedsruimte op locatie',bs:'Mjesto za namaz u zgradi'}
+    ]
+  },
+  {
+    key:'gemeenschap', icon:'🤝',
+    title:{nl:'Gemeenschap & ontmoeting',bs:'Zajednica i druženje'},
+    blurb:{nl:'De moskee als tweede thuis — een plek waar je elkaar elke week tegenkomt.',bs:'Džamija kao drugi dom — mjesto gdje se susrećemo svake sedmice.'},
+    items:[
+      {nl:'Dagelijkse vijf gebeden & vrijdaggebed (Jumua)',bs:'Pet dnevnih namaza i Džuma'},
+      {nl:'Koffieochtenden voor ouderen',bs:'Jutarnja kafa za starije'},
+      {nl:'Vrouwenbijeenkomsten (sestrinski susreti)',bs:'Sestrinski susreti'},
+      {nl:'Jongerenraad & omladina-activiteiten',bs:'Omladinski odbor i aktivnosti'},
+      {nl:'Welkomstpakket voor nieuwe leden',bs:'Dobrodošlica za nove članove'},
+      {nl:'Buddy-systeem — nieuwkomers gekoppeld aan gevestigde leden',bs:'Buddy sistem — novodošli povezani s ustaljenim članovima'}
+    ]
+  },
+  {
+    key:'praktisch', icon:'🤲',
+    title:{nl:'Praktische hulp & ondersteuning',bs:'Praktična pomoć i podrška'},
+    blurb:{nl:'Voor de momenten waarop je hulp nodig hebt — administratief, juridisch of in moeilijke tijden.',bs:'Za trenutke kad vam treba pomoć — administrativna, pravna ili u teškim vremenima.'},
+    items:[
+      {nl:'Vertaalhulp NL ↔ BS (formulieren, gemeente, belasting)',bs:'Pomoć pri prevodu NL ↔ BS (formulari, općina, porez)'},
+      {nl:'Hadj & umrah voorbereiding',bs:'Priprema za hadž i umru'},
+      {nl:'Zakat & sadaqah bemiddeling',bs:'Posredovanje za zekat i sadaku'},
+      {nl:'Halal uitvaartcoördinatie (incl. repatriëring BiH)',bs:'Koordinacija halal ukopa (uklj. repatrijacija u BiH)'},
+      {nl:'Maaltijdring bij ziekte, geboorte of overlijden',bs:'Krug obroka pri bolesti, rođenju ili smrti'},
+      {nl:'Juridisch spreekuur (maandelijks, vrijwilligers)',bs:'Pravni savjeti (mjesečno, dobrovoljci)'}
+    ]
+  },
+  {
+    key:'cultuur', icon:'🎭',
+    title:{nl:'Cultuur & identiteit',bs:'Kultura i identitet'},
+    blurb:{nl:'Onze Bosnische identiteit levend houden — voor onszelf en voor de volgende generatie.',bs:'Čuvanje našeg bosanskog identiteta — za nas i za sljedeću generaciju.'},
+    items:[
+      {nl:'Bosanske kulturne avonden (večeri)',bs:'Bosanske kulturne večeri'},
+      {nl:'Sevdah, poëzie & muziekavonden',bs:'Sevdah, poezija i muzičke večeri'},
+      {nl:'Bibliotheek (BS, NL, islamitisch)',bs:'Biblioteka (BS, NL, islamska)'},
+      {nl:'Filmavonden — Bosnische films & islamitische documentaires',bs:'Filmske večeri — bosanski filmovi i islamski dokumentarci'},
+      {nl:'Kookworkshops — traditionele BiH-keuken',bs:'Kuharske radionice — tradicionalna BiH kuhinja'},
+      {nl:'Groepsreizen BiH & ziyarat-bezoeken',bs:'Grupna putovanja u BiH i zijareti'}
+    ]
+  },
+  {
+    key:'jeugd', icon:'🌱',
+    title:{nl:'Voor kinderen & jeugd',bs:'Za djecu i mlade'},
+    blurb:{nl:'Een veilige, vertrouwde plek voor onze kinderen om te groeien — religieus én sociaal.',bs:'Sigurno, povjerljivo mjesto za rast naše djece — vjerski i društveno.'},
+    items:[
+      {nl:'Mekteb (zie hierboven)',bs:'Mekteb (vidi iznad)'},
+      {nl:'Zomerkamp (ljetni kamp)',bs:'Ljetni kamp'},
+      {nl:'Huiswerkbegeleiding door oudere studenten',bs:'Pomoć oko domaće zadaće od starijih učenika'},
+      {nl:'Kindersport (zaalvoetbal, basketbal)',bs:'Dječji sport (mali fudbal, košarka)'},
+      {nl:'Jongerencafé & open teen-talks met imam',bs:'Omladinski kafić i otvoreni razgovori s imamom'},
+      {nl:'Sportwedstrijden samen kijken op groot scherm',bs:'Zajedničko gledanje sportskih utakmica'}
+    ]
+  }
+];
+
+const BENEFITS = [
+  {nl:'Alle bovenstaande usluge & diensten inbegrepen',bs:'Sve gore navedene usluge uključene'},
+  {nl:'Gratis gebruik van de Divanhana voor familie-evenementen',bs:'Besplatno korištenje Divanhane za porodične događaje'},
+  {nl:'Gratis Mekteb voor je kinderen',bs:'Besplatan mekteb za vašu djecu'},
+  {nl:'Toegang tot ledenportaal & Mekteb-app',bs:'Pristup portalu za članove i mekteb aplikaciji'},
+  {nl:'Stem- en spreekrecht op de jaarvergadering',bs:'Pravo glasa i govora na godišnjoj skupštini'},
+  {nl:'Voorrang bij grote evenementen (iftar, bajram)',bs:'Prednost pri velikim događajima (iftar, bajram)'},
+  {nl:'Werk- en vergaderruimtes overdag en \'s avonds',bs:'Radni i prostori za sastanke danju i navečer'},
+  {nl:'Sadaqah džarija — bijdrage aan de moskée voor de volgende generatie 🤲',bs:'Sadaka džarija — doprinos džamiji za sljedeću generaciju 🤲'}
+];
+
+// ── STORIES (Ons Verhaal — uitgebreide content per tegel) ──────────
+const STORIES_DETAIL = [
+  {
+    key: 'wortels',
+    img: 'photo-bosnia-collage.jpg',
+    step: '01 · Korijeni',
+    title: {nl:'Onze wortels in Bosnië', bs:'Naši korijeni u Bosni'},
+    lead: {
+      nl: 'Onze gemeenschap is hier in Nederland — maar onze wortels liggen in Bosnië. Geloof, taal, cultuur en traditie dragen we van generatie op generatie verder.',
+      bs: 'Naša zajednica je ovdje u Nizozemskoj — ali naši korijeni su u Bosni. Vjeru, jezik, kulturu i tradiciju prenosimo s generacije na generaciju.'
+    },
+    body: {
+      nl: 'De Bosniakse ervaring uit het recente verleden — en de genocide tegen ons volk — mag ons nooit onverschillig laten tegenover xenofobie, discriminatie, isolatie of assimilatie. Tegelijkertijd werken we hard aan integratie in het land dat ons gastvrijheid bood: door onderwijs, kennis van wet en regelgeving, en voorbeeldig gedrag.\n\nWe zijn een eeuwenoud onderdeel van Europa — een vredelievend en beschaafd volk dat vele eeuwen in een multicultureel samenleving heeft geleefd en gefloreerd. Onze kinderen moeten weten wie ze zijn en waar ze vandaan komen — én tegelijk volledig thuis zijn in Nederland, hun tweede vaderland.',
+      bs: 'Naše bošnjačko iskustvo iz nedavne prošlosti i genocid koji se desio našem narodu ne smije nas ostavljati ravnodušnim na bilo kakav pokušaj ksenofobije, diskriminacije, izolacije ili asimilacije. Istovremeno, obrazovanjem, poznavanjem zakonskih propisa i uzornim ponašanjem aktivno radimo na integraciji u zemlji koja nam je pružila gostoprimstvo.\n\nVijekovima smo dio Evrope — civilizovan i miroljubiv narod koji je u multikulturalnom društvu cijenio sve njegove vrline. Naša djeca moraju znati ko su i odakle dolaze — a istovremeno biti potpuno kod kuće u Nizozemskoj, njihovoj drugoj domovini.'
+    },
+    quote: {
+      nl: 'Onze kinderen moeten weten wie ze zijn — anders herhaalt de geschiedenis zich.',
+      bs: 'Naša djeca moraju znati ko su — inače će se historija ponoviti.'
+    }
+  },
+  {
+    key: 'centrum',
+    img: 'photo-exterior.jpg',
+    step: '02 · Naš dom',
+    title: {nl:'Ons centrum in Eindhoven', bs:'Naš centar u Eindhovenu'},
+    lead: {
+      nl: 'Tot 2017 kwamen we samen in de Turkse Sultan Fatih moskee of huurden ruimte bij Unitas. In 2017 — dankzij €180.000 aan donaties van Bošnjaci — kochten we ons eigen gebouw aan het Hugo de Grootplein.',
+      bs: 'Do 2017. godine okupljali smo se u turskoj džamiji Sultan Fatih ili u iznajmljenom prostoru Unitasa. Te godine — zahvaljujući €180.000 donacijama Bošnjaka — kupili smo vlastiti objekat na Hugo de Grootpleinu.'
+    },
+    body: {
+      nl: 'Officieel bestaat IKC DIN sinds 2008, onofficieel al sinds 1994. Ons gebouw is meer dan een centrum — het is onze mesdžid, onze džamija, onze BOSANSKA KUĆA. Een plek waar we samenkomen voor gebed, gesprek en gezelligheid. Een hoekje waar we Bosnië voelen en beleven, ver van huis.\n\nHier vinden onze religieuze activiteiten plaats, hier zijn onze Bosanski jezik-lessen, onze culturele avonden, onze ilahija- en kasida-bijeenkomsten. Hier helpen we elkaar — juridisch, economisch, psychologisch — en hier organiseren we šerijatska huwelijken en dženaze.',
+      bs: 'Zvanično IKC DIN postoji od 2008., neslužbeno još od 1994. Naš objekat je više od centra — to je naš mesdžid, naša džamija, naša BOSANSKA KUĆA. Mjesto okupljanja, muhabeta, druženja — kutak u kojem osjećamo i doživljavamo Bosnu, daleko od kuće.\n\nOvdje se odvijaju naše vjerske aktivnosti, ovdje su naši časovi bosanskog jezika, naše kulturne večeri, ilahije i kaside. Ovdje pomažemo jedni drugima — pravno, ekonomski, psihološki — i ovdje organiziramo šerijatska vjenčanja i dženaze.'
+    },
+    activities: {
+      nl: ['Religieuze activiteiten & gezamenlijke iftars','Bajram, mevlud, zikr, tevhid','Ilahija- en kasida-avonden','Belangrijke data uit BiH-geschiedenis','Bosanski-lessen voor kinderen','Bibliotheek & boekpresentaties','Kunsttentoonstellingen & culturele avonden','Juridische, economische, psychologische hulp','Šerijatska vjenčanja','Dženaze & uitvaartcoördinatie','Hulp aan ouderen en kwetsbaren','Humanitaire acties'],
+      bs: ['Vjerske aktivnosti i zajednički iftari','Bajram, mevludi, zikr, tevhidi','Večeri ilahija i kasida','Značajni datumi iz historije BiH','Časovi bosanskog jezika za djecu','Biblioteka i promocije knjiga','Izložbe slika i kulturni sadržaji','Pravna, ekonomska, psihološka pomoć','Šerijatska vjenčanja','Dženaze i organizacija sahrana','Pomoć starim i iznemoglim','Humanitarne aktivnosti']
+    }
+  },
+  {
+    key: 'gebedsruimte',
+    img: 'photo-mihrab.webp',
+    step: '03 · Mjesto molitve',
+    title: {nl:'Onze gebedsruimte', bs:'Naš mesdžid'},
+    lead: {
+      nl: 'Onze gebedsruimte is niet alleen een plek voor het gebed — het is het kloppend hart van onze gemeenschap. Open voor iedereen.',
+      bs: 'Naš mesdžid nije samo mjesto za namaz — to je srce naše zajednice. Otvoren za svakoga.'
+    },
+    body: {
+      nl: 'Vijf keer per dag, en vooral op vrijdag bij de Jumua, komen we hier samen. In Ramadan vullen we deze ruimte met Tarawih-gebeden en gezamenlijke iftars. Hier zegenen we huwelijken met de šerijatska vjenčanje — gratis voor onze leden. Hier verzamelen we ons bij verlies, voor dženaze, tevhid en mevlud.\n\nOnze mihrab is met liefde en vakmanschap gebouwd: houtsnijwerk dat herinnert aan de oude džamije van Bosnië, gecombineerd met de stilte en eenvoud die ons hier in Eindhoven kalmeert. Iedereen is welkom — onze leden, onze buren, andere gemeenschappen die ons komen bezoeken. Wij geloven dat de moskee niet beslotenheid betekent, maar ontmoeting.',
+      bs: 'Pet puta dnevno, a posebno petkom za Džumu, ovdje se okupljamo. U Ramazanu prostor ispunjavamo teravih-namazima i zajedničkim iftarima. Ovdje sklapamo brakove uz šerijatsko vjenčanje — besplatno za naše članove. Ovdje se okupljamo u tugu — za dženaze, tevhide i mevlude.\n\nNaš mihrab je sa ljubavlju i zanatskom pažnjom izrađen: rezbarije koje podsjećaju na stare bosanske džamije, spojene sa tišinom i jednostavnošću koje nas ovdje u Eindhovenu smiruju. Svako je dobrodošao — naši članovi, naše komšije, druge zajednice koje nas posjećuju. Vjerujemo da džamija nije zatvorenost, nego susret.'
+    },
+    quote: {
+      nl: 'De moskee betekent niet beslotenheid — maar ontmoeting.',
+      bs: 'Džamija ne znači zatvorenost — nego susret.'
+    }
+  }
+];
 
 const NEWS = [
   {tag_nl:'Aankondiging',tag_bs:'Obavijest',title_nl:'Vrijdaggebed: nieuwe tijden per mei',title_bs:'Džuma: novo vrijeme od maja',body_nl:'Vanaf mei starten de vrijdaggebeden om 13:30. Wij verzoeken iedereen op tijd aanwezig te zijn.',body_bs:'Od maja džuma počinje u 13:30. Molimo sve da budu na vrijeme.',date:'14 april 2026'},
@@ -739,6 +1218,106 @@ const FINANCIALS = [
 
 // ── COMPONENTS ─────────────────────────────────────────────────────
 
+// ── LIDMAATSCHAP OPTIE 2 — levensdomeinen + foto-groepen ───────────
+const trd = (obj, lang) => (obj ? (obj[lang] ?? obj.nl) : '');
+const PRICE_NOTE = { nl: 'alles inbegrepen · sadaka džarija', bs: 'sve uključeno · sadaka džarija' };
+// Icoon voor "Zajednica & kultura" — masker (🎭) vervangen door beter passend icoon.
+const KULTURA_ICON = '⚜️';
+const PHOTO_GROUPS = {
+  vjera: [
+    { src: 'photo-mihrab.webp',    label: 'Mesdžid' },
+    { src: 'photo-koran-1.jpg',    label: 'Mukabela' },
+    { src: 'photo-predavanja.jpg', label: 'Predavanja & tevhidi' },
+    { src: 'photo-vjencanje.jpg',  label: 'Šerijatsko vjenčanje' },
+  ],
+  mekteb: [
+    { src: 'mekteb-01.jpg', label: 'Časovi' },
+    { src: 'mekteb-03.jpg', label: 'Kreativne radionice' },
+    { src: 'mekteb-08.jpg', label: 'Dodjela certifikata' },
+    { src: 'mekteb-09.jpg', label: 'Druženje s imamom' },
+    { src: 'mekteb-13.jpg', label: 'Džamijski market' },
+    { src: 'mekteb-11.jpg', label: 'Priredbe' },
+  ],
+  // izlozba-foto vervangen door community-beeld + nieuw label "Zajednica i kultura";
+  // de oude izlozba-foto blijft alleen op "Dani tradicije" → geen dubbele foto meer.
+  kultura: [
+    { src: 'photo-kafa.jpg',                 label: 'Bosanska kafa' },
+    { src: 'zajednica-kultura.jpg',          label: 'Zajednica i kultura' },
+    { src: 'photo-kaligrafija-2.jpg',        label: 'Kaligrafija' },
+    { src: 'photo-dani-tradicije-event.jpg', label: 'Dani tradicije' },
+  ],
+};
+const DOMAINS = [
+  {
+    key: 'vjera', icon: '🕌', photos: 'vjera',
+    tag:   { nl: 'Geloof & gebed',    bs: 'Vjera i namaz' },
+    title: { nl: 'Vjera & duhovnost', bs: 'Vjera i duhovnost' },
+    blurb: {
+      nl: 'Het kloppend hart van IKC DIN — gebed, ceremonies en bezinning, vijf keer per dag en bij elk groot levensmoment.',
+      bs: 'Srce IKC DIN-a — namaz, obredi i bošćaluk, pet puta dnevno i u svakom velikom životnom trenutku.'
+    },
+    items: [
+      { nl: 'Vijf dagelijkse gebeden & Džuma',         bs: 'Pet dnevnih namaza i Džuma' },
+      { nl: 'Tarawih & gezamenlijke iftars (Ramazan)', bs: 'Teravije i zajednički iftari (Ramazan)' },
+      { nl: 'Šerijatsko vjenčanje, sunet & akika',     bs: 'Šerijatsko vjenčanje, sunet i akika' },
+      { nl: 'Dženaze, tevhidi & mevludi',              bs: 'Dženaze, tevhidi i mevludi' },
+      { nl: 'Predavanja, hutbe & seminars',            bs: 'Predavanja, hutbe i seminari' },
+      { nl: 'Mukabela in Ramadan',                     bs: 'Mukabela u Ramazanu' },
+    ],
+  },
+  {
+    key: 'mekteb', icon: '📖', photos: 'mekteb',
+    tag:   { nl: 'Voor kinderen',  bs: 'Za djecu' },
+    title: { nl: 'Mekteb & djeca', bs: 'Mekteb i djeca' },
+    blurb: {
+      nl: 'Een veilige, vertrouwde plek waar onze kinderen leren wie ze zijn — met onze eigen Mekteb-app voor ouders.',
+      bs: 'Sigurno mjesto gdje naša djeca uče ko su — sa našom vlastitom mekteb aplikacijom za roditelje.'
+    },
+    items: [
+      { nl: 'Mekteb (5–15 jaar) — met eigen app',      bs: 'Mekteb (5–15 god.) — s aplikacijom' },
+      { nl: 'Bosanski jezik voor kinderen',            bs: 'Bosanski jezik za djecu' },
+      { nl: 'Creatieve workshops & priredbe',          bs: 'Kreativne radionice i priredbe' },
+      { nl: 'Zomerkamp (ljetni kamp)',                 bs: 'Ljetni kamp' },
+      { nl: 'Huiswerkbegeleiding',                     bs: 'Pomoć oko domaće zadaće' },
+      { nl: 'Certificaten aan het einde van het jaar', bs: 'Dodjela certifikata na kraju godine' },
+    ],
+  },
+  {
+    key: 'kultura', icon: KULTURA_ICON, photos: 'kultura',
+    tag:   { nl: 'Cultuur & ontmoeting', bs: 'Kultura i druženje' },
+    title: { nl: 'Zajednica & kultura',  bs: 'Zajednica i kultura' },
+    blurb: {
+      nl: 'Onze Bosnische identiteit levend houden — kafa, sevdah, kunst en samen sport kijken in de Divanhana.',
+      bs: 'Čuvanje bosanskog identiteta — kafa, sevdah, umjetnost i zajedničko druženje u Divanhani.'
+    },
+    items: [
+      { nl: 'Divanhana voor familie-events (tot 50)',  bs: 'Divanhana za porodične događaje (do 50)' },
+      { nl: 'Bosanske kulturne & sevdah večeri',       bs: 'Bosanske kulturne i sevdah večeri' },
+      { nl: 'Izložbe, kaligrafie & Dani tradicije',    bs: 'Izložbe, kaligrafija i Dani tradicije' },
+      { nl: 'Kafa, druženje & sestrinski susreti',     bs: 'Kafa, druženje i sestrinski susreti' },
+      { nl: 'Sport voor jeugd (mali fudbal, košarka)', bs: 'Sport za mlade (mali fudbal, košarka)' },
+      { nl: 'Groepsreizen naar BiH & ziyarat',         bs: 'Grupna putovanja u BiH i zijareti' },
+    ],
+  },
+  {
+    key: 'podrska', icon: '🤲', photos: null,
+    tag:   { nl: 'Praktische hulp',     bs: 'Praktična pomoć' },
+    title: { nl: 'Podrška & praktično', bs: 'Podrška i praktično' },
+    blurb: {
+      nl: 'De gemeenschap als vangnet — administratief, juridisch, spiritueel en in moeilijke tijden.',
+      bs: 'Zajednica kao oslonac — administrativno, pravno, duhovno i u teškim vremenima.'
+    },
+    items: [
+      { nl: 'Vertaalhulp NL ↔ BS (formulieren, gemeente)', bs: 'Pomoć pri prevodu NL ↔ BS (formulari, općina)' },
+      { nl: 'Hadž & umrah voorbereiding',                  bs: 'Priprema za hadž i umru' },
+      { nl: 'Zekat & sadaka bemiddeling',                  bs: 'Posredovanje za zekat i sadaku' },
+      { nl: 'Werk- & studieruimte overdag en \u2019s avonds', bs: 'Radni i studijski prostor danju i navečer' },
+      { nl: 'Maandelijks juridisch spreekuur',             bs: 'Mjesečni pravni savjeti' },
+      { nl: 'Maaltijdring bij ziekte, geboorte of verlies', bs: 'Krug obroka pri bolesti, rođenju ili smrti' },
+    ],
+  },
+];
+
 function MosqueArch({ color='rgba(201,168,76,0.13)', size=480 }) {
   const w = size, h = size * 1.2;
   return (
@@ -771,6 +1350,18 @@ function MosqueArch({ color='rgba(201,168,76,0.13)', size=480 }) {
 function LogoMark({ size = 'sm', style }) {
   const cls = 'logo-mark logo-mark-' + size;
   return <img src={window.IKC_LOGO} alt="" aria-hidden="true" className={cls} style={style}/>;
+}
+
+// ── Contact constants ──
+const PHONE_DISPLAY = '+31 6 25240094';
+const PHONE_TEL = '+31625240094';
+const WHATSAPP_URL = 'https://wa.me/31625240094';
+function WhatsAppIcon({ size = 18, color = 'currentColor', style }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill={color} aria-hidden="true" style={style}>
+      <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.043zm5.391-6.273c.075.124.124.262.124.262.124.207.124.331.083.413-.041.083-.124.124-.248.207-.124.083-.62.207-.703.331l-.207.207c-.124.124-.248.124-.372.041-.124-.083-.62-.227-1.179-.724-.435-.388-.73-.868-.814-1.013-.083-.145-.009-.223.054-.296.057-.066.124-.171.186-.257a.999.999 0 00.124-.207.373.373 0 00-.017-.355c-.041-.083-.372-.896-.51-1.227-.134-.322-.27-.278-.372-.283l-.317-.006a.61.61 0 00-.442.207c-.151.165-.578.565-.578 1.378s.592 1.598.674 1.709c.083.11 1.165 1.779 2.823 2.495.394.17.702.272.942.348.396.126.756.108 1.041.066.318-.048.978-.4 1.116-.786.138-.386.138-.717.096-.786-.041-.069-.151-.11-.317-.193z"/>
+    </svg>
+  );
 }
 
 function StarDivider() {
@@ -1037,8 +1628,21 @@ function PrayerTimes({ lang }) {
 // ── NAŠA PRIČA ───────────────────────────────────────
 function NasaPrica({ lang }) {
   const t = T[lang];
+  const [activeIdx, setActiveIdx] = useState(null);
+  useEffect(()=>{
+    const onKey = e => { if(e.key==='Escape') setActiveIdx(null); };
+    window.addEventListener('keydown', onKey);
+    return ()=>window.removeEventListener('keydown', onKey);
+  },[]);
+  useEffect(()=>{
+    document.body.style.overflow = activeIdx!==null ? 'hidden' : '';
+    return ()=>{ document.body.style.overflow = ''; };
+  },[activeIdx]);
+  const active = activeIdx!==null ? STORIES_DETAIL[activeIdx] : null;
+
   return (
     <section className="story-section" id="verhaal">
+      <div className="container" style={{paddingTop:84,marginBottom:-28}}><StarDivider/></div>
       <div className="story-hero">
         <div className="story-hero-text">
           <div className="section-label"><LogoMark size="sm"/> {t.story_label}</div>
@@ -1056,16 +1660,43 @@ function NasaPrica({ lang }) {
       </div>
       <div className="story-strip stagger" style={{marginTop: 24}}>
         {t.story.map((s,i)=>(
-          <div key={i} className="story-cell reveal" style={{'--i':i}}>
+          <div key={i} className="story-cell reveal" style={{'--i':i}} onClick={()=>setActiveIdx(i)} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveIdx(i);}}}>
             <img src={s.img} alt={s.t}/>
             <div className="story-caption">
               <span className="story-step">{s.step}</span>
               <div className="story-title">{s.t}</div>
               <div className="story-text">{s.d}</div>
+              <div className="story-cell-readmore">{lang==='nl'?'Lees het verhaal':'Pročitajte priču'} →</div>
             </div>
           </div>
         ))}
       </div>
+
+      {active && (
+        <div className="story-modal-backdrop" onClick={()=>setActiveIdx(null)}>
+          <div className="story-modal" onClick={e=>e.stopPropagation()} role="dialog" aria-modal="true">
+            <button className="story-modal-close" onClick={()=>setActiveIdx(null)} aria-label="Close">✕</button>
+            <div className="story-modal-img" style={{backgroundImage:`url(${active.img})`}}/>
+            <div className="story-modal-body">
+              <div className="story-modal-step">{active.step}</div>
+              <h3 className="story-modal-title">{active.title[lang]}</h3>
+              <div className="story-modal-lead">{active.lead[lang]}</div>
+              {active.body[lang].split('\n\n').map((p,i)=>(<p key={i}>{p}</p>))}
+              {active.quote && <div className="story-modal-quote">"{active.quote[lang]}"</div>}
+              {active.activities && (
+                <>
+                  <div style={{fontSize:11,letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--gold)',fontWeight:600,marginTop:24,marginBottom:6}}>
+                    {lang==='nl'?'Activiteiten in ons centrum':'Aktivnosti u našem centru'}
+                  </div>
+                  <div className="story-modal-activities">
+                    {active.activities[lang].map((a,i)=>(<div key={i} className="story-modal-activity">{a}</div>))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -1094,7 +1725,12 @@ function Fundraising({ lang, raisedOverride }) {
             <div className="section-label"><LogoMark size="sm"/> {t.fund_label}</div>
             <h2 className="section-title">{t.fund_title}</h2>
             <div className="divider"/>
-            <p className="section-sub" style={{marginBottom:36}}>{t.fund_sub}</p>
+            <p className="section-sub" style={{marginBottom:18}}>{t.fund_sub}</p>
+            <p className="section-sub" style={{marginBottom:36,color:'var(--gold-light)'}}>
+              {lang==='nl'
+                ? 'Ons voornemen is om een eigen woning aan te kopen voor onze imam — een vaste, waardige thuisbasis dicht bij de gemeenschap. Het zou een groot goed (sadaka džarija) zijn dat onze imam rust en stabiliteit geeft en ons als gemeenschap voor generaties verbindt.'
+                : 'Naša namjera je kupiti vlastiti stan za našeg imama — stalan i dostojan dom u blizini zajednice. To bi bilo veliko dobro (sadaka džarija) koje našem imamu daje mir i stabilnost, a nas kao zajednicu povezuje za generacije.'}
+            </p>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:6}}>
               <div><div className="fund-amount">{fmt(raised)}</div><div style={{fontSize:13,color:'var(--text-muted)',marginTop:2}}>{t.fund_raised}</div></div>
               <div style={{textAlign:'right'}}>
@@ -1148,12 +1784,21 @@ function Fundraising({ lang, raisedOverride }) {
 
 // ── MEKTEB ─────────────────────────────────────────────────────────
 function PhoneMock({ lang }) {
+  const roles = [
+    { key:'leerling', s:{left:'6%',  top:'28.5%'} },
+    { key:'ouder',    s:{left:'50%', top:'28.5%'} },
+  ];
   return (
     <div className="phone-stack">
       <div className="phone-frame phone-front">
         <div className="phone-notch"/>
         <div className="phone-screen">
           <img src="mekteb-screen-roles.png" alt="Mekteb startscherm" className="phone-shot"/>
+          {roles.map(r=>(
+            <a key={r.key} className="phone-hotspot" href={`Mekteb%20App.html?role=${r.key}&lang=${lang}`}
+               style={{position:'absolute',width:'44%',height:'14%',borderRadius:14,zIndex:5,...r.s}}
+               aria-label={`Open ${r.key}`}/>
+          ))}
         </div>
       </div>
     </div>
@@ -1227,17 +1872,43 @@ function Mekteb({ lang }) {
     <section className="section mekteb-section" id="mekteb">
       <div className="container">
         <StarDivider/>
-        <div className="mekteb-header">
-          <div className="section-label">📚 {t.mekteb_label} <span className="mekteb-new-pill">✨ {t.mekteb_new}</span></div>
-          <h2 className="section-title" style={{marginBottom:14}}>{t.mekteb_title}</h2>
-          <div className="divider"/>
-          <p className="section-sub" style={{maxWidth:640}}>{t.mekteb_sub}</p>
+        <div className="mekteb-intro-grid">
+          <div className="mekteb-header" style={{marginBottom:0}}>
+            <div className="section-label">📚 {t.mekteb_label} <span className="mekteb-new-pill">✨ {t.mekteb_new}</span></div>
+            <h2 className="section-title" style={{marginBottom:14}}>{t.mekteb_title}</h2>
+            <div className="divider"/>
+            <p className="section-sub" style={{maxWidth:640}}>{t.mekteb_sub}</p>
+          </div>
+          <div className="mekteb-about-facts mekteb-intro-facts">
+            <div className="mekteb-about-fact">
+              <div className="mekteb-about-fact-ico">🗓️</div>
+              <div>
+                <div className="mekteb-about-fact-t">{lang==='nl'?'Wanneer':'Kada'}</div>
+                <div className="mekteb-about-fact-d">{lang==='nl'?'Elke zondag · 10:00 uur':'Svake nedjelje · 10:00h'}</div>
+              </div>
+            </div>
+            <div className="mekteb-about-fact">
+              <div className="mekteb-about-fact-ico">📍</div>
+              <div>
+                <div className="mekteb-about-fact-t">{lang==='nl'?'Waar':'Gdje'}</div>
+                <div className="mekteb-about-fact-d">{lang==='nl'?'IKC DIN · Hugo de Grootplein 47B, Eindhoven':'IKC DIN · Hugo de Grootplein 47B, Eindhoven'}</div>
+              </div>
+            </div>
+            <div className="mekteb-about-fact">
+              <div className="mekteb-about-fact-ico">⏱️</div>
+              <div>
+                <div className="mekteb-about-fact-t">{lang==='nl'?'Opbouw':'Struktura'}</div>
+                <div className="mekteb-about-fact-d">{lang==='nl'?'3 lessen × 45 min · groepen + klas voor volwassenen':'3 časa × 45 min · grupe + čas za odrasle'}</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="mekteb-showcase">
           <div className="mekteb-phone-wrap reveal-left">
             <PhoneMock lang={lang}/>
             <div className="mekteb-float-badge b1">{t.mekteb_badge1}</div>
             <div className="mekteb-float-badge b2">{t.mekteb_badge2}</div>
+            <div className="mekteb-tap-hint">👆 {lang==='nl'?'Tik op Leerling of Ouder om te openen':'Klikni na Učenik ili Roditelj za otvaranje'}</div>
           </div>
           <div className="mekteb-features stagger">
             {t.mekteb_features.map((f,i)=>(
@@ -1257,6 +1928,59 @@ function Mekteb({ lang }) {
                 👪 {t.mekteb_cta_parents}
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* Over de mekteb — kern van icc-din.nl/mektab */}
+        <div className="mekteb-about reveal-up">
+          <div className="mekteb-about-quote">
+            <div className="mekteb-about-quote-mark">❝</div>
+            <p className="mekteb-about-ayah">
+              {lang==='nl'
+                ? '„En laat er onder jullie een groep zijn die oproept tot het goede, het goede gebiedt en het verwerpelijke verbiedt — zij zijn het die zullen slagen.”'
+                : '„I neka među vama bude onih koji će na dobro pozivati i tražiti da se čini dobro, a od zla odvraćati — oni će šta žele postići.”'}
+            </p>
+            <div className="mekteb-about-ayah-src">{lang==='nl'?'— Soera Ali \u2018Imran, 104':'— Sura Alu \u2018Imran, 104'}</div>
+          </div>
+          <div className="mekteb-about-body">
+            <div className="mekteb-about-eyebrow">📖 {lang==='nl'?'Over onze mekteb':'O našem mektebu'}</div>
+            <h3 className="mekteb-about-title">
+              {lang==='nl'?'Vorming van een complete islamitische persoonlijkheid':'Izgradnja cjelovite islamske ličnosti'}</h3>
+            <p className="mekteb-about-text">
+              {lang==='nl'
+                ? 'Opvoeding en onderwijs zijn de basis van een gezonde gemeenschap. Het doel van onze mektebnastava is een complete islamitische persoonlijkheid vormen — die de kracht van het geloof, het naleven van de geloofsregels en het beleven van de islam als manier van leven samenbrengt.'
+                : 'Odgoj i obrazovanje temelj su zdrave zajednice. Cilj naše mektebske nastave je izgradnja cjelovite islamske ličnosti — koja objedinjuje snagu vjere, izvršavanje vjerskih odredbi i doživljavanje islama kao načina života.'}
+            </p>
+            <p className="mekteb-about-text" style={{fontStyle:'italic',color:'var(--gold-light)'}}>
+              {lang==='nl'
+                ? '„Een ouder kan zijn kind niets beters schenken dan een mooie opvoeding.” — Poslanik a.s. (Tirmizi)'
+                : '„Ne može roditelj pokloniti svome djetetu ništa bolje od lijepog odgoja.” — Poslanik a.s. (Tirmizi)'}
+            </p>
+          </div>
+        </div>
+
+        {/* Photo mosaic — trenuci iz mekteba */}
+        <div className="mekteb-mosaic-wrap reveal-up">
+          <div className="mekteb-mosaic-head">
+            <div className="mekteb-mosaic-head-l">
+              <div className="mekteb-mosaic-eyebrow">📷 {lang==='nl'?'Uit de mekteb':'Iz našeg mekteba'}</div>
+              <div className="mekteb-mosaic-title">{lang==='nl'?'Momenten uit onze mekteb-gemeenschap':'Trenuci iz naše mekteb-zajednice'}</div>
+            </div>
+            <div className="mekteb-mosaic-meta">
+              {lang==='nl'
+                ? <>Lessen<span className="dot">•</span>Koran-onderwijs<span className="dot">•</span>Iftar<span className="dot">•</span>Diploma-uitreiking</>
+                : <>Časovi<span className="dot">•</span>Učenje Kur'ana<span className="dot">•</span>Iftar<span className="dot">•</span>Svečana podjela diploma</>}
+            </div>
+          </div>
+          <div className="mekteb-mosaic">
+            {['mekteb-06.jpg','mekteb-11.jpg','mekteb-07.jpg','mekteb-05.jpg','mekteb-01.jpg','mekteb-09.jpg','mekteb-13.jpg','mekteb-03.jpg','mekteb-02.jpg','mekteb-08.jpg','mekteb-10.jpg'].map((src,i)=>(
+              <div key={src} className="mekteb-mosaic-item reveal-up" style={{'--i':i%6}}>
+                <img src={src} alt="Mekteb IKC Din" loading="lazy"/>
+              </div>
+            ))}
+          </div>
+          <div className="mekteb-mosaic-count">
+            <span>11</span> {lang==='nl'?'momenten · IKC DIN Eindhoven':'trenutaka · IKC DIN Eindhoven'}
           </div>
         </div>
       </div>
@@ -1408,6 +2132,109 @@ function NewsletterFeed({ lang }) {
   );
 }
 
+// ── LIDMAATSCHAP (umbrella: intro + featured + usluge + benefits + form) ─
+function LidCollage({ group, className }) {
+  const photos = PHOTO_GROUPS[group] || [];
+  return (
+    <div className={className}>
+      {photos.map((p, i) => (
+        <div key={i} className="o2-collage-item" style={{ backgroundImage: `url(${p.src})` }}>
+          <div className="o2-collage-label">{p.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Lidmaatschap({ lang }) {
+  const goForm = e => { e.preventDefault(); document.getElementById('aanmelden')?.scrollIntoView({behavior:'smooth'}); };
+  return (
+    <>
+      {/* HERO — thematisch, naar levensdomein */}
+      <section className="o2-hero">
+        <div className="container">
+          <StarDivider/>
+          <div className="section-label" style={{justifyContent:'center'}}><LogoMark size="sm"/> {lang==='nl'?'Lidmaatschap':'Članstvo'}</div>
+          <h1 className="section-title" style={{fontSize:'clamp(2.4rem,4.8vw,3.6rem)'}}>
+            {lang==='nl'?'Alles wat IKC DIN biedt':'Sve što IKC DIN nudi'}</h1>
+          <div className="divider" style={{margin:'18px auto 0'}}/>
+          <p className="section-sub" style={{margin:'16px auto 0', textAlign:'center'}}>
+            {lang==='nl'
+              ? 'Geordend in vier levensdomeinen. Eén lidmaatschap geeft toegang tot alle vier.'
+              : 'Uređeno u četiri životna domena. Jedno članstvo daje pristup svim domenima.'}
+          </p>
+          <div className="o2-toc" style={{marginTop:28}}>
+            {DOMAINS.map(d=>(
+              <a key={d.key} href={`#dom-${d.key}`}>{d.icon} {trd(d.title,lang)}</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* LEVENSDOMEINEN */}
+      {DOMAINS.map((d, idx) => {
+        const flip = idx % 2 === 1;
+        const hasPhotos = !!d.photos;
+        return (
+          <section key={d.key} id={`dom-${d.key}`} className={`o2-domain${flip?' flip':''}`}>
+            <div className="container">
+              {hasPhotos ? (
+                <div className="o2-dom-grid">
+                  <div className="o2-dom-text reveal-up">
+                    <div className="o2-dom-icon">{d.icon}</div>
+                    <div className="section-label">{trd(d.tag,lang)}</div>
+                    <h2>{trd(d.title,lang)}</h2>
+                    <p className="o2-dom-blurb">{trd(d.blurb,lang)}</p>
+                    <ul className="o2-dom-list">
+                      {d.items.map((it,i)=>(<li key={i}>{trd(it,lang)}</li>))}
+                    </ul>
+                  </div>
+                  <LidCollage group={d.photos} className={`o2-collage ${d.photos} reveal-up`} />
+                </div>
+              ) : (
+                <div className="o2-dom-textfull reveal-up">
+                  <div className="o2-dom-icon">{d.icon}</div>
+                  <div className="section-label" style={{justifyContent:'center'}}>{trd(d.tag,lang)}</div>
+                  <h2>{trd(d.title,lang)}</h2>
+                  <p className="o2-dom-blurb">{trd(d.blurb,lang)}</p>
+                  <ul className="o2-dom-list">
+                    {d.items.map((it,i)=>(<li key={i}>{trd(it,lang)}</li>))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      })}
+
+      {/* MEMBER BENEFITS */}
+      <section className="benefits-section">
+        <div className="container">
+          <div className="benefits-intro">
+            <div className="section-label" style={{justifyContent:'center'}}>💎 {lang==='nl'?'Voor leden':'Za članove'}</div>
+            <h2 className="section-title">{lang==='nl'?'Wat krijg je als lid?':'Šta dobivate kao član?'}</h2>
+            <div className="divider" style={{margin:'18px auto 0'}}/>
+            <p className="section-sub" style={{maxWidth:540, margin:'14px auto 0'}}>
+              {lang==='nl'?'Eén lidmaatschap geeft toegang tot alle vier de domeinen — en maakt je onderdeel van het verhaal van IKC DIN.':'Jedno članstvo daje pristup svim domenima — i čini vas dijelom priče IKC DIN-a.'}
+            </p>
+          </div>
+          <div className="benefits-grid">
+            {BENEFITS.map((b,i)=>(
+              <div key={i} className="benefit-item">
+                <div className="benefit-check">✓</div>
+                <div className="benefit-text">{b[lang]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SIGNUP FORM (existing component) */}
+      <MemberForm lang={lang}/>
+    </>
+  );
+}
+
 // ── MEMBERSHIP FORM ────────────────────────────────────────────────
 function MemberForm({ lang }) {
   const t = T[lang];
@@ -1439,7 +2266,8 @@ function MemberForm({ lang }) {
                 📍 Hugo de Grootplein 47B<br/>
                 5652 LL Eindhoven<br/>
                 ✉️ info@icc-din.com<br/>
-                📞 +31 6 28454044
+                📞 <a href={`tel:${PHONE_TEL}`} style={{color:'inherit',textDecoration:'none'}}>{PHONE_DISPLAY}</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener" style={{display:'inline-flex',alignItems:'center',gap:5,marginLeft:10,color:'#25D366',textDecoration:'none',fontWeight:600,verticalAlign:'middle'}}><WhatsAppIcon size={14}/> WhatsApp</a>
               </div>
             </div>
           </div>
@@ -1469,7 +2297,7 @@ function MemberForm({ lang }) {
                 <div>
                   <label>{t.reg_type}</label>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:4}}>
-                    {[['ind',t.reg_ind,'€ 60'],['fam',t.reg_fam,'€ 120']].map(([v,label,price])=>(
+                    {[['ind',t.reg_ind,'€ 20'],['fam',t.reg_fam,'€ 35']].map(([v,label,price])=>(
                       <div key={v} className={`membership-option${form.type===v?' selected':''}`} onClick={()=>set('type',v)}>
                         <div style={{fontSize:13,fontWeight:600,color:'var(--text)',marginBottom:4}}>{label}</div>
                         <div className="membership-price">{price}</div>
@@ -1508,25 +2336,43 @@ function Contact({ lang }) {
         <div className="divider"/>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1.3fr',gap:48,marginTop:40,alignItems:'start'}}>
           <div>
-            {[
-              {icon:'📍',l:'Hugo de Grootplein 47B\n5652 LL Eindhoven'},
-              {icon:'📞',l:'+31 6 28454044'},
-              {icon:'✉️',l:'info@icc-din.com'},
-              {icon:'🕐',l:lang==='nl'?'Dagelijks · gebedstijden\nVrijdag Jumua: 13:30':'Svakodnevno · namaz\nPetak Džuma: 13:30'},
-            ].map((c,i)=>(
-              <div key={i} style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
-                <div className="contact-icon">{c.icon}</div>
-                <div style={{fontSize:14,color:'var(--text-soft)',lineHeight:1.7,whiteSpace:'pre-line',paddingTop:10}}>{c.l}</div>
+            <div style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
+              <div className="contact-icon">📍</div>
+              <div style={{fontSize:14,color:'var(--text-soft)',lineHeight:1.7,whiteSpace:'pre-line',paddingTop:10}}>Hugo de Grootplein 47B{'\n'}5652 LL Eindhoven</div>
+            </div>
+            <div style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
+              <div className="contact-icon">📞</div>
+              <div style={{fontSize:14,lineHeight:1.7,paddingTop:10}}>
+                <a href={`tel:${PHONE_TEL}`} style={{color:'var(--text-soft)',textDecoration:'none'}}>{PHONE_DISPLAY}</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener" style={{display:'inline-flex',alignItems:'center',gap:6,marginLeft:14,color:'#25D366',textDecoration:'none',fontWeight:600}}>
+                  <WhatsAppIcon size={16}/> WhatsApp
+                </a>
               </div>
-            ))}
+            </div>
+            <div style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
+              <div className="contact-icon">✉️</div>
+              <div style={{fontSize:14,color:'var(--text-soft)',lineHeight:1.7,paddingTop:10}}>info@icc-din.com</div>
+            </div>
+            <div style={{display:'flex',gap:16,marginBottom:24,alignItems:'flex-start'}}>
+              <div className="contact-icon">🕐</div>
+              <div style={{fontSize:14,color:'var(--text-soft)',lineHeight:1.7,whiteSpace:'pre-line',paddingTop:10}}>{lang==='nl'?'Dagelijks · gebedstijden\nVrijdag Jumua: 13:30':'Svakodnevno · namaz\nPetak Džuma: 13:30'}</div>
+            </div>
             <div style={{display:'flex',gap:10,flexWrap:'wrap',marginTop:8}}>
               <a href="https://maps.google.com/?q=Hugo+de+Grootplein+47B+Eindhoven" target="_blank" className="btn btn-gold">🗺️ {t.route}</a>
-              <a href="mailto:info@icc-din.com" className="btn btn-outline">✉️ {t.send}</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="btn btn-outline" style={{display:'inline-flex',alignItems:'center',gap:8}}><WhatsAppIcon size={16}/> WhatsApp</a>
             </div>
           </div>
-          <div className="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2485.9!2d5.4697!3d51.4416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6d9a7!2sHugo+de+Grootplein+47B%2C+Eindhoven!5e0!3m2!1snl!2snl!4v1"
-              width="100%" height="100%" style={{border:0,filter:'invert(0.88) hue-rotate(190deg) saturate(0.7) brightness(0.85)'}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
+          <div>
+            <div style={{borderRadius:'var(--radius)',overflow:'hidden',border:'1px solid var(--gold-border)',marginBottom:20,position:'relative'}}>
+              <img src="ikcdin-pand.jpg" alt={lang==='nl'?'Ons pand aan het Hugo de Grootplein':'Naš objekat na Hugo de Grootpleinu'} style={{display:'block',width:'100%',height:300,objectFit:'cover'}}/>
+              <div style={{position:'absolute',left:0,right:0,bottom:0,padding:'28px 20px 14px',background:'linear-gradient(transparent, rgba(7,16,11,0.85))',fontSize:13,color:'var(--text-soft)',display:'flex',alignItems:'center',gap:8}}>
+                <LogoMark size="sm"/> {lang==='nl'?'IKC DIN · Hugo de Grootplein 47B, Eindhoven':'IKC DIN · Hugo de Grootplein 47B, Eindhoven'}
+              </div>
+            </div>
+            <div className="map-frame">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2485.9!2d5.4697!3d51.4416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6d9a7!2sHugo+de+Grootplein+47B%2C+Eindhoven!5e0!3m2!1snl!2snl!4v1"
+                width="100%" height="100%" style={{border:0,filter:'invert(0.88) hue-rotate(190deg) saturate(0.7) brightness(0.85)'}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
+            </div>
           </div>
         </div>
       </div>
@@ -1782,7 +2628,8 @@ function Footer({ lang, onLogin, setPage }) {
             <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" className="footer-link">Mekteb App</a>
             <button className="footer-link" onClick={onLogin}>{t.member}</button>
             <a href="mailto:info@icc-din.com" className="footer-link">info@icc-din.com</a>
-            <a href="tel:+31628454044" className="footer-link">+31 6 28454044</a>
+            <a href={`tel:${PHONE_TEL}`} className="footer-link">{PHONE_DISPLAY}</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="footer-link" style={{display:'inline-flex',alignItems:'center',gap:6}}><WhatsAppIcon size={14} color="#25D366"/> WhatsApp</a>
           </div>
           <div>
             <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)',marginBottom:16}}>{lang==='nl'?'Adres':'Adresa'}</div>
@@ -1889,15 +2736,15 @@ function App() {
       {page==='home' && (
         <>
           <Hero lang={lang} setPage={setPage}/>
+          <PrayerTimes lang={lang}/>
           <NewsEvents lang={lang}/>
           <NewsletterFeed lang={lang}/>
-          <PrayerTimes lang={lang}/>
         </>
       )}
       {page==='verhaal' && <NasaPrica lang={lang}/>}
       {page==='mekteb' && <Mekteb lang={lang}/>}
       {page==='inzameling' && <Fundraising lang={lang} raisedOverride={raised}/>}
-      {page==='aanmelden' && <MemberForm lang={lang}/>}
+      {page==='aanmelden' && <Lidmaatschap lang={lang}/>}
       {page==='contact' && <Contact lang={lang}/>}
 
       <Footer lang={lang} onLogin={()=>setShowLogin(true)} setPage={setPage}/>
