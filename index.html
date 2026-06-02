@@ -12,10 +12,10 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <style>
 :root {
-  --bg: #0e1b14;
-  --surface: #16241c;
-  --card: #1c2c23;
-  --card2: #22332a;
+  --bg: #16261d;
+  --surface: #1f3328;
+  --card: #283c30;
+  --card2: #304538;
   --gold: #c9a84c;
   --gold-light: #e8d07a;
   --gold-dim: rgba(201,168,76,0.13);
@@ -45,6 +45,9 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.055)' stroke-width='0.7'%3E%3Cpolygon points='60,4 116,32 116,88 60,116 4,88 4,32'/%3E%3Cpolygon points='60,20 100,42 100,78 60,100 20,78 20,42'/%3E%3Cpolygon points='60,36 84,52 84,68 60,84 36,68 36,52'/%3E%3Cline x1='60' y1='4' x2='60' y2='36'/%3E%3Cline x1='116' y1='32' x2='84' y2='52'/%3E%3Cline x1='116' y1='88' x2='84' y2='68'/%3E%3Cline x1='60' y1='116' x2='60' y2='84'/%3E%3Cline x1='4' y1='88' x2='36' y2='68'/%3E%3Cline x1='4' y1='32' x2='36' y2='52'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 120px 120px;
   opacity: 1;
+  background-position: var(--pat-x, 0px) var(--pat-y, 0px);
+  transition: background-position 0.2s ease-out;
+  will-change: background-position;
 }
 #root { position: relative; z-index: 1; }
 
@@ -75,7 +78,7 @@ label { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; display: 
 .form-field { display: flex; flex-direction: column; gap: 6px; }
 
 /* Nav */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(14,27,20,0.88); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(201,168,76,0.14); }
+nav { position: fixed; top: 34px; left: 0; right: 0; z-index: 500; background: rgba(14,27,20,0.88); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(201,168,76,0.14); }
 .nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 32px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
 .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
 .nav-logo img { width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(5,122,65,0.25)); }
@@ -89,28 +92,18 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
 .lang-btn { padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-muted); font-family: var(--font-body); transition: all 0.2s; }
 .lang-btn.active { background: var(--gold); color: #080d09; }
 .mobile-nav { display: none; gap: 8px; align-items: center; }
-.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: none; cursor: pointer; padding: 4px; }
-.hamburger span { display: block; height: 2px; width: 22px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
-.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: rgba(10,20,14,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.18); z-index: 499; padding: 16px 24px 24px; flex-direction: column; gap: 4px; }
-.mobile-menu.open { display: flex; }
-.mobile-menu-link { font-size: 16px; color: var(--text-muted); text-decoration: none; padding: 12px 8px; border-radius: 8px; cursor: pointer; background: transparent; border: none; font-family: var(--font-body); text-align: left; transition: color 0.2s, background 0.2s; }
-.mobile-menu-link:hover, .mobile-menu-link.active { color: var(--gold); background: rgba(201,168,76,0.08); }
-.mobile-menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0; }
-.mobile-menu-bottom { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
 
 /* Mosque arch SVG */
 .arch-deco { position: absolute; right: 0; top: 0; bottom: 0; width: 520px; pointer-events: none; overflow: hidden; }
 
 /* Hero */
-.hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding-top: 70px; }
-.hero-bg { position: absolute; inset: 0; background-image: url("photo-interior-hires.jpg"); background-size: cover; background-position: center; filter: brightness(0.5) saturate(0.85) contrast(1.05); z-index: 0; }
+.hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding-top: 104px; }
+.hero-bg { position: absolute; inset: 0; background-image: url("photo-interior-hires.jpg"); background-size: cover; background-position: center; filter: brightness(0.72) saturate(0.92) contrast(1.03); z-index: 0; }
 .hero::before { content: ''; position: absolute; inset: 0; background:
-  linear-gradient(100deg, rgba(14,27,20,0.95) 0%, rgba(14,27,20,0.78) 45%, rgba(14,27,20,0.4) 100%);
+  linear-gradient(100deg, rgba(14,27,20,0.90) 0%, rgba(14,27,20,0.66) 38%, rgba(14,27,20,0.46) 62%, rgba(14,27,20,0.82) 100%);
   z-index: 1; pointer-events: none; }
 .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(5,122,65,0.22) 0%, transparent 65%), radial-gradient(ellipse at 80% 30%, rgba(201,168,76,0.1) 0%, transparent 55%); pointer-events: none; z-index: 1; }
+.hero .container { position: relative; z-index: 5; }
 .hero-content { position: relative; z-index: 2; padding: 100px 0 80px; }
 .bismillah { font-size: clamp(1.1rem, 2.5vw, 1.8rem); color: rgba(201,168,76,0.55); font-family: var(--font-display); font-style: italic; margin-bottom: 24px; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 100px; padding: 6px 18px; font-size: 13px; color: var(--gold); margin-bottom: 28px; font-weight: 500; }
@@ -135,6 +128,28 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
 .p-time { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--gold); margin-top: 8px; }
 .p-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.06em; font-weight: 600; text-transform: uppercase; }
 
+/* Hero vaktija panel (gebedstijden naast Welkom) */
+.hero-layout { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 52px; align-items: center; }
+.hero-vk { transform: translateX(60px); opacity: 1 !important; animation: none !important; }
+.hero-vk .vk-panel { opacity: 1 !important; background: #16271d !important; }
+.vk-panel { background: #16271d; border: 1px solid var(--gold-border); border-radius: 18px; padding: 22px 22px 18px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7); }
+.vk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.vk-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 7px; }
+.vk-date { font-size: 11px; color: var(--text-muted); font-style: italic; text-transform: capitalize; }
+.vk-row { display: flex; align-items: center; gap: 14px; padding: 11px 12px; border-radius: 10px; transition: all 0.2s; }
+.vk-row + .vk-row { border-top: 1px solid rgba(201,168,76,0.10); }
+.vk-row .p-svg { width: 32px; height: 32px; margin: 0; flex-shrink: 0; }
+.vk-names { flex: 1; min-width: 0; }
+.vk-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.vk-alt { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.vk-time { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+.vk-row.active { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-top-color: transparent; }
+.vk-row.active .vk-name, .vk-row.active .vk-alt, .vk-row.active .vk-time { color: #080d09; }
+.vk-row.active .p-svg { color: #080d09; filter: none; }
+.vk-now { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: rgba(8,13,9,0.6); text-transform: uppercase; }
+.vk-foot { margin-top: 12px; padding-top: 11px; border-top: 1px solid rgba(201,168,76,0.12); text-align: center; font-size: 10.5px; color: var(--text-muted); font-style: italic; }
+@media (max-width: 880px) { .hero-layout { grid-template-columns: 1fr; gap: 36px; } .hero-vk { transform: none; max-width: 440px; } }
+
 /* Fundraising */
 .progress-track { background: rgba(255,255,255,0.07); border-radius: 100px; height: 16px; overflow: hidden; margin: 18px 0 10px; }
 .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #a07a20, var(--gold), var(--gold-light), var(--gold)); background-size: 300% auto; animation: shimmergold 3s linear infinite; transition: width 1.8s cubic-bezier(0.16,1,0.3,1); }
@@ -150,14 +165,15 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
 .mekteb-header { max-width: 720px; margin-bottom: 56px; }
 .mekteb-intro-grid { display: grid; grid-template-columns: 1fr minmax(280px, 360px); gap: 56px; align-items: center; margin-bottom: 64px; }
 .mekteb-intro-facts { grid-template-columns: 1fr !important; margin-top: 0 !important; }
-.mekteb-showcase { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
-.mekteb-phone-wrap { position: relative; display: flex; justify-content: center; padding: 20px 0; }
+.mekteb-showcase { display: grid; grid-template-columns: minmax(420px, 470px) 1fr; gap: 56px; align-items: center; position: relative; z-index: 1; }
+.mekteb-phone-wrap { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px; padding: 20px 0; }
+.mekteb-phone-rel { position: relative; flex-shrink: 0; display: inline-block; }
 .phone-stack { position: relative; display: flex; align-items: center; justify-content: center; }
 .phone-front { position: relative; z-index: 2; }
 .phone-shot { width: 100%; height: 100%; object-fit: contain; display: block; }
 .phone-hotspot { cursor: pointer; transition: background .18s, box-shadow .18s; }
 .phone-hotspot:hover { background: rgba(201,168,76,0.16); box-shadow: inset 0 0 0 1.5px var(--gold); }
-.mekteb-tap-hint { text-align: center; margin-top: 22px; font-size: 13px; font-weight: 500; color: var(--gold-light); letter-spacing: 0.02em; }
+.mekteb-tap-hint { width: 100px; flex-shrink: 0; text-align: right; margin: 0; font-size: 13px; font-weight: 500; color: var(--gold-light); letter-spacing: 0.02em; line-height: 1.5; }
 .phone-frame { position: relative; width: 290px; height: 590px; background: linear-gradient(140deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 44px; padding: 12px; box-shadow:
   0 40px 80px -20px rgba(0,0,0,0.7),
   0 30px 50px -25px rgba(5,122,65,0.35),
@@ -328,6 +344,22 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba
 .nl-cover-glyph { position: absolute; bottom: 14px; left: 18px; font-family: var(--font-display); font-style: italic; font-size: 28px; color: rgba(255,255,255,0.92); letter-spacing: 0.02em; z-index: 2; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
 .nl-cover-edition { position: absolute; top: 12px; right: 14px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.18); padding: 4px 10px; border-radius: 100px; backdrop-filter: blur(6px); z-index: 2; }
 .nl-card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.nl-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; z-index: 1; }
+.nl-card-cover.has-img::before, .nl-card-cover.has-img::after { display: none; }
+.nl-card-cover.has-img { background: #0e1b14; }
+.nl-card-cover.has-img .nl-cover-edition { z-index: 3; }
+.nl-cover-cta { position: absolute; bottom: 12px; left: 16px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: #fff; background: rgba(5,122,65,0.85); border: 1px solid rgba(255,255,255,0.25); padding: 5px 11px; border-radius: 100px; backdrop-filter: blur(4px); }
+.nl-card-cover.has-img::after { content: none; }
+.nl-card-cover.has-img .nl-cover-grad { content: ''; position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, rgba(8,15,10,0.05) 40%, rgba(8,15,10,0.55) 100%); }
+
+/* Flyer lightbox */
+.flyer-lb { position: fixed; inset: 0; background: rgba(4,8,5,0.93); backdrop-filter: blur(12px); z-index: 1200; display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px; overflow-y: auto; animation: fadeIn .25s ease; }
+.flyer-lb-inner { width: 100%; max-width: 600px; margin: auto; }
+.flyer-lb img { width: 100%; height: auto; display: block; border-radius: 16px; border: 1px solid var(--gold-border); box-shadow: 0 40px 90px rgba(0,0,0,0.65); animation: modalIn .4s cubic-bezier(0.16,1,0.3,1); }
+.flyer-lb-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.flyer-lb-cap { font-size: 13px; color: var(--text-muted); font-style: italic; }
+.flyer-lb-close { width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: rgba(20,33,25,0.9); border: 1px solid var(--gold-border); color: var(--text); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+.flyer-lb-close:hover { background: var(--gold); color: #080d09; transform: rotate(90deg); }
 .nl-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
 .nl-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: 0.6; }
 .nl-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--text); line-height: 1.3; }
@@ -505,10 +537,12 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .mobile-nav { display: flex; }
-  .hamburger { display: flex; }
   .prayer-grid { grid-template-columns: repeat(3, 1fr); }
   .mekteb-card { grid-template-columns: 1fr; padding: 32px; }
   .mekteb-showcase { grid-template-columns: 1fr; gap: 60px; }
+  .mekteb-phone-wrap { flex-direction: column; }
+  .mekteb-phone-rel { order: 1; }
+  .mekteb-tap-hint { order: 2; width: auto; text-align: center; margin-top: 18px; }
   .mekteb-phone-wrap { order: 2; }
   .mekteb-features { order: 1; }
   .mekteb-float-badge.b1 { right: 0; }
@@ -600,11 +634,16 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 .o2-dom-list li { font-size: 14px; color: var(--text-soft); padding-left: 18px; position: relative; line-height: 1.5; list-style: none; }
 .o2-dom-list li::before { content:'◆'; position:absolute; left:0; top:6px; color: var(--gold); font-size: 8px; }
 .o2-collage { display: grid; gap: 10px; }
-.o2-collage.vjera   { grid-template-columns: 1.3fr 1fr; grid-template-rows: 158px 158px; }
+.o2-collage.vjera   { grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: 158px 158px; }
 .o2-collage.vjera .o2-collage-item:nth-child(1) { grid-row: span 2; }
 .o2-collage.mekteb  { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 150px 150px; }
 .o2-collage.mekteb .o2-collage-item:nth-child(1) { grid-column: span 2; }
 .o2-collage.kultura { grid-template-columns: 1fr 1fr; grid-template-rows: 155px 155px; }
+.o2-collage.prostor { grid-template-columns: 1fr 1fr; grid-template-rows: 155px 155px; }
+.o2-iconstrip { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 22px; }
+.o2-iconstrip-item { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 100px; background: var(--gold-dim); border: 1px solid var(--gold-border); }
+.o2-iconstrip-emoji { font-size: 15px; line-height: 1; }
+.o2-iconstrip-label { font-size: 11.5px; color: var(--gold-light); font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
 .o2-collage-item { border-radius: 14px; overflow: hidden; position: relative; background-size: cover; background-position: center; background-color: var(--card); border: 1px solid rgba(201,168,76,0.18); transition: transform .3s ease, box-shadow .3s ease; }
 .o2-collage-item:hover { transform: scale(1.015); box-shadow: 0 16px 36px rgba(0,0,0,0.4); }
 .o2-collage-item::after { content:''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(14,27,20,0) 38%, rgba(14,27,20,0.62) 100%); }
@@ -746,6 +785,92 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
   .story-modal-title { font-size: 1.55rem; }
   .story-modal-activities { grid-template-columns: 1fr; }
 }
+
+/* ════════ v10 ADDITIONS ════════ */
+
+/* Idea 2 — "Volgend gebed" slanke balk bovenaan */
+.next-prayer-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 34px; z-index: 499;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(90deg, rgba(10,18,13,0.96), rgba(18,32,24,0.96));
+  border-bottom: 1px solid var(--gold-border);
+  font-size: 12.5px; color: var(--text-soft); letter-spacing: 0.01em;
+  padding: 0 16px; backdrop-filter: blur(12px);
+  white-space: nowrap; overflow: hidden;
+}
+.next-prayer-bar > * { flex-shrink: 0; }
+.npb-moon { color: var(--gold-light); display: inline-flex; }
+.npb-name { color: var(--gold-light); font-weight: 600; font-family: var(--font-display); font-size: 14px; }
+.npb-label { color: var(--text-muted); }
+.npb-count {
+  font-family: var(--font-display); font-weight: 700; font-size: 14.5px; color: var(--gold);
+  font-variant-numeric: tabular-nums; min-width: 64px; text-align: left;
+}
+.npb-sep { width: 1px; height: 15px; background: rgba(201,168,76,0.25); }
+.npb-place { color: var(--text-muted); font-size: 11.5px; }
+@media (max-width: 640px) { .npb-place, .npb-sep { display: none; } }
+
+/* Anim 1 — Levende vaktija: ademende actieve rij + live afteller */
+@keyframes vkBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,208,122,0.0); }
+  50% { box-shadow: 0 0 22px 1px rgba(232,208,122,0.42); }
+}
+.vk-row.active { animation: vkBreathe 3.2s ease-in-out infinite; }
+.vk-countdown {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em;
+  color: rgba(8,13,9,0.72); margin-top: 2px; font-variant-numeric: tabular-nums;
+}
+
+/* Anim 2 — Bismillah onthulling (mask-wipe, behoudt ligaturen) */
+.bismillah.reveal-write {
+  -webkit-mask-image: linear-gradient(90deg, #000 0 0);
+  mask-image: linear-gradient(90deg, #000 0 0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bismillah.reveal-write {
+    -webkit-mask-image: linear-gradient(-90deg, #000 35%, transparent 62%);
+    mask-image: linear-gradient(-90deg, #000 35%, transparent 62%);
+    -webkit-mask-size: 280% 100%; mask-size: 280% 100%;
+    -webkit-mask-position: 100% 0; mask-position: 100% 0;
+    animation: bismWrite 2.1s cubic-bezier(0.5,0,0.2,1) 0.35s forwards;
+    opacity: 0.999;
+  }
+}
+@keyframes bismWrite {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to   { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
+}
+
+/* Anim 5 — story route draws itself (handled with JS draw, settle to dashed) */
+.story-map.drawing .story-route-line { stroke-dasharray: var(--rl) ; }
+
+/* Anim 7 — zachte paginaovergang */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-fade { animation: pageIn 0.5s cubic-bezier(0.16,1,0.3,1); }
+}
+
+/* Idea 10 — warme welkomstmail-bevestiging */
+.welcome-overlay {
+  position: fixed; inset: 0; z-index: 1300; display: flex; align-items: center; justify-content: center;
+  background: rgba(8,14,10,0.78); backdrop-filter: blur(10px); padding: 24px;
+  animation: pageIn 0.4s ease both;
+}
+.welcome-card {
+  position: relative; max-width: 460px; width: 100%; text-align: center;
+  background: linear-gradient(160deg, var(--surface), var(--card));
+  border: 1px solid var(--gold-border); border-radius: 22px; padding: 48px 38px 40px;
+  box-shadow: 0 40px 90px -30px rgba(0,0,0,0.85);
+}
+.welcome-card .wc-moon { color: var(--gold-light); margin: 0 auto 18px; display: block; animation: vkBreathe 3s ease-in-out infinite; border-radius: 50%; }
+.welcome-card h3 { font-family: var(--font-display); font-style: italic; font-size: 2.1rem; color: var(--gold-light); margin-bottom: 6px; }
+.welcome-card .wc-ar { font-family: var(--font-display); color: var(--gold); opacity: 0.55; font-size: 1.1rem; margin-bottom: 18px; }
+.welcome-card p { font-size: 15px; color: var(--text-soft); line-height: 1.7; }
+.welcome-card .wc-mail { color: var(--gold); font-weight: 600; word-break: break-all; }
+.welcome-card .wc-close { margin-top: 28px; }
 </style>
 </head>
 <body>
@@ -1159,6 +1284,7 @@ const NEWS = [
   {tag_nl:'Aankondiging',tag_bs:'Obavijest',title_nl:'Vrijdaggebed: nieuwe tijden per mei',title_bs:'Džuma: novo vrijeme od maja',body_nl:'Vanaf mei starten de vrijdaggebeden om 13:30. Wij verzoeken iedereen op tijd aanwezig te zijn.',body_bs:'Od maja džuma počinje u 13:30. Molimo sve da budu na vrijeme.',date:'14 april 2026'},
   {tag_nl:'Mekteb',tag_bs:'Mekteb',title_nl:'Inschrijvingen schooljaar 2026-27 open',title_bs:'Upisi u mekteb 2026-27 otvoreni',body_nl:'Schrijf uw kinderen in voor het nieuwe mekteb-jaar. Beperkte plaatsen beschikbaar.',body_bs:'Upišite svoju djecu za novu mektebsku godinu. Ograničen broj mjesta.',date:'8 april 2026'},
   {tag_nl:'Gemeenschap',tag_bs:'Zajednica',title_nl:'Iftar-avond: meer dan 200 aanwezigen',title_bs:'Iftar večer: više od 200 prisutnih',body_nl:'Een prachtige bijeenkomst met leden, families en gasten uit heel Eindhoven. Barakallah.',body_bs:'Prekrasan susret sa članovima, porodicama i gostima iz cijelog Eindhovena.',date:'2 april 2026'},
+  {tag_nl:'Bajram',tag_bs:'Bajram',title_nl:'Bajram-pakketjes voor de kinderen in Meerhoven',title_bs:'Bajramski paketići za djecu u Meerhovenu',body_nl:'We deelden bajram-pakketjes uit aan de kinderen in Noodopvang Meerhoven — een klein gebaar, maar de glimlachen zeiden alles. Bekijk de flyer.',body_bs:'Podijelili smo bajramske paketiće djeci u Noodopvang Meerhoven — mala gesta, ali osmijesi su rekli sve. Pogledaj letak.',date:'22 april 2026',img:'news-kids.jpg',flyer:'newsletter-bajram-flyer.jpg'},
 ];
 
 // Simulated Mailchimp campaign archive feed.
@@ -1256,7 +1382,13 @@ const PHOTO_GROUPS = {
     { src: 'photo-kafa.jpg',                 label: 'Bosanska kafa' },
     { src: 'zajednica-kultura.jpg',          label: 'Zajednica i kultura' },
     { src: 'photo-kaligrafija-2.jpg',        label: 'Kaligrafija' },
-    { src: 'photo-dani-tradicije-event.jpg', label: 'Dani tradicije' },
+    { src: 'photo-bosnjastvo.jpg', label: 'Dani tradicije' },
+  ],
+  prostor: [
+    { src: 'mekteb-02.jpg',       label: 'Učionice & sastanci' },
+    { src: 'mekteb-10.jpg',       label: 'Studijski prostor' },
+    { src: 'photo-divanhana.jpg', label: 'Divanhana — događaji' },
+    { src: 'photo-kafa.jpg',      label: 'Kafa & osvježenje' },
   ],
 };
 const DOMAINS = [
@@ -1289,6 +1421,7 @@ const DOMAINS = [
       { nl: 'Mekteb (5–15 jaar) — met eigen app',      bs: 'Mekteb (5–15 god.) — s aplikacijom' },
       { nl: 'Bosanski jezik voor kinderen',            bs: 'Bosanski jezik za djecu' },
       { nl: 'Creatieve workshops & priredbe',          bs: 'Kreativne radionice i priredbe' },
+      { nl: 'Ouderworkshops — opvoeding & mentale gezondheid', bs: 'Radionice za roditelje — odgoj i mentalno zdravlje' },
       { nl: 'Zomerkamp (ljetni kamp)',                 bs: 'Ljetni kamp' },
       { nl: 'Huiswerkbegeleiding',                     bs: 'Pomoć oko domaće zadaće' },
       { nl: 'Certificaten aan het einde van het jaar', bs: 'Dodjela certifikata na kraju godine' },
@@ -1303,18 +1436,35 @@ const DOMAINS = [
       bs: 'Čuvanje bosanskog identiteta — kafa, sevdah, umjetnost i zajedničko druženje u Divanhani.'
     },
     items: [
-      { nl: 'Divanhana voor familie-events (tot 50)',  bs: 'Divanhana za porodične događaje (do 50)' },
       { nl: 'Bosanske kulturne & sevdah večeri',       bs: 'Bosanske kulturne i sevdah večeri' },
       { nl: 'Izložbe, kaligrafie & Dani tradicije',    bs: 'Izložbe, kaligrafija i Dani tradicije' },
-      { nl: 'Kafa, druženje & sestrinski susreti',     bs: 'Kafa, druženje i sestrinski susreti' },
-      { nl: 'Sport voor jeugd (mali fudbal, košarka)', bs: 'Sport za mlade (mali fudbal, košarka)' },
-      { nl: 'Groepsreizen naar BiH & ziyarat',         bs: 'Grupna putovanja u BiH i zijareti' },
+      { nl: 'Kafa, druženje, bratski & sestrinski susreti', bs: 'Kafa, druženje, bratski i sestrinski susreti' },
+    ],
+  },
+  {
+    key: 'prostor', icon: '💻', photos: 'prostor',
+    tag:   { nl: 'Werk · studie · events',              bs: 'Rad · studij · događaji' },
+    title: { nl: 'Werk-, studie- & evenementenruimte',  bs: 'Radni, studijski i prostor za događaje' },
+    blurb: {
+      nl: 'Werk overdag of \u2019s avonds in een rustige, schone en gastvrije omgeving — en reserveer onze Divanhana voor familie- en gemeenschapsmomenten. Het gebed is altijd binnen handbereik.',
+      bs: 'Radite preko dana ili navečer u mirnoj, čistoj i gostoljubivoj sredini — i rezervišite Divanhanu za porodične i zajedničke trenutke. Namaz je uvijek nadohvat ruke.'
+    },
+    items: [
+      { nl: 'ZZP-werkruimte overdag en \u2019s avonds',         bs: 'Radni prostor za freelancere danju i navečer' },
+      { nl: 'Twee kleine klaslokalen als vergaderruimte',       bs: 'Dvije manje učionice kao sale za sastanke' },
+      { nl: 'Stille studieruimte voor scholieren & studenten',  bs: 'Tihi prostor za učenje za đake i studente' },
+      { nl: 'Snelle wifi + koffie & versnaperingen',            bs: 'Brz wifi + kafa i osvježenje' },
+      { nl: 'Gebedsruimte op locatie',                          bs: 'Mjesto za namaz u zgradi' },
+      { nl: 'Divanhana — evenementenruimte (tot 50 personen)',  bs: 'Divanhana — prostor za događaje (do 50 osoba)' },
+      { nl: 'Bruiloften, verlovingen, sunet & akika',           bs: 'Svadbe, zaruke, sunetluci i akika' },
+      { nl: 'Familie-iftars, bajram-recepties & tevhidi',       bs: 'Porodični iftari, bajramske posjete i tevhidi' },
+      { nl: 'Volledig uitgerust: keuken, geluid & grote TV',    bs: 'Potpuno opremljeno: kuhinja, ozvučenje i veliki TV' },
     ],
   },
   {
     key: 'podrska', icon: '🤲', photos: null,
     tag:   { nl: 'Praktische hulp',     bs: 'Praktična pomoć' },
-    title: { nl: 'Podrška & praktično', bs: 'Podrška i praktično' },
+    title: { nl: 'Ondersteuning & praktisch', bs: 'Podrška i praktično' },
     blurb: {
       nl: 'De gemeenschap als vangnet — administratief, juridisch, spiritueel en in moeilijke tijden.',
       bs: 'Zajednica kao oslonac — administrativno, pravno, duhovno i u teškim vremenima.'
@@ -1323,8 +1473,7 @@ const DOMAINS = [
       { nl: 'Vertaalhulp NL ↔ BS (formulieren, gemeente)', bs: 'Pomoć pri prevodu NL ↔ BS (formulari, općina)' },
       { nl: 'Hadž & umrah voorbereiding',                  bs: 'Priprema za hadž i umru' },
       { nl: 'Zekat & sadaka bemiddeling',                  bs: 'Posredovanje za zekat i sadaku' },
-      { nl: 'Werk- & studieruimte overdag en \u2019s avonds', bs: 'Radni i studijski prostor danju i navečer' },
-      { nl: 'Maandelijks juridisch spreekuur',             bs: 'Mjesečni pravni savjeti' },
+      { nl: 'Maandelijks juridisch én psychologisch spreekuur', bs: 'Mjesečno pravno i psihološko savjetovalište' },
       { nl: 'Maaltijdring bij ziekte, geboorte of verlies', bs: 'Krug obroka pri bolesti, rođenju ili smrti' },
     ],
   },
@@ -1459,13 +1608,12 @@ function PrayerIcon({ idx, className = 'p-svg' }) {
           <path d="M8 28 L24 28" stroke={C} strokeWidth="0.9" strokeLinecap="round" opacity="0.25"/>
         </svg>
       );
-    case 5: // Jacija / Isha — crescent moon with three stars
+    case 5: // Jacija / Isha — solid crescent moon + stars
       return (
         <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22 7 A9 9 0 1 0 22 25 A7 7 0 1 1 22 7 Z" fill={C}/>
-          <path d="M9 6 L9.6 7.6 L11.2 7.6 L9.9 8.6 L10.4 10.2 L9 9.25 L7.6 10.2 L8.1 8.6 L6.8 7.6 L8.4 7.6 Z" fill={C} opacity="0.9"/>
-          <circle cx="6" cy="15" r="0.7" fill={C}/>
-          <circle cx="11" cy="22" r="0.8" fill={C}/>
+          <path d="M15 4 A12 12 0 1 0 15 28 A9.5 9.5 0 1 1 15 4 Z" fill={C}/>
+          <circle cx="24" cy="9" r="1.2" fill={C}/>
+          <circle cx="27.5" cy="14.5" r="0.85" fill={C}/>
         </svg>
       );
     default:
@@ -1488,10 +1636,8 @@ function QRBox() {
 // ── NAV ────────────────────────────────────────────────────────────
 function Nav({ lang, setLang, onLogin, loggedIn, user, onLogout, page, setPage }) {
   const t = T[lang];
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const go = id => { setPage(id); setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const go = id => { setPage(id); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   return (
-    <>
     <nav>
       <div className="nav-inner">
         <div className="nav-logo" onClick={()=>go('home')}>
@@ -1521,26 +1667,10 @@ function Nav({ lang, setLang, onLogin, loggedIn, user, onLogout, page, setPage }
             <button className={`lang-btn${lang==='nl'?' active':''}`} onClick={()=>setLang('nl')}>NL</button>
             <button className={`lang-btn${lang==='bs'?' active':''}`} onClick={()=>setLang('bs')}>BS</button>
           </div>
-          <button className={`hamburger${menuOpen?' open':''}`} onClick={()=>setMenuOpen(o=>!o)} aria-label="Menu">
-            <span/><span/><span/>
-          </button>
+          {!loggedIn && <button className="btn btn-gold" style={{padding:'7px 14px',fontSize:12}} onClick={onLogin}>{t.login}</button>}
         </div>
       </div>
     </nav>
-    <div className={`mobile-menu${menuOpen?' open':''}`}>
-      {t.nav.map((n,i)=>(
-        <button key={i} className={`mobile-menu-link${page===t.sections[i]?' active':''}`} onClick={()=>go(t.sections[i])}>{n}</button>
-      ))}
-      <div className="mobile-menu-divider"/>
-      <div className="mobile-menu-bottom">
-        {loggedIn
-          ? <><span style={{fontSize:13,color:'var(--gold)',fontWeight:500}}>👤 {user.name.split(' ')[0]}</span>
-              <button className="btn btn-ghost" style={{padding:'6px 14px',fontSize:13}} onClick={()=>{onLogout();setMenuOpen(false);}}>{t.logout}</button></>
-          : <button className="btn btn-gold" style={{padding:'8px 20px',fontSize:13}} onClick={()=>{onLogin();setMenuOpen(false);}}>{t.login}</button>
-        }
-      </div>
-    </div>
-    </>
   );
 }
 
@@ -1573,18 +1703,24 @@ function Hero({ lang, setPage }) {
     };
   }, []);
 
+  const [now, setNow] = useState(new Date());
+  useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
+  const today = now;
+  const ptimes = calcPrayerTimes(today);
+  const nowMin = today.getHours()*60+today.getMinutes();
+  const pmins = ptimes.map(s=>parseInt(s)*60+parseInt(s.split(':')[1]));
+  const pactive = pmins.reduce((a,m,i)=>m<=nowMin?i:a,0);
+  const nextP = getNextPrayer(ptimes, today);
+  const heroDate = today.toLocaleDateString(lang==='nl'?'nl-NL':'hr',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
   return (
     <section className="hero" id="hero">
       <div className="hero-bg" ref={bgRef}></div>
       <div className="cursor-spotlight" ref={spotRef}></div>
-      <div className="hero-orb" aria-hidden="true">
-        <div className="hero-orb-ring"></div>
-        <div className="hero-orb-ring r2"></div>
-        <div className="hero-orb-ring r3"></div>
-      </div>
       <div className="container">
+        <div className="hero-layout">
         <div className="hero-content fade-up">
-          <div className="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+          <div className="bismillah reveal-write">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
           <div className="hero-salam"><LogoMark size="md"/>{t.salam}</div>
           <h1 className="hero-title">
             {t.htitle}<br/>
@@ -1595,17 +1731,43 @@ function Hero({ lang, setPage }) {
             <button className="btn btn-gold" onClick={()=>{ setPage('aanmelden'); window.scrollTo({top:0,behavior:'smooth'}); }}>
               ✍️ {lang==='nl'?'Word lid':'Postanite član'}
             </button>
-            <button className="btn btn-outline" onClick={()=>document.getElementById('vaktija')?.scrollIntoView({behavior:'smooth'})}>
-              <LogoMark size="sm"/> {lang==='nl'?'Bekijk gebedstijden':'Vaktija'}
+            <button className="btn btn-outline" onClick={()=>{ setPage('verhaal'); window.scrollTo({top:0,behavior:'smooth'}); }}>
+              <LogoMark size="sm"/> {lang==='nl'?'Ons verhaal':'Naša priča'}
             </button>
           </div>
           <div className="hero-stats">
-            {[['~300',t.stat1],['17',t.stat2],['7',t.stat3]].map(([n,l],i)=>(
+            {[['~',300,t.stat1],['',17,t.stat2],['',7,t.stat3]].map(([pre,n,l],i)=>(
               <div key={i}>
-                <div className="hero-stat-num">{n}</div>
+                <div className="hero-stat-num"><CountUp value={n} prefix={pre}/></div>
                 <div className="hero-stat-label">{l}</div>
               </div>
             ))}
+          </div>
+        </div>
+          <div className="hero-vk">
+            <div className="vk-panel">
+              <div className="vk-head">
+                <div className="vk-label"><LogoMark size="sm"/> {t.prayer_label}</div>
+                <div className="vk-date">{heroDate}</div>
+              </div>
+              {t.pnames.map(([name,alt],i)=>(
+                <div key={i} className={`vk-row${i===pactive?' active':''}`}>
+                  <PrayerIcon idx={i}/>
+                  <div className="vk-names">
+                    <div className="vk-name">{name}</div>
+                    <div className="vk-alt">{alt}</div>
+                  </div>
+                  {i===pactive && <span className="vk-now">{lang==='nl'?'nu':'sada'}</span>}
+                  <div className="vk-time">{ptimes[i]||'--:--'}</div>
+                </div>
+              ))}
+              <div className="vk-foot" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10,flexWrap:'wrap'}}>
+                <span>Eindhoven · 51.44°N · Hanafi / MWL</span>
+                <span style={{color:'var(--gold-light)',fontWeight:600}}>
+                  {lang==='nl'?'nog ':'još '}<span style={{fontFamily:'var(--font-display)',fontVariantNumeric:'tabular-nums'}}>{fmtCountdown(nextP.remain)}</span>{' → '}{(t.pnames[nextP.idx]||['',''])[0]}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1669,6 +1831,33 @@ function NasaPrica({ lang }) {
     return ()=>{ document.body.style.overflow = ''; };
   },[activeIdx]);
   const active = activeIdx!==null ? STORIES_DETAIL[activeIdx] : null;
+  // Anim 5 — route tekent zich uit zodra de kaart in beeld komt
+  const mapRef = useRef(null);
+  useEffect(()=>{
+    const root = mapRef.current; if(!root) return;
+    const line = root.querySelector('.story-route-line');
+    const glow = root.querySelector('.story-route-glow');
+    const cities = [...root.querySelectorAll('.story-city, .story-city-ring, .story-city-major')];
+    if(!line) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const L = line.getTotalLength();
+    const settle = () => { line.style.transition='none'; line.style.strokeDasharray='1.6 1.4'; line.style.strokeDashoffset='0'; if(glow){glow.style.strokeDasharray='none';glow.style.strokeDashoffset='0';} };
+    if(reduce){ settle(); cities.forEach(c=>c.style.opacity=1); return; }
+    const draw = () => {
+      [line, glow].forEach(p=>{ if(!p) return; p.style.transition='none'; p.style.strokeDasharray=L+' '+L; p.style.strokeDashoffset=L; });
+      cities.forEach(c=>{ c.style.opacity=0; c.style.transition='opacity 0.4s ease'; });
+      // force reflow
+      void line.getBoundingClientRect();
+      requestAnimationFrame(()=>{
+        [line, glow].forEach(p=>{ if(!p) return; p.style.transition='stroke-dashoffset 2.1s cubic-bezier(0.55,0,0.25,1)'; p.style.strokeDashoffset='0'; });
+        cities.forEach((c,i)=>{ setTimeout(()=>{ c.style.opacity=1; }, 300 + i*150); });
+      });
+      setTimeout(settle, 2200);
+    };
+    const io = new IntersectionObserver(([en])=>{ if(en.isIntersecting){ draw(); io.disconnect(); } },{threshold:0.3});
+    io.observe(root);
+    return ()=>io.disconnect();
+  },[]);
 
   return (
     <section className="story-section" id="verhaal">
@@ -1683,7 +1872,7 @@ function NasaPrica({ lang }) {
           <div className="divider"/>
         </div>
         <div className="story-hero-map-col">
-          <div className="story-map" aria-hidden="true">
+          <div className="story-map" aria-hidden="true" ref={mapRef}>
             <svg viewBox="0 0 160 126" preserveAspectRatio="xMidYMid meet" dangerouslySetInnerHTML={{__html: window.EUROPE_STORY_SVG || ''}}/>
           </div>
         </div>
@@ -1902,7 +2091,7 @@ function Mekteb({ lang }) {
     <section className="section mekteb-section" id="mekteb">
       <div className="container">
         <StarDivider/>
-        <div className="mekteb-intro-grid">
+        <div className="mekteb-intro-grid" style={{marginBottom:30}}>
           <div className="mekteb-header" style={{marginBottom:0}}>
             <div className="section-label">📚 {t.mekteb_label} <span className="mekteb-new-pill">✨ {t.mekteb_new}</span></div>
             <h2 className="section-title" style={{marginBottom:14}}>{t.mekteb_title}</h2>
@@ -1933,36 +2122,8 @@ function Mekteb({ lang }) {
             </div>
           </div>
         </div>
-        <div className="mekteb-showcase">
-          <div className="mekteb-phone-wrap reveal-left">
-            <PhoneMock lang={lang}/>
-            <div className="mekteb-float-badge b1">{t.mekteb_badge1}</div>
-            <div className="mekteb-float-badge b2">{t.mekteb_badge2}</div>
-            <div className="mekteb-tap-hint">👆 {lang==='nl'?'Tik op Leerling of Ouder om te openen':'Klikni na Učenik ili Roditelj za otvaranje'}</div>
-          </div>
-          <div className="mekteb-features stagger">
-            {t.mekteb_features.map((f,i)=>(
-              <div key={i} className="mekteb-feature-row reveal-right" style={{'--i':i}}>
-                <div className="mekteb-feature-icon">{f.icon}</div>
-                <div>
-                  <div className="mekteb-feature-t">{f.t}</div>
-                  <div className="mekteb-feature-d">{f.d}</div>
-                </div>
-              </div>
-            ))}
-            <div className="mekteb-cta-row">
-              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-gold" style={{padding:'13px 28px',fontSize:15}}>
-                🌙 {t.mekteb_cta} ↗
-              </a>
-              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-outline" style={{padding:'13px 28px',fontSize:15}}>
-                👪 {t.mekteb_cta_parents}
-              </a>
-            </div>
-          </div>
-        </div>
-
         {/* Over de mekteb — kern van icc-din.nl/mektab */}
-        <div className="mekteb-about reveal-up">
+        <div className="mekteb-about reveal-up" style={{marginTop:0,marginBottom:72}}>
           <div className="mekteb-about-quote">
             <div className="mekteb-about-quote-mark">❝</div>
             <p className="mekteb-about-ayah">
@@ -1986,6 +2147,36 @@ function Mekteb({ lang }) {
                 ? '„Een ouder kan zijn kind niets beters schenken dan een mooie opvoeding.” — Poslanik a.s. (Tirmizi)'
                 : '„Ne može roditelj pokloniti svome djetetu ništa bolje od lijepog odgoja.” — Poslanik a.s. (Tirmizi)'}
             </p>
+          </div>
+        </div>
+
+        <div className="mekteb-showcase">
+          <div className="mekteb-phone-wrap reveal-left">
+            <div className="mekteb-tap-hint">👆 {lang==='nl'?'Tik op Leerling of Ouder om te openen':'Klikni na Učenik ili Roditelj za otvaranje'}</div>
+            <div className="mekteb-phone-rel">
+              <PhoneMock lang={lang}/>
+              <div className="mekteb-float-badge b1">{t.mekteb_badge1}</div>
+              <div className="mekteb-float-badge b2">{t.mekteb_badge2}</div>
+            </div>
+          </div>
+          <div className="mekteb-features stagger">
+            {t.mekteb_features.map((f,i)=>(
+              <div key={i} className="mekteb-feature-row reveal-right" style={{'--i':i}}>
+                <div className="mekteb-feature-icon">{f.icon}</div>
+                <div>
+                  <div className="mekteb-feature-t">{f.t}</div>
+                  <div className="mekteb-feature-d">{f.d}</div>
+                </div>
+              </div>
+            ))}
+            <div className="mekteb-cta-row">
+              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-gold" style={{padding:'13px 28px',fontSize:15}}>
+                🌙 {t.mekteb_cta} ↗
+              </a>
+              <a href="https://mekteb-app-ikc-din.vercel.app" target="_blank" rel="noopener" className="btn btn-outline" style={{padding:'13px 28px',fontSize:15}}>
+                👪 {t.mekteb_cta_parents}
+              </a>
+            </div>
           </div>
         </div>
 
@@ -2021,8 +2212,15 @@ function Mekteb({ lang }) {
 // ── NEWS + EVENTS ──────────────────────────────────────────────────
 function NewsEvents({ lang }) {
   const t = T[lang];
+  const [newsFlyer, setNewsFlyer] = React.useState(null);
+  React.useEffect(() => {
+    if (!newsFlyer) return;
+    const onKey = e => { if (e.key === 'Escape') setNewsFlyer(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [newsFlyer]);
   return (
-    <section className="section" id="nieuws">
+    <section className="section" id="nieuws" style={{paddingBottom:44}}>
       <div className="container">
         <StarDivider/>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:64,alignItems:'start'}}>
@@ -2032,13 +2230,19 @@ function NewsEvents({ lang }) {
             <div className="divider"/>
             <div style={{display:'flex',flexDirection:'column',gap:14,marginTop:8}} className="stagger">
               {NEWS.map((n,i)=>(
-                <div key={i} className="news-card reveal-left" style={{'--i':i}} onMouseOver={e=>e.currentTarget.style.borderColor='var(--gold)'} onMouseOut={e=>e.currentTarget.style.borderColor='var(--gold-border)'}>
+                <div key={i} className="news-card reveal-left" style={{'--i':i,cursor:n.flyer?'pointer':'default'}} onClick={n.flyer?()=>setNewsFlyer(n):undefined} onMouseOver={e=>e.currentTarget.style.borderColor='var(--gold)'} onMouseOut={e=>e.currentTarget.style.borderColor='var(--gold-border)'}>
                   <div className="news-stripe"/>
-                  <div style={{padding:'18px 22px'}}>
-                    <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:6}}>{lang==='nl'?n.tag_nl:n.tag_bs}</div>
-                    <div style={{fontFamily:'var(--font-display)',fontSize:'1.1rem',fontWeight:600,color:'var(--text)',marginBottom:6,lineHeight:1.3}}>{lang==='nl'?n.title_nl:n.title_bs}</div>
-                    <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.6}}>{lang==='nl'?n.body_nl:n.body_bs}</div>
-                    <div style={{fontSize:12,color:'var(--text-muted)',marginTop:10,opacity:0.7}}>{n.date}</div>
+                  <div style={{padding:'18px 22px',display:'flex',gap:16,alignItems:'center'}}>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:11,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:6}}>{lang==='nl'?n.tag_nl:n.tag_bs}</div>
+                      <div style={{fontFamily:'var(--font-display)',fontSize:'1.1rem',fontWeight:600,color:'var(--text)',marginBottom:6,lineHeight:1.3}}>{lang==='nl'?n.title_nl:n.title_bs}</div>
+                      <div style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.6}}>{lang==='nl'?n.body_nl:n.body_bs}</div>
+                      <div style={{fontSize:12,color:'var(--text-muted)',marginTop:10,opacity:0.7}}>
+                        {n.date}
+                        {n.flyer && <span style={{color:'var(--gold)',opacity:1,fontWeight:600,marginLeft:8}}>· {lang==='nl'?'Bekijk flyer →':'Pogledaj letak →'}</span>}
+                      </div>
+                    </div>
+                    {n.img && <img src={n.img} alt={lang==='nl'?n.title_nl:n.title_bs} style={{width:96,height:96,objectFit:'cover',objectPosition:'center',borderRadius:12,flexShrink:0,border:'1px solid var(--gold-border)'}}/>}
                   </div>
                 </div>
               ))}
@@ -2068,13 +2272,36 @@ function NewsEvents({ lang }) {
           </div>
         </div>
       </div>
+      {newsFlyer && (
+        <div className="flyer-lb" onClick={()=>setNewsFlyer(null)}>
+          <button className="flyer-lb-close" onClick={()=>setNewsFlyer(null)} aria-label="Sluiten" style={{position:'fixed',top:20,right:24,zIndex:1201}}>✕</button>
+          <div className="flyer-lb-inner" onClick={e=>e.stopPropagation()}>
+            <div className="flyer-lb-bar">
+              <div className="flyer-lb-cap">{lang==='nl'?newsFlyer.title_nl:newsFlyer.title_bs}</div>
+            </div>
+            <img src={newsFlyer.flyer} alt={lang==='nl'?newsFlyer.title_nl:newsFlyer.title_bs}/>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
-// ── NEWSLETTER FEED (Mailchimp) ────────────────────────────────────
 function NewsletterFeed({ lang }) {
   const t = T[lang];
+  const [flyer, setFlyer] = React.useState(null);
+  const [welcomed, setWelcomed] = React.useState(null);
+  React.useEffect(() => {
+    if (!welcomed) return;
+    const onKey = e => { if (e.key === 'Escape') setWelcomed(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [welcomed]);
+  React.useEffect(() => {
+    if (!flyer) return;
+    const onKey = e => { if (e.key === 'Escape') setFlyer(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [flyer]);
   const fmtDate = iso => {
     const d = new Date(iso);
     const locale = lang === 'nl' ? 'nl-NL' : 'hr';
@@ -2086,7 +2313,7 @@ function NewsletterFeed({ lang }) {
     return Math.round(days / 7) + ' ' + t.nl_weeks_ago;
   };
   return (
-    <section className="section nl-section" id="nieuwsbrieven">
+    <section className="section nl-section" id="nieuwsbrieven" style={{paddingTop:44}}>
       <div className="container">
         <StarDivider/>
         <div className="nl-head">
@@ -2108,13 +2335,18 @@ function NewsletterFeed({ lang }) {
               key={n.id}
               className="nl-card reveal"
               href={n.url}
-              target="_blank"
+              target={n.flyer ? undefined : '_blank'}
               rel="noopener noreferrer"
-              style={{ '--i': i }}
+              onClick={n.flyer ? (e => { e.preventDefault(); setFlyer(n); }) : undefined}
+              style={{ '--i': i, cursor: 'pointer' }}
             >
-              <div className="nl-card-cover">
+              <div className={`nl-card-cover${n.cover_img ? ' has-img' : ''}`}>
+                {n.cover_img && <img className="nl-cover-img" src={n.cover_img} alt={lang==='nl'?n.subject_nl:n.subject_bs}/>}
+                {n.cover_img && <div className="nl-cover-grad"></div>}
                 <span className="nl-cover-edition">{n.edition}</span>
-                <span className="nl-cover-glyph">{n.cover_glyph}</span>
+                {n.cover_img
+                  ? <span className="nl-cover-cta">📄 {lang==='nl'?'Bekijk de flyer':'Pogledaj letak'}</span>
+                  : <span className="nl-cover-glyph">{n.cover_glyph}</span>}
               </div>
               <div className="nl-card-body">
                 <div className="nl-meta">
@@ -2131,7 +2363,7 @@ function NewsletterFeed({ lang }) {
                     <span key={j} className="nl-tag">{tag}</span>
                   ))}
                 </div>
-                <span className="nl-open">{t.nl_open} →</span>
+                <span className="nl-open">{n.flyer ? (lang==='nl'?'Bekijk flyer':'Pogledaj letak') : t.nl_open} →</span>
               </div>
             </a>
           ))}
@@ -2147,9 +2379,7 @@ function NewsletterFeed({ lang }) {
               e.preventDefault();
               const email = e.target.elements.email.value;
               if (!email) return;
-              alert(lang === 'nl'
-                ? `Bedankt! We hebben ${email} toegevoegd aan de nieuwsbriefgroep.`
-                : `Hvala! Dodali smo ${email} u newsletter grupu.`);
+              setWelcomed(email);
               e.target.reset();
             }}
           >
@@ -2158,11 +2388,37 @@ function NewsletterFeed({ lang }) {
           </form>
         </div>
       </div>
+      {welcomed && (
+        <div className="welcome-overlay" onClick={()=>setWelcomed(null)}>
+          <div className="welcome-card" onClick={e=>e.stopPropagation()}>
+            <CrescentMoon size={52} style={{display:'block',margin:'0 auto 18px'}}/>
+            <div className="wc-ar">أَهْلاً وَسَهْلاً</div>
+            <h3>{lang==='nl'?'Ahlan wa sahlan!':'Ahlan wa sahlan!'}</h3>
+            <p>
+              {lang==='nl'
+                ? <>Je bent ingeschreven met <span className="wc-mail">{welcomed}</span>. Een warme welkomstmail is onderweg — met onze gebedstijden, mekteb-nieuws en de eerstvolgende activiteiten. Welkom in de gemeenschap. 🌙</>
+                : <>Prijavljeni ste sa <span className="wc-mail">{welcomed}</span>. Topla mejl dobrodošlice je na putu — sa vaktijom, vijestima iz mekteba i narednim aktivnostima. Dobro došli u zajednicu. 🌙</>}
+            </p>
+            <button className="btn btn-gold wc-close" onClick={()=>setWelcomed(null)}>
+              {lang==='nl'?'Selam, tot snel':'Selam, vidimo se'}
+            </button>
+          </div>
+        </div>
+      )}
+      {flyer && (
+        <div className="flyer-lb" onClick={()=>setFlyer(null)}>
+          <button className="flyer-lb-close" onClick={()=>setFlyer(null)} aria-label="Sluiten" style={{position:'fixed',top:20,right:24,zIndex:1201}}>✕</button>
+          <div className="flyer-lb-inner" onClick={e=>e.stopPropagation()}>
+            <div className="flyer-lb-bar">
+              <div className="flyer-lb-cap">{flyer.edition} · {lang==='nl'?flyer.subject_nl:flyer.subject_bs}</div>
+            </div>
+            <img src={flyer.flyer} alt={lang==='nl'?flyer.subject_nl:flyer.subject_bs}/>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
-// ── LIDMAATSCHAP (umbrella: intro + featured + usluge + benefits + form) ─
 function LidCollage({ group, className }) {
   const photos = PHOTO_GROUPS[group] || [];
   return (
@@ -2190,9 +2446,16 @@ function Lidmaatschap({ lang }) {
           <div className="divider" style={{margin:'18px auto 0'}}/>
           <p className="section-sub" style={{margin:'16px auto 0', textAlign:'center'}}>
             {lang==='nl'
-              ? 'Geordend in vier levensdomeinen. Eén lidmaatschap geeft toegang tot alle vier.'
-              : 'Uređeno u četiri životna domena. Jedno članstvo daje pristup svim domenima.'}
+              ? 'Geordend in vijf levensdomeinen. Eén lidmaatschap geeft toegang tot alle vijf.'
+              : 'Uređeno u pet životnih domena. Jedno članstvo daje pristup svim domenima.'}
           </p>
+          <div className="lid-price-pill" style={{marginTop:24}}>
+            <span style={{fontSize:13.5,color:'var(--text-soft)',fontWeight:500}}>{lang==='nl'?'Voor maar':'Već za'}</span>
+            <span className="lid-price-amt">€ 20</span>
+            <span style={{fontSize:13,color:'var(--text-muted)'}}>{lang==='nl'?'/ maand':'/ mjesečno'}</span>
+            <span className="lid-price-divider"/>
+            <span>{lang==='nl'?'alles inbegrepen':'sve uključeno'}</span>
+          </div>
           <div className="o2-toc" style={{marginTop:28}}>
             {DOMAINS.map(d=>(
               <a key={d.key} href={`#dom-${d.key}`}>{d.icon} {trd(d.title,lang)}</a>
@@ -2215,6 +2478,16 @@ function Lidmaatschap({ lang }) {
                     <div className="section-label">{trd(d.tag,lang)}</div>
                     <h2>{trd(d.title,lang)}</h2>
                     <p className="o2-dom-blurb">{trd(d.blurb,lang)}</p>
+                    {d.iconStrip && (
+                      <div className="o2-iconstrip">
+                        {d.iconStrip.map((s,i)=>(
+                          <div key={i} className="o2-iconstrip-item">
+                            <span className="o2-iconstrip-emoji">{s.icon}</span>
+                            <span className="o2-iconstrip-label">{trd(s,lang)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <ul className="o2-dom-list">
                       {d.items.map((it,i)=>(<li key={i}>{trd(it,lang)}</li>))}
                     </ul>
@@ -2245,7 +2518,7 @@ function Lidmaatschap({ lang }) {
             <h2 className="section-title">{lang==='nl'?'Wat krijg je als lid?':'Šta dobivate kao član?'}</h2>
             <div className="divider" style={{margin:'18px auto 0'}}/>
             <p className="section-sub" style={{maxWidth:540, margin:'14px auto 0'}}>
-              {lang==='nl'?'Eén lidmaatschap geeft toegang tot alle vier de domeinen — en maakt je onderdeel van het verhaal van IKC DIN.':'Jedno članstvo daje pristup svim domenima — i čini vas dijelom priče IKC DIN-a.'}
+              {lang==='nl'?'Eén lidmaatschap geeft toegang tot alle vijf de domeinen — en maakt je onderdeel van het verhaal van IKC DIN.':'Jedno članstvo daje pristup svim domenima — i čini vas dijelom priče IKC DIN-a.'}
             </p>
           </div>
           <div className="benefits-grid">
@@ -2717,6 +2990,83 @@ function AmbientParticles({ count = 14 }) {
   );
 }
 
+// ── v10 HELPERS: count-up + live next-prayer ──
+function CountUp({ value, prefix = '', suffix = '', dur = 1500 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { el.textContent = prefix + value + suffix; return; }
+    let raf, started = false;
+    const run = () => {
+      const t0 = performance.now();
+      const tick = t => {
+        const p = Math.min((t - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + Math.round(e * value) + suffix;
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver(([en]) => {
+      if (en.isIntersecting && !started) { started = true; run(); io.disconnect(); }
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); };
+  }, [value]);
+  return <span ref={ref}>{prefix + '0' + suffix}</span>;
+}
+
+// next-prayer index (skips sunrise idx 1) + seconds remaining
+function getNextPrayer(times, now) {
+  const order = [0, 2, 3, 4, 5];
+  const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+  const toSec = s => { const [h, m] = s.split(':').map(Number); return h * 3600 + m * 60; };
+  for (const i of order) {
+    if (times[i] && toSec(times[i]) > nowSec) return { idx: i, remain: toSec(times[i]) - nowSec };
+  }
+  // none left today → next is Fajr tomorrow
+  const remain = (24 * 3600 - nowSec) + (times[0] ? toSec(times[0]) : 0);
+  return { idx: 0, remain };
+}
+function fmtCountdown(sec) {
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+              : `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function CrescentMoon({ size = 16, style }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" style={style} aria-hidden="true">
+      <path fillRule="evenodd" fill="currentColor"
+        d="M4 16 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0 M1.4 12.4 a11 11 0 1 0 22 0 a11 11 0 1 0 -22 0"/>
+    </svg>
+  );
+}
+
+// Idea 2 — slanke "volgend gebed" balk bovenaan, altijd zichtbaar
+function NextPrayerBar({ lang }) {
+  const t = T[lang];
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const times = calcPrayerTimes(now);
+  const { idx, remain } = getNextPrayer(times, now);
+  const name = (t.pnames[idx] || ['',''])[0];
+  return (
+    <div className="next-prayer-bar">
+      <span className="npb-moon"><CrescentMoon size={15}/></span>
+      <span className="npb-label">{lang === 'nl' ? 'Volgend gebed' : 'Sljedeći namaz'}</span>
+      <span className="npb-name">{name}</span>
+      <span className="npb-count">{fmtCountdown(remain)}</span>
+      <span className="npb-sep"/>
+      <span className="npb-place">Eindhoven · {times[idx] || '--:--'}</span>
+    </div>
+  );
+}
+
 // ── REVEAL OBSERVER ──
 function useRevealObserver() {
   useEffect(() => {
@@ -2747,12 +3097,25 @@ function App() {
   useEffect(()=>{localStorage.setItem('ikc-page',page)},[page]);
   useRevealObserver();
 
+  // Anim 10 — subtiele geometrische parallax op het achtergrondpatroon
+  useEffect(()=>{
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let x=0,y=0,sy=0;
+    const apply=()=>{ document.body.style.setProperty('--pat-x',(x).toFixed(1)+'px'); document.body.style.setProperty('--pat-y',(y+sy).toFixed(1)+'px'); };
+    const onScroll=()=>{ sy = window.scrollY * -0.06; apply(); };
+    const onMove=e=>{ x=(e.clientX/window.innerWidth-0.5)*-14; y=(e.clientY/window.innerHeight-0.5)*-14; apply(); };
+    window.addEventListener('scroll',onScroll,{passive:true});
+    window.addEventListener('mousemove',onMove,{passive:true});
+    return ()=>{ window.removeEventListener('scroll',onScroll); window.removeEventListener('mousemove',onMove); };
+  },[]);
+
   const handleLogin=u=>{setUser(u);localStorage.setItem('ikc-user',JSON.stringify(u));setShowLogin(false);setShowDash(true)};
   const handleLogout=()=>{setUser(null);localStorage.removeItem('ikc-user');setShowDash(false)};
 
   return (
     <>
       <ScrollProgress/>
+      <NextPrayerBar lang={lang}/>
       <AmbientParticles count={16}/>
       <Nav lang={lang} setLang={setLang} onLogin={()=>setShowLogin(true)} loggedIn={!!user} user={user} onLogout={handleLogout} page={page} setPage={setPage}/>
       {user&&!showDash&&(
@@ -2763,10 +3126,10 @@ function App() {
         </div>
       )}
 
+      <div className="page-fade" key={page}>
       {page==='home' && (
         <>
           <Hero lang={lang} setPage={setPage}/>
-          <PrayerTimes lang={lang}/>
           <NewsEvents lang={lang}/>
           <NewsletterFeed lang={lang}/>
         </>
@@ -2776,6 +3139,7 @@ function App() {
       {page==='inzameling' && <Fundraising lang={lang} raisedOverride={raised}/>}
       {page==='aanmelden' && <Lidmaatschap lang={lang}/>}
       {page==='contact' && <Contact lang={lang}/>}
+      </div>
 
       <Footer lang={lang} onLogin={()=>setShowLogin(true)} setPage={setPage}/>
       {showLogin&&<LoginModal lang={lang} onClose={()=>setShowLogin(false)} onLogin={handleLogin}/>}
