@@ -92,6 +92,17 @@ nav { position: fixed; top: 34px; left: 0; right: 0; z-index: 500; background: r
 .lang-btn { padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-muted); font-family: var(--font-body); transition: all 0.2s; }
 .lang-btn.active { background: var(--gold); color: #080d09; }
 .mobile-nav { display: none; gap: 8px; align-items: center; }
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: none; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; height: 2px; width: 22px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: rgba(10,20,14,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.18); z-index: 499; padding: 16px 24px 24px; flex-direction: column; gap: 4px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu-link { font-size: 16px; color: var(--text-muted); text-decoration: none; padding: 12px 8px; border-radius: 8px; cursor: pointer; background: transparent; border: none; font-family: var(--font-body); text-align: left; transition: color 0.2s, background 0.2s; }
+.mobile-menu-link:hover, .mobile-menu-link.active { color: var(--gold); background: rgba(201,168,76,0.08); }
+.mobile-menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0; }
+.mobile-menu-bottom { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
 
 /* Mosque arch SVG */
 .arch-deco { position: absolute; right: 0; top: 0; bottom: 0; width: 520px; pointer-events: none; overflow: hidden; }
@@ -537,6 +548,7 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .mobile-nav { display: flex; }
+  .hamburger { display: flex; }
   .prayer-grid { grid-template-columns: repeat(3, 1fr); }
   .mekteb-card { grid-template-columns: 1fr; padding: 32px; }
   .mekteb-showcase { grid-template-columns: 1fr; gap: 60px; }
@@ -1636,8 +1648,10 @@ function QRBox() {
 // ── NAV ────────────────────────────────────────────────────────────
 function Nav({ lang, setLang, onLogin, loggedIn, user, onLogout, page, setPage }) {
   const t = T[lang];
-  const go = id => { setPage(id); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const go = id => { setPage(id); setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   return (
+    <>
     <nav>
       <div className="nav-inner">
         <div className="nav-logo" onClick={()=>go('home')}>
@@ -1667,10 +1681,26 @@ function Nav({ lang, setLang, onLogin, loggedIn, user, onLogout, page, setPage }
             <button className={`lang-btn${lang==='nl'?' active':''}`} onClick={()=>setLang('nl')}>NL</button>
             <button className={`lang-btn${lang==='bs'?' active':''}`} onClick={()=>setLang('bs')}>BS</button>
           </div>
-          {!loggedIn && <button className="btn btn-gold" style={{padding:'7px 14px',fontSize:12}} onClick={onLogin}>{t.login}</button>}
+          <button className={`hamburger${menuOpen?' open':''}`} onClick={()=>setMenuOpen(o=>!o)} aria-label="Menu">
+            <span/><span/><span/>
+          </button>
         </div>
       </div>
     </nav>
+    <div className={`mobile-menu${menuOpen?' open':''}`}>
+      {t.nav.map((n,i)=>(
+        <button key={i} className={`mobile-menu-link${page===t.sections[i]?' active':''}`} onClick={()=>go(t.sections[i])}>{n}</button>
+      ))}
+      <div className="mobile-menu-divider"/>
+      <div className="mobile-menu-bottom">
+        {loggedIn
+          ? <><span style={{fontSize:13,color:'var(--gold)',fontWeight:500}}>👤 {user.name.split(' ')[0]}</span>
+              <button className="btn btn-ghost" style={{padding:'6px 14px',fontSize:13}} onClick={()=>{onLogout();setMenuOpen(false);}}>{t.logout}</button></>
+          : <button className="btn btn-gold" style={{padding:'8px 20px',fontSize:13}} onClick={()=>{onLogin();setMenuOpen(false);}}>{t.login}</button>
+        }
+      </div>
+    </div>
+    </>
   );
 }
 
