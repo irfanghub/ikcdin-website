@@ -814,6 +814,8 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 .next-prayer-bar > * { flex-shrink: 0; }
 .npb-moon { color: var(--gold-light); display: inline-flex; }
 .npb-icon-svg { width: 22px; height: 22px; }
+.npb-om { color: var(--text-muted); font-size: 15px; }
+.npb-prayer-time { color: var(--gold); font-weight: 600; font-size: 16px; }
 .npb-name { color: var(--gold-light); font-weight: 700; font-family: var(--font-display); font-size: 20px; }
 .npb-label { color: var(--text-muted); }
 .npb-count {
@@ -3091,10 +3093,10 @@ function NextPrayerBar({ lang }) {
     <div className="next-prayer-bar">
       <span className="npb-moon"><PrayerIcon idx={idx} className="npb-icon-svg"/></span>
       <span className="npb-label">{lang === 'nl' ? 'Volgend gebed' : 'Sljedeći namaz'}</span>
-      <span className="npb-name">{name}</span>
-      <span className="npb-prefix" style={{color:'var(--text-muted)',fontSize:'15px'}}>nog</span><span className="npb-count">{fmtCountdown(remain)}</span><span className="npb-suffix" style={{color:'var(--text-muted)',fontSize:'15px'}}>te gaan</span>
+      <span className="npb-name">{name}</span><span className="npb-om" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? 'u' : 'om'}</span><span className="npb-prayer-time" style={{color:'var(--gold)',fontWeight:'600',fontSize:'16px'}}>{times[idx] || '--:--'}</span>
+      <span className="npb-prefix" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? 'još' : 'nog'}</span><span className="npb-count">{fmtCountdown(remain)}</span><span className="npb-suffix" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? '' : 'te gaan'}</span>
       <span className="npb-sep"/>
-      <span className="npb-place">Eindhoven · {times[idx] || '--:--'}</span>
+      <span className="npb-place">{`Eindhoven ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`}</span>
     </div>
   );
 }
