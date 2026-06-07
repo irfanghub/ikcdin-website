@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foto's ordenen — Voor & Na</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+body { padding: 30px 28px 150px; }
+h1 { font-family: var(--font-display); font-weight: 300; font-size: 2.1rem; margin-bottom: 4px; }
+h1 b { color: var(--gold); font-weight: 700; }
+.sub { color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; margin-bottom: 18px; }
+.help { color: var(--text-soft); font-size: 14px; max-width: 760px; margin-bottom: 26px; line-height: 1.55; }
+.help b { color: var(--gold); }
+.sectitle { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; margin: 34px 0 4px; display:flex; align-items:baseline; gap:12px; }
+.sectitle .cnt { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+.secsub { color: var(--text-muted); font-size: 13px; margin-bottom: 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 13px; }
+.cell { position: relative; aspect-ratio: 4/3; border:3px solid var(--gold-border); border-radius: 10px; overflow: hidden; background: #0c1711; cursor: pointer; transition: border-color .18s, transform .12s; }
+.cell:active { transform: scale(0.97); }
+.cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cell .n { position: absolute; left: 7px; top: 7px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #fff; background: rgba(3,7,10,0.82); padding: 3px 8px; border-radius: 5px; z-index: 3; max-width: 80%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cell .tag { position: absolute; left: 7px; right: 7px; bottom: 7px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; padding: 6px 4px; border-radius: 6px; z-index: 3; background: rgba(3,7,10,0.85); color: var(--text-muted); }
+.cell .fb { position:absolute; inset:0; display:grid; place-items:center; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; z-index:1; }
+.cell[data-phase="voor"] { border-color: var(--voor); }
+.cell[data-phase="voor"] .tag { color: #fff; background: var(--voor); }
+.cell[data-phase="na"] { border-color: var(--na); box-shadow: 0 0 16px rgba(201,168,76,0.3); }
+.cell[data-phase="na"] .tag { color: #06140b; background: var(--na); }
+.cell[data-phase="skip"] { opacity: 0.38; border-color: #444; }
+.cell[data-phase="skip"] .tag { color: var(--text-muted); }
+.cell .room { position:absolute; top:7px; right:7px; z-index:4; display:none; font-family:var(--font-mono); font-size:11px; padding:4px 6px; border-radius:6px; border:1px solid var(--gold-border); background:rgba(3,7,10,0.9); color:var(--gold-light); max-width:62%; cursor:pointer; }
+.cell[data-phase="voor"] .room, .cell[data-phase="na"] .room { display:block; }
+.cell .room.unset { border-color:#d06b5c; color:#e89384; animation: roomPulse 1.6s ease-in-out infinite; }
+@keyframes roomPulse { 0%,100%{ box-shadow:0 0 0 0 rgba(208,107,92,0); } 50%{ box-shadow:0 0 0 3px rgba(208,107,92,0.25); } }
+
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; background: rgba(6,13,8,0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--gold-border); padding: 13px 24px; display:flex; align-items:center; gap: 18px; flex-wrap: wrap; }
+.counts { display:flex; gap: 18px; font-family: var(--font-mono); font-size: 13px; }
+.c-voor b { color: var(--voor); } .c-na b { color: var(--na); }
+.bar .msg { margin-left: auto; font-size: 13px; color: var(--text-soft); }
+.btn { font-family: var(--font-mono); font-size: 12px; letter-spacing:0.08em; padding: 9px 16px; border-radius: 100px; border:1px solid var(--gold-border); background: var(--gold-dim); color: var(--gold); cursor:pointer; }
+.legend-row { display:flex; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.legend-row span { display:inline-flex; align-items:center; gap:6px; }
+.sw { width: 22px; height: 12px; border-radius: 3px; border:2px solid; }
+</style>
+</head>
+<body class="tile-pattern">
+<h1>Foto's ordenen — <b>Voor &amp; Na</b></h1>
+<div class="sub">beide mappen · klik om te labelen · keuzes worden bewaard</div>
+<p class="help"><b>Klik</b> op een foto om te wisselen: <b>Voor → Na → Overslaan → (leeg)</b>. Markeer wat de bouwval/het proces toont als <b>Voor</b>, en de mooie eindbeelden als <b>Na</b>. Alles wat niet in het renovatieverhaal hoort (posters, events) zet je op <b>Overslaan</b>. Klaar? Zeg het in de chat — ik lees je keuzes uit.</p>
+<div class="legend-row">
+  <span><span class="sw" style="border-color:var(--voor)"></span>Voor — bouwval / proces</span>
+  <span><span class="sw" style="border-color:var(--na)"></span>Na — afgewerkt</span>
+  <span><span class="sw" style="border-color:#444"></span>Overslaan</span>
+</div>
+
+<div id="sections"></div>
+
+<div class="bar">
+  <div class="counts">
+    <span class="c-voor">Voor <b id="n-voor">0</b></span>
+    <span class="c-na">Na <b id="n-na">0</b></span>
+  </div>
+  <button class="btn" id="reset">Reset</button>
+  <div class="msg">Keuzes worden automatisch bewaard 🌙</div>
+</div>
+
+<script src="photos-all.js"></script>
+<script>
+const PHASES = [null,'voor','na','skip'];
+const LABELS = {null:'— kies —', voor:'VOOR', na:'NA', skip:'OVERSLAAN'};
+const KEY = 'reno_tags_v2';
+const RKEY = 'reno_rooms_v2';
+let tags = JSON.parse(localStorage.getItem(KEY) || '{}');
+let rooms = JSON.parse(localStorage.getItem(RKEY) || '{}');
+
+// ruimtes voor de wandeling in Voorstel 1
+const ROOMS = [
+  ['', 'ruimte?'],
+  ['gevel','Gevel / entree'],
+  ['mesdzid','Mesdžid (gebedshal)'],
+  ['mihrab','Mihrab'],
+  ['podrum','Podrum (kelder)'],
+  ['divanhana','Divanhana'],
+  ['mekteb','Mekteb (klas)'],
+  ['abdest','Abdest (wassen)'],
+  ['hal','Hal / trap'],
+  ['anders','Anders'],
+];
+// slimme standaard-ruimtes voor herkenbare namen (jij kunt altijd bijstellen)
+const ROOM_GUESS = {
+  '1yBb_QPNDaERaanKFo5lFXAy7fp-z690l':'mihrab',
+  '1RzRKWLxV30ggKUY48kX6KP1osNcVf7x4':'podrum',
+  '1lJKOapWjtmGslmKPb8qQRk5vh-ypfmra':'divanhana',
+  '1SHmKUqGFXLk3xuLgXJMgZYWMIEHbxqu2':'divanhana',
+  '1mmNqxx-UOhQCSC6JUCzHXOrzUBLGvLVx':'divanhana',
+  '1bW_ghc6N7h9x5iMZ48_09VTbWP2ipT4H':'mesdzid',
+  '1xaCuiPNVwSsqDMGb9NghEdH5gWTS7fo7':'mesdzid',
+  '1agc10IznGtBOSR35rZ5dAsT8y_uT0Aoe':'mesdzid',
+  '1r8CqqElvkDm9LNJLj2HAM41MUhg0z2Wr':'gevel',
+  '1QEJBDRbkDqj9p7iM6RzyjUBthtA28ggh':'gevel',
+  '13pbxV5r3WWIlUpRYAIDJyZobTOFxU81P':'mekteb','1w4GQVKCAjAmbMMppabmlHh0RVHXCxPdR':'mekteb',
+  '1eSd_nD_Q2uvDsby7tN4ByPCMuhRcT89v':'mekteb','1Z7YvzUVvjewhe59PaFMDw7F0ssShWTWw':'mekteb',
+  '1l6dvJa2WlG6O7B6miWodwYrX9x_brhA3':'mekteb','1JD0g6MA6JHiX5TeRSDYV6_q2TRZI9Ue4':'mekteb',
+  '1lWjrp1lUElAhpVWBEeMCJiB3b8G9ac1Q':'mekteb','1z3PknoniEOTUjASoKcCm2QEkUWhW178M':'mekteb',
+  '1X50wyzfJVCIkglue1V6yIA2xLejpqN9v':'mekteb','1hNG00ERT2winqtJ5rr_G1_Zwz6GnyUwP':'mekteb',
+  '1_V3c9sNGIJKViT_cd87mwE0AQLcZG0w1':'mekteb','1O0s2iKwUF2pQGAo-4PfML_RSv9FyebfN':'mekteb',
+};
+
+const FOLDERS = [
+  { key:'renovacija', title:'Map: renovacija', sub:'De renovatie zelf (genummerd 1–28) — meestal Voor/proces.' },
+  { key:'ikcdin', title:"Map: Foto's ikc din", sub:'Eindbeelden van het gebouw (Na) + enkele posters/events (Overslaan).' },
+];
+
+const sections = document.getElementById('sections');
+
+function makeCell(p){
+  const c = document.createElement('div');
+  c.className = 'cell';
+  c.dataset.id = p.id;
+  if (tags[p.id]) c.dataset.phase = tags[p.id];
+  if (!rooms[p.id] && ROOM_GUESS[p.id]) rooms[p.id] = ROOM_GUESS[p.id];
+  const roomOpts = ROOMS.map(([v,l])=>`<option value="${v}"${(rooms[p.id]||'')===v?' selected':''}>${l}</option>`).join('');
+  c.innerHTML = `<span class="n">${p.title}</span>
+    <div class="fb">${p.title}</div>
+    <img alt="${p.title}" loading="lazy" referrerpolicy="no-referrer" src="${photoSrc(p.id,600)}"
+         onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">
+    <select class="room">${roomOpts}</select>
+    <div class="tag">${LABELS[tags[p.id]||null]}</div>`;
+  const sel = c.querySelector('.room');
+  const syncRoom = () => sel.classList.toggle('unset', (c.dataset.phase==='voor'||c.dataset.phase==='na') && !sel.value);
+  syncRoom();
+  sel.addEventListener('click', e => e.stopPropagation());
+  sel.addEventListener('change', e => { e.stopPropagation(); if (sel.value) rooms[p.id]=sel.value; else delete rooms[p.id]; syncRoom(); save(); });
+  c.addEventListener('click', () => {
+    const cur = tags[p.id] || null;
+    const next = PHASES[(PHASES.indexOf(cur)+1) % PHASES.length];
+    if (next) { tags[p.id] = next; c.dataset.phase = next; }
+    else { delete tags[p.id]; c.removeAttribute('data-phase'); }
+    c.querySelector('.tag').textContent = LABELS[next||null];
+    syncRoom();
+    save();
+  });
+  return c;
+}
+
+FOLDERS.forEach(f => {
+  const items = ALL_PHOTOS.filter(p => p.folder === f.key);
+  const h = document.createElement('h2');
+  h.className = 'sectitle';
+  h.innerHTML = `${f.title} <span class="cnt">${items.length} foto's</span>`;
+  const s = document.createElement('div');
+  s.className = 'secsub';
+  s.textContent = f.sub;
+  const g = document.createElement('div');
+  g.className = 'grid';
+  items.forEach(p => g.appendChild(makeCell(p)));
+  sections.appendChild(h);
+  sections.appendChild(s);
+  sections.appendChild(g);
+});
+
+function save(){
+  localStorage.setItem(KEY, JSON.stringify(tags));
+  localStorage.setItem(RKEY, JSON.stringify(rooms));
+  let v=0,n=0;
+  Object.values(tags).forEach(x=>{ if(x==='voor')v++; if(x==='na')n++; });
+  document.getElementById('n-voor').textContent=v;
+  document.getElementById('n-na').textContent=n;
+}
+document.getElementById('reset').addEventListener('click', ()=>{ if(confirm('Alle labels wissen?')){ tags={}; rooms={}; localStorage.setItem(KEY,'{}'); localStorage.setItem(RKEY,'{}'); location.reload(); } });
+save();
+window.getPhotoTags = () => tags;
+window.getPhotoRooms = () => rooms;
+</script>
+</body>
+</html>

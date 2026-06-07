@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voorstel 1 — Doorgang · Renovatie IKC DIN</title>
+<link rel="stylesheet" href="shared.css"/>
+<script src="photos.js"></script>
+<style>
+/* ====== Voorstel 1 — Doorgang (3D wandeling door het gebouw) ====== */
+.intro {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 40px 24px;
+  position: relative;
+}
+.intro-inner { max-width: 760px; position: relative; z-index: 2; }
+.intro .bismi { font-size: 1.4rem; margin-bottom: 22px; }
+.intro h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 1.04;
+  margin: 18px 0 10px;
+}
+.intro h1 b { display: block; font-weight: 700; color: var(--gold); }
+.intro p { color: var(--text-muted); max-width: 540px; margin: 18px auto 30px; font-size: 1.05rem; }
+.scroll-hint { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 10px; }
+.scroll-hint .chev { width: 16px; height: 16px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: rotate(45deg); animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 0%,100%{ transform: rotate(45deg) translate(0,0); opacity:.4 } 50%{ transform: rotate(45deg) translate(3px,3px); opacity:1 } }
+.intro::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 60%, rgba(5,122,65,0.14), transparent 60%); z-index:1; }
+
+/* scroll-track die de 3D-camera aanstuurt */
+.track { position: relative; height: 760vh; }
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 1150px;
+  perspective-origin: 50% 44%;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(11,21,16,0.2), transparent 55%),
+    radial-gradient(ellipse at 50% 120%, rgba(5,122,65,0.10), transparent 60%),
+    var(--bg-deep);
+}
+.stage::after {                 /* vignet */
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:50;
+  background: radial-gradient(ellipse at 50% 46%, transparent 48%, rgba(3,7,10,0.85) 100%);
+}
+.scene { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
+
+/* perspectief-vloer voor het 'gang'-gevoel */
+.floor {
+  position: absolute; left: 50%; bottom: -2%;
+  width: 240vw; height: 600vh;
+  transform: translateX(-50%) rotateX(86deg);
+  transform-origin: 50% 0;
+  background:
+    linear-gradient(180deg, transparent, rgba(201,168,76,0.04) 30%, transparent 75%),
+    repeating-linear-gradient(90deg, transparent 0 78px, rgba(201,168,76,0.07) 78px 79px),
+    repeating-linear-gradient(0deg, transparent 0 78px, rgba(201,168,76,0.05) 78px 79px);
+  z-index: 1;
+}
+
+.portal {
+  position: absolute;
+  top: 44%; left: 50%;
+  width: min(540px, 74vw);
+  aspect-ratio: 3 / 4.1;
+  margin-left: calc(min(540px, 74vw) / -2);
+  margin-top: calc((min(540px, 74vw) * 4.1 / 3) / -2);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+/* concentrische boog-omlijsting -> tunnelgevoel */
+.portal-frame {
+  position: absolute; inset: -26px;
+  border: 1.4px solid var(--gold-border);
+  border-radius: 50% 50% 10px 10px / 30% 30% 10px 10px;
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.04), inset 0 0 60px rgba(0,0,0,0.4);
+}
+.portal-frame.f2 { inset: -56px; opacity: 0.45; }
+.keystone { position:absolute; top:-34px; left:50%; transform:translateX(-50%); width:40px; height:12px; background:var(--gold); border-radius:3px; box-shadow:0 0 18px rgba(201,168,76,0.55); }
+.portal-arch {
+  position: absolute; inset: 0;
+  border-radius: 50% 50% 8px 8px / 28% 28% 8px 8px;
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.65);
+}
+.portal-arch .ph { border-radius: inherit; }
+.portal-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:1; }
+.layer.voor .portal-photo { filter: saturate(0.62) brightness(0.88) contrast(0.97); }
+/* twee lagen: voor (boven) crossfade naar na */
+.layer { position:absolute; inset:0; }
+.layer.na { opacity: 0; }
+
+.portal-cap {
+  position: absolute;
+  bottom: -8px; left: 50%;
+  transform: translate(-50%, 100%);
+  text-align: center;
+  width: max-content; max-width: 90vw;
+}
+.portal-cap .eyebrow { display:block; margin-bottom: 6px; font-size: 10px; }
+.portal-cap h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.6rem; color: #fff; }
+.portal-cap p { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+.cap-state { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px; }
+
+/* HUD */
+.hud { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 200; display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.hud-item { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); opacity:0.5; transition:opacity .3s,color .3s; }
+.hud-item .dot { width:7px; height:7px; border-radius:50%; border:1px solid var(--text-muted); transition:all .3s; }
+.hud-item.active { opacity:1; color:var(--gold); }
+.hud-item.active .dot { background:var(--gold); border-color:var(--gold); box-shadow:0 0 8px rgba(201,168,76,0.6); transform:scale(1.3); }
+.progress-num { position: fixed; left: 26px; bottom: 24px; z-index:200; font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--text-muted); }
+.progress-num b { color: var(--gold); }
+
+.outro { min-height: 100vh; display:grid; place-items:center; text-align:center; padding: 60px 24px; }
+.outro-inner { max-width: 640px; }
+.outro h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem,5vw,3.4rem); line-height:1.1; }
+.outro h2 b { color: var(--gold); font-weight: 700; }
+.outro p { color: var(--text-muted); margin: 18px 0 26px; }
+.outro .legend { justify-content:center; }
+
+@media (max-width: 640px){
+  .portal-cap h3 { font-size: 1.3rem; }
+  .hud { display:none; }
+}
+</style>
+</head>
+<body data-screen-label="Voorstel 1 — Doorgang">
+
+<a class="back-link" href="../Renovatie Voorstellen.html">← Voorstellen</a>
+
+<!-- Intro -->
+<section class="intro tile-pattern">
+  <div class="intro-inner">
+    <div class="bismi">Bismillāhi-r-Raḥmāni-r-Raḥīm</div>
+    <div class="eyebrow">Naša priča · Renovacija 2020–2021</div>
+    <h1>Kroz našu kuću<b>door ons gebouw</b></h1>
+    <p>Scroll en wandel ruimte voor ruimte door het gebouw — zoals het was, en zoals het werd. Elke doorgang transformeert van bouwval naar thuis.</p>
+    <span class="scroll-hint">Scroll om te lopen <span class="chev"></span></span>
+  </div>
+</section>
+
+<!-- 3D scroll-reis -->
+<div class="track" id="track">
+  <div class="stage">
+    <div class="scene" id="scene">
+      <div class="floor"></div>
+      <!-- portalen worden hier door JS geplaatst -->
+    </div>
+  </div>
+</div>
+
+<!-- HUD -->
+<div class="hud" id="hud"></div>
+<div class="progress-num" id="pnum"><b>00</b> / 06 · <span id="pname">Pročelje</span></div>
+
+<!-- Outro -->
+<section class="outro tile-pattern">
+  <div class="outro-inner">
+    <div class="eyebrow">Alhamdulillah</div>
+    <h2>Van bouwval tot <b>BOSANSKA KUĆA</b></h2>
+    <p>Wat in de coronaperiode begon als een lege, vervallen ruimte, werd met de handen van onze gemeenschap onze mesdžid, onze mekteb, ons huis.</p>
+    <div class="legend">
+      <span class="legend-chip"><span class="legend-dot voor"></span>Voor · prije</span>
+      <span class="legend-chip"><span class="legend-dot tijdens"></span>Tijdens · radovi</span>
+      <span class="legend-chip"><span class="legend-dot na"></span>Na · poslije</span>
+    </div>
+  </div>
+</section>
+
+<script>
+const STATIONS = [
+  { num:'01', name:'Pročelje', nl:'De gevel & entree',      voor:'Verweerde voorgevel', na:'Onze entree aan het plein', vn:1,  nk:'exterieur' },
+  { num:'02', name:'Mesdžid',  nl:'De gebedshal',           voor:'Kale ruwbouw, geen vloer', na:'De mesdžid bij avond', vn:5,  nk:'nightpray' },
+  { num:'03', name:'Mihrab',   nl:'De mihrab',              voor:'Lege muurnis, stof en puin', na:'De mihrab, naar de qibla', vn:8, nk:'mihrab' },
+  { num:'04', name:'Učionica', nl:'De mekteb-klas',         voor:'Onafgewerkte zijruimte', na:'Lichte mekteb-klas', vn:17, nk:'mekteb' },
+  { num:'05', name:'Divanhana',nl:'De gemeenschapsruimte',  voor:'Open casco, kabels los', na:'Gezellige divanhana', vn:20, nk:'divanhana' },
+  { num:'06', name:'Džamija', nl:'Onze džamija',           voor:'Laatste afwerking', na:'Samen, klaar — ons huis', vn:18, nk:'dzamija' },
+];
+const GAP = 1500;            // afstand tussen portalen in Z
+const scene = document.getElementById('scene');
+const hud = document.getElementById('hud');
+const pnum = document.getElementById('pnum');
+const pname = document.getElementById('pname');
+
+const portals = STATIONS.map((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'portal';
+  el.innerHTML = `
+    <div class="portal-frame f2"></div>
+    <div class="portal-frame"></div>
+    <div class="keystone"></div>
+    <div class="portal-arch">
+      <div class="layer voor">
+        <div class="ph" data-fase="voor">
+          <div class="ph-inner">
+            <div class="ph-icon">▤</div>
+            <div class="ph-tag">Voor · prije</div>
+            <div class="ph-cap">${s.voor}</div>
+          </div>
+        </div>
+        <img class="portal-photo" alt="${s.voor}" loading="eager" referrerpolicy="no-referrer" src="${renoSrc(s.vn,1200)}" onerror="this.style.display='none'">
+      </div>
+      <div class="layer na">
+        <div class="ph" data-fase="na">
+          <div class="ph-inner">
+            <div class="ph-icon">☾</div>
+            <div class="ph-tag">Na · poslije</div>
+            <div class="ph-cap">${s.na}</div>
+          </div>
+        </div>
+        <img class="portal-photo" alt="${s.na}" loading="eager" referrerpolicy="no-referrer" src="${naSrc(s.nk,1400)}" onerror="this.style.display='none'">
+      </div>
+    </div>
+    <div class="portal-cap">
+      <span class="eyebrow">${s.num} · ${s.name}</span>
+      <h3>${s.nl}</h3>
+      <div class="cap-state"></div>
+    </div>`;
+  scene.appendChild(el);
+
+  const hudItem = document.createElement('div');
+  hudItem.className = 'hud-item';
+  hudItem.innerHTML = `${s.num} ${s.name}<span class="dot"></span>`;
+  hud.appendChild(hudItem);
+
+  // plaats het portaal in de diepte (3D)
+  el.style.transform = `translateZ(${-i * GAP}px)`;
+
+  return {
+    el,
+    voor: el.querySelector('.layer.voor'),
+    na: el.querySelector('.layer.na'),
+    state: el.querySelector('.cap-state'),
+    hud: hudItem,
+    baseZ: -i * GAP,
+  };
+});
+
+const track = document.getElementById('track');
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+
+function render(){
+  const rect = track.getBoundingClientRect();
+  const scrollable = track.offsetHeight - window.innerHeight;
+  const p = clamp(-rect.top / scrollable, 0, 1);     // 0..1 door de track
+  const shift = p * (STATIONS.length - 0.15) * GAP;  // camera schuift vooruit
+  scene.style.transform = `translateZ(${shift}px)`;
+
+  let current = 0; let bestDist = Infinity;
+  portals.forEach((pt, i) => {
+    const z = pt.baseZ + shift;          // huidige z t.o.v. camera (0 = vlak)
+    // zichtbaarheid op afstand
+    let op = 1;
+    if (z > 120) op = clamp(1 - (z - 120) / 380, 0, 1);     // voorbij camera -> uitfaden
+    else op = clamp(1 + z / (2.6 * GAP), 0, 1);             // ver weg -> uitfaden
+    pt.el.style.opacity = op.toFixed(3);
+    pt.el.style.zIndex = Math.round(1000 + z);
+    // voor -> na crossfade naarmate je aankomt
+    const naMix = clamp((z + GAP * 0.95) / (GAP * 0.95), 0, 1);
+    pt.na.style.opacity = naMix.toFixed(3);
+    pt.voor.style.opacity = (1).toFixed(3);
+    pt.state.textContent = naMix > 0.6 ? 'poslije · na de renovatie' : (naMix > 0.15 ? '…u renovaciji · in opbouw' : 'prije · voor de renovatie');
+    pt.state.style.color = naMix > 0.6 ? 'var(--na)' : (naMix > 0.15 ? 'var(--tijdens)' : 'var(--voor)');
+    const d = Math.abs(z);
+    if (d < bestDist && op > 0.2) { bestDist = d; current = i; }
+  });
+
+  portals.forEach((pt,i)=> pt.hud.classList.toggle('active', i===current));
+  pnum.querySelector('b').textContent = STATIONS[current].num;
+  pname.textContent = STATIONS[current].name;
+}
+
+let ticking = false;
+function onScroll(){ if(!ticking){ requestAnimationFrame(()=>{ render(); ticking=false; }); ticking=true; } }
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('resize', render);
+render();
+</script>
+</body>
+</html>
