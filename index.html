@@ -1856,6 +1856,7 @@ function PrayerTimes({ lang }) {
 function NasaPrica({ lang }) {
   const t = T[lang];
   const [activeIdx, setActiveIdx] = useState(null);
+  const [iframeOpen, setIframeOpen] = useState(false);
   useEffect(()=>{
     const onKey = e => { if(e.key==='Escape') setActiveIdx(null); };
     window.addEventListener('keydown', onKey);
@@ -1952,9 +1953,19 @@ function NasaPrica({ lang }) {
         </div>
       )}
 
+      {/* ── KROZ NAŠU KUĆU — iframe modal ── */}
+      {iframeOpen && (
+        <div onClick={()=>setIframeOpen(false)} style={{position:'fixed',inset:0,zIndex:9000,background:'rgba(0,0,0,0.88)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+          <div onClick={e=>e.stopPropagation()} style={{position:'relative',width:'min(1100px,96vw)',height:'min(820px,90vh)',borderRadius:14,overflow:'hidden',boxShadow:'0 32px 80px rgba(0,0,0,0.7)'}}>
+            <button onClick={()=>setIframeOpen(false)} style={{position:'absolute',top:12,right:14,zIndex:10,background:'rgba(10,20,14,0.85)',border:'1px solid rgba(201,168,76,0.35)',borderRadius:8,color:'var(--gold)',fontWeight:700,fontSize:18,cursor:'pointer',padding:'4px 14px',backdropFilter:'blur(8px)'}}>✕</button>
+            <iframe src="renovatie/Kroz nasu kucu.html" style={{width:'100%',height:'100%',border:'none'}} title="Kroz našu kuću"/>
+          </div>
+        </div>
+      )}
+
       {/* ── KROZ NAŠU KUĆU — hero banner ── */}
       <div style={{position:'relative',marginTop:64,minHeight:'72vh',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',cursor:'pointer'}}
-        onClick={()=>window.open('renovatie/Kroz nasu kucu.html','_blank')}>
+        onClick={()=>setIframeOpen(true)}>
         {/* voor/na split achtergrond */}
         <div style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:'1fr 1fr',zIndex:0}}>
           <div style={{overflow:'hidden',clipPath:'polygon(0 0,100% 0,calc(100% - 80px) 100%,0 100%)'}}>
