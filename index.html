@@ -139,27 +139,28 @@ nav { position: fixed; top: 52px; left: 0; right: 0; z-index: 500; background: r
 .p-time { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--gold); margin-top: 8px; }
 .p-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.06em; font-weight: 600; text-transform: uppercase; }
 
-/* Hero vaktija panel (gebedstijden naast Welkom) */
-.hero-layout { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 52px; align-items: center; }
-.hero-vk { transform: translateX(60px); opacity: 1 !important; animation: none !important; }
-.hero-vk .vk-panel { opacity: 1 !important; background: #16271d !important; }
-.vk-panel { background: #16271d; border: 1px solid var(--gold-border); border-radius: 18px; padding: 22px 22px 18px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7); }
-.vk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+/* Hero vaktija panel (gebedstijden — glas-card op de muur/raam, variant G) */
+.hero-layout { display: block; }
+.hero-content { max-width: 600px; }
+.hero-vk { position: absolute; top: 24%; right: max(24px, calc((100% - 1160px)/2 + 24px)); width: 312px; z-index: 6; opacity: 1 !important; animation: none !important; }
+.hero-vk .vk-panel { opacity: 1 !important; background: rgba(22,39,29,0.30) !important; }
+.vk-panel { background: rgba(22,39,29,0.30); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border: 1px solid var(--gold-border); border-radius: 16px; padding: 13px 14px 11px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7); }
+.vk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .vk-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 7px; }
 .vk-date { font-size: 11px; color: var(--text-muted); font-style: italic; text-transform: capitalize; }
-.vk-row { display: flex; align-items: center; gap: 14px; padding: 11px 12px; border-radius: 10px; transition: all 0.2s; }
+.vk-row { display: flex; align-items: center; gap: 12px; padding: 3px 11px; border-radius: 9px; transition: all 0.2s; }
 .vk-row + .vk-row { border-top: 1px solid rgba(201,168,76,0.10); }
-.vk-row .p-svg { width: 32px; height: 32px; margin: 0; flex-shrink: 0; }
+.vk-row .p-svg { width: 21px; height: 21px; margin: 0; flex-shrink: 0; }
 .vk-names { flex: 1; min-width: 0; }
-.vk-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.vk-alt { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.vk-time { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+.vk-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.2; }
+.vk-alt { font-size: 9px; color: var(--text-muted); margin-top: 0; line-height: 1.2; }
+.vk-time { font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; color: var(--gold); }
 .vk-row.active { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-top-color: transparent; }
 .vk-row.active .vk-name, .vk-row.active .vk-alt, .vk-row.active .vk-time { color: #080d09; }
 .vk-row.active .p-svg { color: #080d09; filter: none; }
 .vk-now { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: rgba(8,13,9,0.6); text-transform: uppercase; }
-.vk-foot { margin-top: 12px; padding-top: 11px; border-top: 1px solid rgba(201,168,76,0.12); text-align: center; font-size: 10.5px; color: var(--text-muted); font-style: italic; }
-@media (max-width: 880px) { .hero-layout { grid-template-columns: 1fr; gap: 36px; } .hero-vk { transform: none; max-width: 440px; } }
+.vk-foot { margin-top: 7px; padding-top: 7px; border-top: 1px solid rgba(201,168,76,0.12); text-align: center; font-size: 9px; color: var(--text-muted); font-style: italic; }
+@media (max-width: 880px) { .hero { flex-direction: column; } .hero-content { max-width: none; } .hero-vk { position: static; width: auto; max-width: 420px; right: auto; top: auto; margin: 28px auto 0; } }
 
 /* Fundraising */
 .progress-track { background: rgba(255,255,255,0.07); border-radius: 100px; height: 16px; overflow: hidden; margin: 18px 0 10px; }
@@ -1778,6 +1779,8 @@ function Hero({ lang, setPage }) {
             ))}
           </div>
         </div>
+        </div>
+      </div>
           <div className="hero-vk">
             <div className="vk-panel">
               <div className="vk-head">
@@ -1803,8 +1806,6 @@ function Hero({ lang, setPage }) {
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </section>
   );
 }
