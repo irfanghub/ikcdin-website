@@ -86,6 +86,9 @@ nav { position: fixed; top: 52px; left: 0; right: 0; z-index: 500; background: r
 .nav-logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
 .nav-links { display: flex; align-items: center; gap: 4px; }
 .nav-link { font-size: 14px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: color 0.2s; cursor: pointer; border: none; background: transparent; font-family: var(--font-body); }
+.nav-link { position: relative; }
+.nav-link::after { content: ''; position: absolute; bottom: -2px; left: 50%; width: 0; height: 1.5px; background: #4ade80; box-shadow: 0 0 6px #4ade80; border-radius: 2px; transition: width 0.3s ease, left 0.3s ease; }
+.nav-link:hover::after, .nav-link.active::after { width: 80%; left: 10%; }
 .nav-link:hover { color: var(--gold); }
 .nav-link.active { color: var(--gold); background: rgba(201,168,76,0.08); }
 .lang-toggle { display: flex; background: var(--card); border-radius: 6px; border: 1px solid var(--gold-border); overflow: hidden; margin: 0 6px; }
@@ -434,7 +437,7 @@ nav { position: fixed; top: 52px; left: 0; right: 0; z-index: 500; background: r
 /* Footer */
 footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); padding: 60px 0 32px; }
 .footer-link { display: block; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; cursor: pointer; border: none; background: none; font-family: var(--font-body); text-align: left; }
-.footer-link:hover { color: var(--gold); }
+.footer-link:hover { color: #4ade80; text-shadow: 0 0 8px rgba(74,222,128,0.4); }
 
 /* Animations */
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -519,6 +522,9 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 /* Mekteb feature icon — add neon */
 .mekteb-feature-row { transition: padding-left 0.3s; }
 .mekteb-feature-row:hover { padding-left: 8px; }
+@keyframes borderTrace { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+.mekteb-section .section-inner > div[style*="border"] { transition: box-shadow 0.4s; }
+.mekteb-section .section-inner > div[style*="border"]:hover { box-shadow: 0 0 0 1.5px #4ade80, 0 0 24px rgba(74,222,128,0.2); }
 .mekteb-feature-row:hover .mekteb-feature-icon { box-shadow: 0 0 0 1px var(--neon-soft), 0 0 24px -6px var(--neon-glow); border-color: var(--neon-soft); }
 .mekteb-feature-icon { transition: box-shadow 0.3s, border-color 0.3s; }
 
@@ -829,8 +835,8 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 
 /* Anim 1 — Levende vaktija: ademende actieve rij + live afteller */
 @keyframes vkBreathe {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(232,208,122,0.0); }
-  50% { box-shadow: 0 0 22px 1px rgba(232,208,122,0.42); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.0); border-top-color: transparent; }
+  50% { box-shadow: 0 0 18px 2px rgba(74,222,128,0.3); }
 }
 .vk-row.active { animation: vkBreathe 3.2s ease-in-out infinite; }
 .vk-countdown {
@@ -3170,6 +3176,49 @@ function useRevealObserver() {
   });
 }
 
+// ── HADITH ROTATOR ──────────────────────────────────────────────────
+const HADITHS_NL = [
+  { text: '"De beste mensen zijn zij die het meest nuttig zijn voor anderen."', src: 'Hadith — al-Tabarani' },
+  { text: '"Maak het gemakkelijk en maak het niet moeilijk."', src: 'Hadith — Bukhari & Muslim' },
+  { text: '"Waarlijk, Allah houdt van hem die, als hij iets doet, het voortreffelijk doet."', src: 'Hadith — al-Bayhaqi' },
+  { text: '"Een glimlach naar je broeder is sadaqa."', src: 'Hadith — Tirmidhi' },
+  { text: '"Zoek kennis, van de wieg tot het graf."', src: 'Overlevering' },
+];
+const HADITHS_BS = [
+  { text: '"Najboljji su oni koji su najkorisniji drugima."', src: 'Hadis — al-Tabarani' },
+  { text: '"Olakšajte, a ne otežavajte."', src: 'Hadis — Buhari i Muslim' },
+  { text: '"Uistinu, Allah voli kada neko nešto uradi, da to uradi besprijekorno."', src: 'Hadis — al-Bejheki' },
+  { text: '"Osmijeh prema svom bratu je sadaka."', src: 'Hadis — Tirmizi' },
+  { text: '"Tražite znanje od kolevke do groba."', src: 'Predanje' },
+];
+function HadithRotator({ lang }) {
+  const list = lang === 'nl' ? HADITHS_NL : HADITHS_BS;
+  const [idx, setIdx] = React.useState(0);
+  const [visible, setVisible] = React.useState(true);
+  React.useEffect(() => {
+    const t = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => { setIdx(i => (i + 1) % list.length); setVisible(true); }, 600);
+    }, 6000);
+    return () => clearInterval(t);
+  }, [list.length]);
+  return (
+    <div style={{borderTop:'1px solid rgba(201,168,76,0.1)',borderBottom:'1px solid rgba(201,168,76,0.1)',background:'rgba(10,18,12,0.6)',padding:'28px 0',textAlign:'center'}}>
+      <div className="container" style={{maxWidth:640}}>
+        <div style={{fontSize:11,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(201,168,76,0.5)',marginBottom:14}}>
+          {lang==='nl'?'Overlevering':'Predanje'}
+        </div>
+        <div style={{transition:'opacity 0.6s',opacity:visible?1:0,minHeight:64}}>
+          <p style={{fontFamily:'var(--font-display)',fontSize:'clamp(1rem,2.2vw,1.2rem)',fontWeight:300,color:'var(--text-soft)',lineHeight:1.6,fontStyle:'italic',margin:'0 0 10px'}}>
+            {list[idx].text}
+          </p>
+          <span style={{fontSize:11,color:'rgba(201,168,76,0.5)',letterSpacing:'0.1em'}}>{list[idx].src}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── APP ────────────────────────────────────────────────────────────
 function App() {
   const [lang,setLang]=useState(()=>localStorage.getItem('ikc-lang')||'nl');
@@ -3216,6 +3265,7 @@ function App() {
       {page==='home' && (
         <>
           <Hero lang={lang} setPage={setPage}/>
+          <HadithRotator lang={lang}/>
           <NewsEvents lang={lang}/>
           <NewsletterFeed lang={lang}/>
         </>
