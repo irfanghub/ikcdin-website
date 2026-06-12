@@ -1914,14 +1914,14 @@ function NasaPrica({ lang }) {
     if(reduce){ settle(); cities.forEach(c=>c.style.opacity=1); return; }
     const draw = () => {
       [line, glow].forEach(p=>{ if(!p) return; p.style.transition='none'; p.style.strokeDasharray=L+' '+L; p.style.strokeDashoffset=L; });
-      cities.forEach(c=>{ c.style.opacity=0; c.style.transition='opacity 0.4s ease'; });
+      cities.forEach(c=>{ c.style.opacity=0; c.style.transition='opacity 0.5s ease'; });
       // force reflow
       void line.getBoundingClientRect();
       requestAnimationFrame(()=>{
-        [line, glow].forEach(p=>{ if(!p) return; p.style.transition='stroke-dashoffset 2.1s cubic-bezier(0.55,0,0.25,1)'; p.style.strokeDashoffset='0'; });
-        cities.forEach((c,i)=>{ setTimeout(()=>{ c.style.opacity=1; }, 300 + i*150); });
+        [line, glow].forEach(p=>{ if(!p) return; p.style.transition='stroke-dashoffset 10s cubic-bezier(0.55,0,0.25,1)'; p.style.strokeDashoffset='0'; });
+        cities.forEach((c,i)=>{ setTimeout(()=>{ c.style.opacity=1; }, 800 + i*900); });
       });
-      setTimeout(settle, 2200);
+      setTimeout(settle, 10100);
     };
     const io = new IntersectionObserver(([en])=>{ if(en.isIntersecting){ draw(); io.disconnect(); } },{threshold:0.3});
     io.observe(root);
