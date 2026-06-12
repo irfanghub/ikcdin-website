@@ -1381,7 +1381,7 @@ const FINANCIALS = [
 
 // ── LIDMAATSCHAP OPTIE 2 — levensdomeinen + foto-groepen ───────────
 const trd = (obj, lang) => (obj ? (obj[lang] ?? obj.nl) : '');
-const PRICE_NOTE = { nl: 'alles inbegrepen · sadaka džarija', bs: 'sve uključeno · sadaka džarija' };
+const PRICE_NOTE = { nl: 'alles inbegrepen · sadaqa jariya', bs: 'sve uključeno · sadaka džarija' };
 // Icoon voor "Zajednica & kultura" — masker (🎭) vervangen door beter passend icoon.
 const KULTURA_ICON = '⚜️';
 const PHOTO_GROUPS = {
@@ -2011,26 +2011,26 @@ function NasaPrica({ lang }) {
         {/* donkere scrim */}
         <div style={{position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 70% 90% at 50% 50%,rgba(3,7,10,0.82),rgba(3,7,10,0.45) 55%,rgba(3,7,10,0.3) 80%)'}}/>
         {/* voor / na labels */}
-        <div style={{position:'absolute',bottom:28,left:28,zIndex:4,fontFamily:'monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',padding:'6px 14px',borderRadius:100,background:'rgba(6,13,8,0.65)',backdropFilter:'blur(6px)',color:'#b0bec5',border:'1px solid rgba(109,127,134,0.5)'}}>Prije · voor</div>
-        <div style={{position:'absolute',bottom:28,right:28,zIndex:4,fontFamily:'monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',padding:'6px 14px',borderRadius:100,background:'rgba(6,13,8,0.65)',backdropFilter:'blur(6px)',color:'var(--gold-light)',border:'1px solid rgba(201,168,76,0.45)'}}>Poslije · na</div>
+        <div style={{position:'absolute',bottom:28,left:28,zIndex:4,fontFamily:'monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',padding:'6px 14px',borderRadius:100,background:'rgba(6,13,8,0.65)',backdropFilter:'blur(6px)',color:'#b0bec5',border:'1px solid rgba(109,127,134,0.5)'}}>{lang==='nl'?'Voor':'Prije'}</div>
+        <div style={{position:'absolute',bottom:28,right:28,zIndex:4,fontFamily:'monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',padding:'6px 14px',borderRadius:100,background:'rgba(6,13,8,0.65)',backdropFilter:'blur(6px)',color:'var(--gold-light)',border:'1px solid rgba(201,168,76,0.45)'}}>{lang==='nl'?'Na':'Poslije'}</div>
         {/* content */}
         <div style={{position:'relative',zIndex:3,textAlign:'center',padding:'80px 24px',maxWidth:680}}>
           <div style={{fontSize:11,letterSpacing:'0.22em',textTransform:'uppercase',color:'var(--gold)',fontWeight:600,marginBottom:20}}>
-            {lang==='nl'?'Naša priča · Renovatie 2020–2021':'Naša priča · Renovacija 2020–2021'}
+            {lang==='nl'?'Ons verhaal · Renovatie 2020–2021':'Naša priča · Renovacija 2020–2021'}
           </div>
           <h2 style={{fontFamily:'var(--font-display)',fontSize:'clamp(2.4rem,5.5vw,4rem)',fontWeight:300,lineHeight:1.04,margin:'0 0 20px'}}>
-            Kroz vrijeme,<br/><b style={{color:'var(--gold-light)',fontWeight:700}}>kroz našu kuću</b>
+            {lang==='nl' ? (<>Door de tijd,<br/><b style={{color:'var(--gold-light)',fontWeight:700}}>door ons huis</b></>) : (<>Kroz vrijeme,<br/><b style={{color:'var(--gold-light)',fontWeight:700}}>kroz našu kuću</b></>)}
           </h2>
 
           <div style={{display:'inline-flex',alignItems:'center',gap:10,padding:'16px 36px',borderRadius:100,background:'var(--gold)',color:'#0a1408',fontSize:15,fontWeight:700,boxShadow:'0 8px 32px rgba(201,168,76,0.35)'}}>
             {lang==='nl'?'Bekijk de tijdreis →':'Prošetaj kroz našu kuću →'}
           </div>
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:16,marginTop:28,fontSize:11,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(255,255,255,0.45)'}}>
-            <span style={{color:'#78909c'}}>● Prije · voor</span>
+            <span style={{color:'#78909c'}}>● {lang==='nl'?'Voor':'Prije'}</span>
             <span>·</span>
-            <span style={{color:'var(--gold)'}}>● Radovi · tijdens</span>
+            <span style={{color:'var(--gold)'}}>● {lang==='nl'?'Tijdens':'Radovi'}</span>
             <span>·</span>
-            <span style={{color:'var(--gold-light)'}}>● Poslije · na</span>
+            <span style={{color:'var(--gold-light)'}}>● {lang==='nl'?'Na':'Poslije'}</span>
           </div>
         </div>
       </div>
