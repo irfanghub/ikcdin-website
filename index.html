@@ -1880,12 +1880,23 @@ function NasaPrica({ lang }) {
       document.documentElement.style.overflow = '';
       document.body.style.width = '';
       document.documentElement.style.width = '';
+      document.body.style.minWidth = '';
+      document.documentElement.style.minWidth = '';
+      // Force browser to recalculate layout at full width
+      window.dispatchEvent(new Event('resize'));
+      requestAnimationFrame(()=>{
+        window.dispatchEvent(new Event('resize'));
+        // Reset viewport meta to force full-width reflow
+        const vp = document.querySelector('meta[name=viewport]');
+        if(vp){ const c = vp.content; vp.content='width=1'; requestAnimationFrame(()=>{ vp.content=c; }); }
+      });
     }
     return ()=>{
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       document.body.style.width = '';
       document.documentElement.style.width = '';
+      window.dispatchEvent(new Event('resize'));
     };
   },[iframeOpen]);
   const active = activeIdx!==null ? STORIES_DETAIL[activeIdx] : null;
