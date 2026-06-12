@@ -1872,9 +1872,21 @@ function NasaPrica({ lang }) {
     return ()=>{ document.body.style.overflow = ''; };
   },[activeIdx]);
   useEffect(()=>{
-    if(iframeOpen) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = '';
-    return ()=>{ document.body.style.overflow = ''; };
+    if(iframeOpen){
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.width = '';
+      document.documentElement.style.width = '';
+    }
+    return ()=>{
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.width = '';
+      document.documentElement.style.width = '';
+    };
   },[iframeOpen]);
   const active = activeIdx!==null ? STORIES_DETAIL[activeIdx] : null;
   // Anim 5 — route tekent zich uit zodra de kaart in beeld komt
@@ -3222,7 +3234,7 @@ const HADITHS_NL = [
   { text: '"Houd van de armen en zoek hun nabijheid."', src: 'Abu Dawud' },
   { text: '"Wie vergeeft, Allah verhoogt zijn eer."', src: 'Muslim' },
   { text: '"Het geloof bestaat uit meer dan zeventig takken. De hoogste is: geen god dan Allah. De laagste is het verwijderen van een obstakel van de weg."', src: 'Bukhari & Muslim' },
-  { text: '"Vier dingen die nooit genoeg zijn: kennis, gerechtigheid, gebed en dhikr."', src: 'Overlevering' },
+  { text: '"Vier dingen die nooit genoeg zijn: kennis, gerechtigheid, gebed en dhikr."', src: 'Hadith' },
   { text: '"Bescheidenheid verheft; hoogmoed vernedert."', src: 'Muslim' },
   { text: '"Wie aanmaant tot het goede, ontvangt de beloning van degene die het doet."', src: 'Muslim' },
   { text: '"De beste jihad is het woord der waarheid tegenover een onrechtvaardige heerser."', src: 'Abu Dawud & Tirmidhi' },
@@ -3280,7 +3292,7 @@ const HADITHS_BS = [
   { text: '"Tretirajte žene dobro — one su vaši partneri i vjerni pomagači."', src: 'Ebu Davud i Tirmizi' },
   { text: '"Skromnost uzdiže — Allah uzdiže onoga koji je skroman zbog Njega."', src: 'Muslim' },
   { text: '"Ko uputi na dobro, ima nagradu kao onaj koji ga čini."', src: 'Muslim' },
-  { text: '"Dunjaluk je vrt ahireta."', src: 'Predanje' },
+  { text: '"Dunjaluk je vrt ahireta."', src: 'Hadis' },
   { text: '"Čovjek je na vjeri svog prijatelja — neka svako pazi koga uzima za prijatelja."', src: 'Ebu Davud i Tirmizi' },
   { text: '"Allah ne gleda vaše likove i imetke, nego vaša srca i djela."', src: 'Muslim' },
   { text: '"Najdraži čovjek Allahu je onaj koji je najkorisniji za ljude."', src: 'al-Tabarani' },
@@ -3301,7 +3313,7 @@ function HadithRotator({ lang }) {
     <div style={{borderTop:'1px solid rgba(201,168,76,0.1)',borderBottom:'1px solid rgba(201,168,76,0.1)',background:'rgba(10,18,12,0.6)',padding:'28px 0',textAlign:'center'}}>
       <div className="container" style={{maxWidth:640}}>
         <div style={{fontSize:11,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(201,168,76,0.5)',marginBottom:14}}>
-          {lang==='nl'?'Overlevering':'Predanje'}
+          {lang==='nl'?'Hadith':'Hadis'}
         </div>
         <div style={{transition:'opacity 0.6s',opacity:visible?1:0,minHeight:64}}>
           <p style={{fontFamily:'var(--font-display)',fontSize:'clamp(1rem,2.2vw,1.2rem)',fontWeight:300,color:'var(--text-soft)',lineHeight:1.6,fontStyle:'italic',margin:'0 0 10px'}}>
