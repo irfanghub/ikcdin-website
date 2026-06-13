@@ -296,7 +296,7 @@ nav { position: fixed; top: 52px; left: 0; right: 0; z-index: 500; background: r
 
 /* Story strip — Naša priča */
 .story-section { padding: 0 0 100px; position: relative; overflow: hidden; }
-.story-hero { position: relative; min-height: 280px; padding: 16px 0 24px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); align-items: center; gap: 0; max-width: 1280px; margin: 0 auto; }
+.story-hero { position: relative; padding: 0 0 24px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); align-items: start; gap: 0; max-width: 1280px; margin: 0 auto; }
 @media (max-width: 900px) { .story-hero { grid-template-columns: 1fr; padding: 40px 0 32px; min-height: 0; } }
 .story-hero-text { position: relative; z-index: 3; padding: 0 32px 0 56px; }
 .story-hero-text .section-label { justify-content: flex-start !important; }
@@ -2559,7 +2559,6 @@ function Lidmaatschap({ lang }) {
       {/* HERO — thematisch, naar levensdomein */}
       <section className="o2-hero">
         <div className="container">
-          <StarDivider/>
           <div className="section-label" style={{justifyContent:'center'}}><LogoMark size="sm"/> {lang==='nl'?'Lidmaatschap':'Članstvo'}</div>
           <h1 className="section-title" style={{fontSize:'clamp(2.4rem,4.8vw,3.6rem)'}}>
             {lang==='nl'?'Alles wat IKC DIN biedt':'Sve što IKC DIN nudi'}</h1>
