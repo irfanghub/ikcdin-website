@@ -1568,13 +1568,13 @@ function PrayerIcon({ idx, className = 'p-svg' }) {
   // 5 Jacija/Isha: crescent moon with stars
   const C = 'currentColor';
   switch (idx) {
-    case 0: // Sabah / Fajr — pre-dawn crescent with stars + horizon
+    case 0: // Sabah / Fajr — pre-dawn crescent met 3 vijfpuntige sterren + horizon
       return (
         <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M21 8 A7 7 0 1 0 21 22 A5.5 5.5 0 1 1 21 8 Z" fill={C}/>
-          <circle cx="9" cy="9" r="0.9" fill={C}/>
-          <circle cx="6" cy="14" r="0.7" fill={C}/>
-          <circle cx="12" cy="5" r="0.6" fill={C}/>
+          <polygon points="9.00,6.00 9.71,8.03 11.85,8.07 10.14,9.37 10.76,11.43 9.00,10.20 7.24,11.43 7.86,9.37 6.15,8.07 8.29,8.03" fill={C}/>
+          <polygon points="6.00,11.70 6.54,13.26 8.19,13.29 6.87,14.28 7.35,15.86 6.00,14.92 4.65,15.86 5.13,14.28 3.81,13.29 5.46,13.26" fill={C}/>
+          <polygon points="12.00,3.00 12.47,4.35 13.90,4.38 12.76,5.25 13.18,6.62 12.00,5.80 10.82,6.62 11.24,5.25 10.10,4.38 11.53,4.35" fill={C}/>
           <path d="M3 27 L29 27" stroke={C} strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
           <path d="M6 30 L26 30" stroke={C} strokeWidth="1" strokeLinecap="round" opacity="0.3"/>
         </svg>
@@ -1633,11 +1633,11 @@ function PrayerIcon({ idx, className = 'p-svg' }) {
           <path d="M8 28 L24 28" stroke={C} strokeWidth="0.9" strokeLinecap="round" opacity="0.25"/>
         </svg>
       );
-    case 5: // Jacija / Isha — crescent moon (dunner) + vijfpuntige ster
+    case 5: // Jacija / Isha — dunne maansikkel + grotere vijfpuntige ster
       return (
         <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19 5 A11 11 0 1 0 19 27 A9 9 0 1 1 19 5 Z" fill={C}/>
-          <polygon points="26,4 26.7,6.2 29,6.2 27.2,7.5 27.9,9.7 26,8.4 24.1,9.7 24.8,7.5 23,6.2 25.3,6.2" fill={C}/>
+          <path d="M21 7 A10 10 0 1 0 21 25 A7.5 7.5 0 1 1 21 7 Z" fill={C}/>
+          <polygon points="26.00,2.80 26.82,4.87 29.04,5.01 27.33,6.43 27.88,8.59 26.00,7.40 24.12,8.59 24.67,6.43 22.96,5.01 25.18,4.87" fill={C}/>
         </svg>
       );
     default:
@@ -3177,8 +3177,8 @@ function NextPrayerBar({ lang }) {
   const name = (t.pnames[idx] || ['',''])[0];
   return (
     <div className="next-prayer-bar">
-      <span className="npb-moon"><PrayerIcon idx={idx} className="npb-icon-svg"/></span>
       <span className="npb-label">{lang === 'nl' ? 'Volgend gebed' : 'Sljedeći namaz'}</span>
+      <span className="npb-moon"><PrayerIcon idx={idx} className="npb-icon-svg"/></span>
       <span className="npb-name">{name}</span><span className="npb-om" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? 'u' : 'om'}</span><span className="npb-prayer-time" style={{color:'var(--gold)',fontWeight:'600',fontSize:'16px'}}>{times[idx] || '--:--'}</span>
       <span className="npb-prefix" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? 'još' : 'nog'}</span><span className="npb-count">{fmtCountdown(remain)}</span><span className="npb-suffix" style={{color:'var(--text-muted)',fontSize:'15px'}}>{lang==='bs' ? '' : 'te gaan'}</span>
       <span className="npb-sep"/>
