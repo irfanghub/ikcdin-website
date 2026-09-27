@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kroz našu kuću — Doorgang · Renovatie IKC DIN</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ====== Voorstel 1 — Doorgang (één grote nis, ruimte voor ruimte) ====== */
+
+/* ---------- 8-punts ster (keystone-motief) ---------- */
+.star { position: relative; display: inline-block; }
+.star i, .star i::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gold); border-radius: 2px;
+}
+.star i::after { transform: rotate(45deg); }
+
+/* ---------- Intro ---------- */
+.intro {
+  min-height: 100vh; display: grid; place-items: center;
+  text-align: center; padding: 40px 24px;
+  position: relative; overflow: hidden;
+}
+.intro::after {
+  content:''; position:absolute; inset:0; z-index:1;
+  background: radial-gradient(ellipse at 50% 62%, rgba(5,122,65,0.16), transparent 60%);
+}
+.intro-arch {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(430px, 72vw); aspect-ratio: 3 / 4.1;
+  border: 1.4px solid var(--gold-border);
+  border-radius: 50% 50% 14px 14px / 32% 32% 14px 14px;
+  box-shadow: inset 0 0 90px rgba(201,168,76,0.05), 0 0 70px rgba(201,168,76,0.04);
+  z-index: 1;
+}
+.intro-arch.f2 { width: min(520px, 86vw); opacity: 0.5; }
+.intro-arch.f3 { width: min(610px, 96vw); opacity: 0.26; }
+.intro-arch .star { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); width: 22px; height: 22px; }
+.intro-arch .star i, .intro-arch .star i::after { box-shadow: 0 0 16px rgba(201,168,76,0.5); }
+.intro-inner { max-width: 760px; position: relative; z-index: 3; }
+.intro .bismi { font-size: 1.4rem; margin-bottom: 22px; display: block; }
+.intro h1 {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.04; margin: 16px 0 10px;
+}
+.intro h1 .bos { display:block; font-size: 0.92em; color: var(--text); }
+.intro h1 b { display: block; font-weight: 700; color: var(--gold); }
+.intro p { color: var(--text-muted); max-width: 540px; margin: 18px auto 32px; font-size: 1.05rem; }
+.scroll-hint { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 10px; }
+.scroll-hint .chev { width: 16px; height: 16px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: rotate(45deg); }
+
+/* ---------- Eén grote nis — doorgang door de zes ruimtes ---------- */
+/* .passage = hoge SPACER die de scroll aanstuurt.
+   .nis-stage pint één 100vh-podium; daarin staat één grote nis
+   die ruimte voor ruimte wisselt met een duidelijke doorgang-overgang. */
+.passage { position: relative; }
+.nis-stage {
+  position: sticky; top: 0; height: 100vh;
+  display: grid; place-items: center; overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 26%, rgba(11,21,16,0.42), transparent 62%),
+    radial-gradient(ellipse at 50% 120%, rgba(5,122,65,0.10), transparent 60%),
+    var(--bg-deep);
+}
+.nis {
+  position: relative;
+  height: min(88vh, 900px);
+  aspect-ratio: 1 / 1.34;
+  max-width: 78vw;
+  --ignite: 0; --flare: 0;
+}
+.nis-bloom {
+  position:absolute; inset:-10% -14%; border-radius:50%;
+  background: radial-gradient(ellipse at 50% 44%, rgba(201,168,76,0.5), rgba(201,168,76,0.12) 46%, transparent 72%);
+  filter: blur(34px); z-index:0; pointer-events:none;
+  opacity: calc(var(--ignite)*0.5 + var(--flare)*0.55);
+  transform: scale(calc(0.9 + var(--ignite)*0.14 + var(--flare)*0.1));
+}
+.nis-ring {
+  position:absolute; inset:-20px; z-index:3; pointer-events:none;
+  border:1.6px solid color-mix(in oklab, var(--gold) calc(20% + var(--ignite)*55% + var(--flare)*45%), transparent);
+  border-radius: 50% 50% 14px 14px / 26% 26% 14px 14px;
+  box-shadow:
+    inset 0 0 80px rgba(0,0,0,0.4),
+    0 0 calc(var(--ignite)*40px + var(--flare)*70px) rgba(201,168,76, calc(var(--ignite)*0.4 + var(--flare)*0.6));
+}
+.nis-ring.f2 { inset:-46px; opacity: calc(0.3 + var(--ignite)*0.38 + var(--flare)*0.5); }
+.keystone {
+  position:absolute; top:-36px; left:50%; transform:translateX(-50%);
+  width:30px; height:30px; z-index:5;
+}
+.keystone i, .keystone i::after {
+  box-shadow: 0 0 calc(10px + var(--ignite)*28px + var(--flare)*44px) rgba(201,168,76, calc(0.45 + var(--ignite)*0.5 + var(--flare)*0.5));
+  background: color-mix(in oklab, var(--gold) calc(58% + var(--ignite)*42%), #6d6043);
+}
+.nis-window {
+  position:absolute; inset:0; z-index:1;
+  border-radius: 50% 50% 12px 12px / 24% 24% 12px 12px;
+  overflow:hidden; border:1px solid var(--gold-border);
+  box-shadow: 0 60px 120px rgba(0,0,0,0.7);
+}
+.subj { position:absolute; inset:0; opacity:0; }
+.subj .stack { position:absolute; inset:0; }
+.subj .stack img {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; display:block; opacity:0; transition: opacity .12s linear;
+}
+.subj .stack img:first-child { opacity:1; }      /* vangnet vóór JS-render */
+.subj .stack.voor img { filter: saturate(0.6) brightness(0.82) contrast(0.98); }
+.subj .chill {
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background: linear-gradient(180deg, rgba(20,40,55,0.32), rgba(10,25,35,0.22));
+  mix-blend-mode: screen;
+}
+.nis-vign { position:absolute; inset:0; z-index:3; pointer-events:none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 52%, rgba(3,7,10,0.62) 100%); }
+.sweep {
+  position:absolute; top:-12%; bottom:-12%; left:0; width: 60%;
+  z-index: 4; pointer-events:none; opacity: 0;
+  transform: translateX(-150%) skewX(-14deg);
+  background: linear-gradient(100deg,
+     transparent, rgba(232,208,122,0.0) 18%,
+     rgba(232,208,122,0.9) 50%, rgba(255,255,255,0.6) 56%,
+     rgba(232,208,122,0.0) 82%, transparent);
+  mix-blend-mode: screen; filter: blur(2px);
+}
+/* doorgang-scrim: de nis "sluit" donker en opent op de volgende ruimte */
+.door-scrim {
+  position:absolute; inset:0; z-index:6; pointer-events:none; opacity:0;
+  background: radial-gradient(ellipse at 50% 46%, transparent 6%, rgba(3,7,10,0.5) 42%, rgba(2,5,7,0.97) 78%);
+}
+
+/* caption — overlay onderin de nis */
+.nis-caption {
+  position:absolute; left:0; right:0; bottom:0; z-index:7;
+  padding: 96px 30px 30px; text-align:center;
+  background: linear-gradient(0deg, rgba(3,7,10,0.95) 8%, rgba(3,7,10,0.66) 50%, transparent);
+  transition: opacity .2s;
+}
+.nis-caption .eyebrow { display:block; margin-bottom: 8px; font-size: 10px; }
+.nis-caption h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem,3.2vw,2.4rem); color: #fff; line-height:1.12; }
+.nis-caption h3 .bos { color: var(--gold-light); font-style: italic; font-weight: 400; font-size: 0.72em; }
+.nis-caption .line { font-size: 14px; color: var(--text-soft); margin: 8px auto 0; line-height: 1.5; max-width: 540px; }
+.phase-pill {
+  display:inline-flex; align-items:center; gap:8px; margin-top: 15px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 100px; border: 1px solid var(--gold-border);
+  background: rgba(6,13,8,0.6); transition: color .3s, border-color .3s; color: var(--voor);
+}
+.phase-pill .pd { width:7px; height:7px; border-radius:50%; background: currentColor; }
+.dots { display:flex; gap:6px; margin-top: 14px; justify-content:center; flex-wrap:wrap; }
+.dots .imdot { width:6px; height:6px; border-radius:50%; background: var(--gold-border); transition: all .25s; }
+.dots .imdot.on { background: var(--gold); transform: scale(1.5); box-shadow:0 0 8px rgba(201,168,76,0.6); }
+
+/* ---------- HUD ---------- */
+.hud { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 200; display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.hud-item { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); opacity:0.45; transition:opacity .3s,color .3s; }
+.hud-item .dot { width:7px; height:7px; border-radius:50%; border:1px solid var(--text-muted); transition:all .3s; }
+.hud-item.active { opacity:1; color:var(--gold); }
+.hud-item.active .dot { background:var(--gold); border-color:var(--gold); box-shadow:0 0 8px rgba(201,168,76,0.6); transform:scale(1.3); }
+.progress-num { position: fixed; left: 26px; bottom: 24px; z-index:200; font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--text-muted); }
+.progress-num b { color: var(--gold); }
+
+/* ---------- Outro / finale ---------- */
+.outro { min-height: 100vh; display:grid; place-items:center; text-align:center; padding: 60px 24px; position: relative; overflow: hidden; background: var(--bg-deep); }
+.outro-photo { position:absolute; inset:0; z-index:0; }
+.outro-photo img { width:100%; height:100%; object-fit:cover; opacity:0; transform: scale(1.08); transition: opacity 1.6s ease, transform 6s ease; }
+.outro.in .outro-photo img { opacity:0.32; transform: scale(1); }
+.outro::before {
+  content:''; position:absolute; left:50%; top:46%; transform:translate(-50%,-50%) scale(0.6);
+  width: min(820px, 120vw); aspect-ratio:1; border-radius:50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.22), rgba(5,122,65,0.06) 40%, transparent 66%);
+  opacity:0; transition: opacity 1.4s ease, transform 1.6s cubic-bezier(.2,.7,.2,1); z-index: 1; pointer-events:none;
+}
+.outro.in::before { opacity:1; transform:translate(-50%,-50%) scale(1); }
+.outro-inner { max-width: 660px; position: relative; z-index: 2; }
+.outro .star { width: 26px; height: 26px; display:block; margin: 0 auto 22px; opacity:0; transform: translateY(14px) rotate(-12deg); transition: all .9s cubic-bezier(.2,.7,.2,1); }
+.outro .star i, .outro .star i::after { box-shadow: 0 0 22px rgba(201,168,76,0.55); }
+.outro.in .star { opacity:1; transform:none; }
+.outro .eyebrow { display:block; margin-bottom: 14px; }
+.outro h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem,5vw,3.4rem); line-height:1.1; }
+.outro h2 b { color: var(--gold); font-weight: 700; }
+.outro .dua { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--gold-light); margin: 20px 0 4px; }
+.outro p { color: var(--text-muted); margin: 14px 0 26px; }
+.outro .legend { justify-content:center; }
+.outro .reveal { opacity:0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.outro.in .reveal { opacity:1; transform:none; }
+.outro.in .reveal.d1 { transition-delay: .15s; }
+.outro.in .reveal.d2 { transition-delay: .3s; }
+.outro.in .reveal.d3 { transition-delay: .45s; }
+.outro.in .reveal.d4 { transition-delay: .6s; }
+
+@media (max-width: 640px){
+  .nis-caption .line { font-size: 13px; }
+  .hud { display:none; }
+  .nis { max-width: 90vw; height: min(80vh, 680px); }
+  .nis-ring.f2 { inset:-30px; }
+  .keystone { top:-28px; width:24px; height:24px; }
+}
+@media (max-height: 720px){
+  .nis-caption .line { display:none; }
+  .dots { margin-top: 10px; }
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .scroll-hint .chev { animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{ transform: rotate(45deg) translate(0,0); opacity:.4 } 50%{ transform: rotate(45deg) translate(3px,3px); opacity:1 } }
+  .intro-arch { animation: archIn 1.6s .15s cubic-bezier(.2,.7,.2,1) backwards; }
+  @keyframes archIn { from { transform: translate(-50%,-46%) scale(0.9);} to { transform: translate(-50%,-50%); } }
+  .intro .bismi { animation: riseIn .9s .15s backwards; }
+  .intro .eyebrow { animation: riseIn .9s .35s backwards; display:inline-block; }
+  .intro h1 { animation: riseIn 1s .5s backwards; }
+  .intro p { animation: riseIn 1s .75s backwards; }
+  .scroll-hint { animation: riseIn 1s 1s backwards; }
+  @keyframes riseIn { from{ transform:translateY(26px);} to{ transform:none;} }
+  .intro-arch .star i { animation: starGlow 3.4s ease-in-out infinite; }
+  @keyframes starGlow { 0%,100%{ filter:brightness(0.85);} 50%{ filter:brightness(1.3);} }
+}
+</style>
+</head>
+<body data-screen-label="Voorstel 1 — Doorgang">
+
+<a class="back-link" href="../Renovatie Voorstellen.html">← Voorstellen</a>
+
+<!-- Intro -->
+<section class="intro tile-pattern" data-screen-label="Intro">
+  <div class="intro-arch f3"></div>
+  <div class="intro-arch f2"></div>
+  <div class="intro-arch"><span class="star"><i></i></span></div>
+  <div class="intro-inner">
+    <span class="bismi">Bismillāhi-r-Raḥmāni-r-Raḥīm</span>
+    <span class="eyebrow">Naša priča · Renovacija 2020–2021</span>
+    <h1><span class="bos">Kroz našu kuću</span><b>door ons gebouw</b></h1>
+    <p>Eén nis, ruimte voor ruimte. Bij elke halte zie je hoe het was — en dan, in één lichtveeg, hoe het werd. Scroll verder en je loopt door de doorgang naar de volgende.</p>
+    <span class="scroll-hint">Scroll om te lopen <span class="chev"></span></span>
+  </div>
+</section>
+
+<!-- Doorgang: één grote nis -->
+<div class="passage tile-pattern" id="passage" data-screen-label="Doorgang">
+  <div class="nis-stage">
+    <div class="nis" id="nis">
+      <div class="nis-bloom"></div>
+      <div class="nis-ring f2"></div>
+      <div class="nis-ring"></div>
+      <div class="keystone star"><i></i></div>
+      <div class="nis-window" id="nisWindow">
+        <!-- subj-lagen worden hier ingevoegd -->
+        <div class="nis-vign"></div>
+        <div class="sweep" id="sweep"></div>
+        <div class="door-scrim" id="doorScrim"></div>
+        <div class="nis-caption" id="caption">
+          <span class="eyebrow" id="capEyebrow"></span>
+          <h3 id="capTitle"></h3>
+          <p class="line" id="capLine"></p>
+          <div class="phase-pill" id="capPill"><span class="pd"></span><span class="pt" id="capPillText">prije · voor</span></div>
+          <div class="dots" id="dots"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HUD -->
+<div class="hud" id="hud"></div>
+<div class="progress-num" id="pnum"><b>01</b> / 06 · <span id="pname">Pročelje</span></div>
+
+<!-- Outro -->
+<section class="outro tile-pattern" id="outro" data-screen-label="Finale">
+  <div class="outro-photo"><img alt="Onze džamija" referrerpolicy="no-referrer" src="https://drive.google.com/thumbnail?id=1xaCuiPNVwSsqDMGb9NghEdH5gWTS7fo7&sz=w1600"/></div>
+  <div class="outro-inner">
+    <span class="star reveal"><i></i></span>
+    <span class="eyebrow reveal">Alhamdulillah · 2021</span>
+    <h2 class="reveal d1">Van bouwval tot <b>BOSANSKA KUĆA</b></h2>
+    <p class="dua reveal d2">Rabbenā taqabbel minnā</p>
+    <p class="reveal d3">"Onze Heer, aanvaard dit van ons." — wat in de coronaperiode een lege, vervallen ruimte was, werd met de handen van onze gemeenschap onze mesdžid, onze mekteb, ons huis.</p>
+    <div class="legend reveal d4">
+      <span class="legend-chip"><span class="legend-dot voor"></span>Voor · prije</span>
+      <span class="legend-chip"><span class="legend-dot tijdens"></span>Tijdens · radovi</span>
+      <span class="legend-chip"><span class="legend-dot na"></span>Na · poslije</span>
+    </div>
+  </div>
+</section>
+
+<script>
+function src(id, w){ return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + (w||1400); }
+
+/* Per ruimte: gelabelde voor- en na-foto's */
+const STATIONS = [
+  { num:'01', name:'Pročelje', nl:'De drempel aan het plein', bos:'prag',
+    line:'Vrata koja se uvijek otvaraju — een deur die voor iedereen opengaat.',
+    voor:['1bTvEAClMEcoiTIZOmBk6Tc3fdP_3FH5k','1usLVhQ-QU-SC8vue1tyIZ8mZLOgERwr7','1UOshy2i6ueNrXt4s-dqnBq2Md_3SORJJ','1QXdusLbSka5NTbx-_7iFxbR5f8jIyDsf','1iOP6suNKvIcpFuNtAtkPQTMl_liISv3Q','1aEIgaqqYwgeWJFIZWz6TJZrGlwbrxnvc','1uXkwMagikprAiW32AGlF0wLtU1JwBNbQ','1vegSJShorsvvsyk_oS7wpUj8JmE0TrKS'],
+    na:['1QEJBDRbkDqj9p7iM6RzyjUBthtA28ggh','1DPsQRTXQ4V5jDlD2tbNfX0p6g9HnOWNB','1zhKl_VA8h2q6K6WYJQ0aUat9q4VjfAbg','1PGxsyjISKCvwVFKKCSMPTrSwQnIWy6g-','128MG3FG6Woj-UScAirL92Rfg5wvpm7jk'] },
+
+  { num:'02', name:'Učionica', nl:'De mekteb-klas', bos:'mektebska učionica',
+    line:'Een onafgewerkte zijruimte werd een licht lokaal voor onze kinderen.',
+    voor:['1QDa9-BHrg7twPqKIr3Jk1ZGVUMvJy3ef','1UTbIWQspZzfMq3FlFUI2WoMAP7UDaBMo'],
+    na:['1w4GQVKCAjAmbMMppabmlHh0RVHXCxPdR','1X50wyzfJVCIkglue1V6yIA2xLejpqN9v'] },
+
+  { num:'03', name:'Divanhana', nl:'De gemeenschapsruimte', bos:'divanhana',
+    line:'Open casco werd de warmte van kafa, muhabet en samenzijn.',
+    voor:['1owHbtYYVGnC8F5x0oNyByz9Shnv1uGh3','1ss_pZEvYvqV6Fm21VKgHZTlZouLuAEkB','1C8kWYWozOLz-H7Y6TvROg4hD1QngPdy-'],
+    na:['1lJKOapWjtmGslmKPb8qQRk5vh-ypfmra','1SHmKUqGFXLk3xuLgXJMgZYWMIEHbxqu2'] },
+
+  { num:'04', name:'Podrum', nl:'De kelder', bos:'podrum',
+    line:'Een donkere ruwbouw onder het gebouw werd bruikbare, warme ruimte.',
+    voor:['12W5OZQRlZ0XPyDebSJpCXRnhCDtJXFa8','1ogHWAFZsTwIeWWGxsya95UI_mOCT-nLO'],
+    na:['1RzRKWLxV30ggKUY48kX6KP1osNcVf7x4','1hNG00ERT2winqtJ5rr_G1_Zwz6GnyUwP'] },
+
+  { num:'05', name:'Mihrab', nl:'Het hart, naar de qibla', bos:'mihrab',
+    line:'Een lege muurnis werd de richting van ons gebed.',
+    voor:['1WoLmWlI2SYU5EABeluxs90i0rx02bHNn','1CLZCwSZjn3em93-Z6RdWF2KkO37_9KXk'],
+    na:['1yBb_QPNDaERaanKFo5lFXAy7fp-z690l','1bW_ghc6N7h9x5iMZ48_09VTbWP2ipT4H'] },
+
+  { num:'06', name:'Mesdžid', nl:'De gebedshal', bos:'mesdžid',
+    line:'Van kaal casco tot de plek waar we samen knielen — en samen vieren.',
+    voor:['13A4ag_M9fSOsx8zSh5CVK9Bo8sD3LWtd','18awJLbkY4l773V6HEh72UbjLfNd4e0gC','1Y3Lh5i2xe8Nu37Y6K6mO7xhgIsI2YS6G'],
+    na:['1l6dvJa2WlG6O7B6miWodwYrX9x_brhA3','1O0s2iKwUF2pQGAo-4PfML_RSv9FyebfN','10VTNLKqJVQaqW2lg0h0Yo1qHnfEKZwPw'] },
+];
+
+const SUBJ_VH = 360;              // scroll-lengte per ruimte (trager = hoger)
+const N = STATIONS.length;
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+
+const passage   = document.getElementById('passage');
+const windowEl  = document.getElementById('nisWindow');
+const nis       = document.getElementById('nis');
+const sweepEl   = document.getElementById('sweep');
+const doorScrim = document.getElementById('doorScrim');
+const caption   = document.getElementById('caption');
+const capEyebrow= document.getElementById('capEyebrow');
+const capTitle  = document.getElementById('capTitle');
+const capLine   = document.getElementById('capLine');
+const capPill   = document.getElementById('capPill');
+const capPillText = document.getElementById('capPillText');
+const dotsWrap  = document.getElementById('dots');
+const hud       = document.getElementById('hud');
+const pnum      = document.getElementById('pnum');
+const pname     = document.getElementById('pname');
+
+passage.style.height = (N * SUBJ_VH) + 'vh';
+
+// subj-lagen vóór de overlays invoegen
+const vignEl = windowEl.querySelector('.nis-vign');
+const subjects = STATIONS.map((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'subj';
+  el.dataset.i = i;
+  const voorImgs = s.voor.map((id,k)=>`<img alt="${s.name} voor ${k+1}" referrerpolicy="no-referrer" decoding="async" src="${src(id, 1400)}" onerror="this.remove()">`).join('');
+  const naImgs   = s.na.map((id,k)=>`<img alt="${s.name} na ${k+1}" referrerpolicy="no-referrer" decoding="async" src="${src(id, 1500)}" onerror="this.remove()">`).join('');
+  el.innerHTML = `<div class="stack voor">${voorImgs}<div class="chill"></div></div><div class="stack na">${naImgs}</div>`;
+  windowEl.insertBefore(el, vignEl);
+
+  // HUD-item
+  const hi = document.createElement('div');
+  hi.className = 'hud-item';
+  hi.innerHTML = `${s.num} ${s.name}<span class="dot"></span>`;
+  hud.appendChild(hi);
+
+  return {
+    el,
+    voor: [...el.querySelectorAll('.stack.voor img')],
+    na:   [...el.querySelectorAll('.stack.na img')],
+    voorStack: el.querySelector('.stack.voor'),
+    naStack:   el.querySelector('.stack.na'),
+    nVoor: s.voor.length, nNa: s.na.length,
+  };
+});
+const hudItems = [...hud.children];
+
+// slideshow: verdeel sub-progress pp over n beelden, met hold + korte crossfade
+function slideshow(imgs, pp){
+  const n = imgs.length;
+  if (n === 0) return -1;
+  if (n === 1){ imgs[0].style.opacity = 1; return 0; }
+  const seg = pp * n;
+  let idx = clamp(Math.floor(seg), 0, n-1);
+  const frac = seg - idx;
+  const op = new Array(n).fill(0);
+  op[idx] = 1;
+  if (frac > 0.72 && idx < n-1){ const t=(frac-0.72)/0.28; op[idx]=1-t; op[idx+1]=t; }
+  imgs.forEach((im,k)=> im.style.opacity = op[k].toFixed(3));
+  return (frac > 0.72 && idx < n-1) ? idx+1 : idx;
+}
+
+// caption + dots wisselen per ruimte
+let lastCap = -1, curDots = [];
+function setCaption(i){
+  if (i === lastCap) return;
+  lastCap = i;
+  const s = STATIONS[i];
+  capEyebrow.textContent = s.num + ' · ' + s.name;
+  capTitle.innerHTML = s.nl + ' <span class="bos">· ' + s.bos + '</span>';
+  capLine.textContent = s.line;
+  dotsWrap.innerHTML = '';
+  const total = subjects[i].nVoor + subjects[i].nNa;
+  for (let d=0; d<total; d++){ const e=document.createElement('span'); e.className='imdot'; dotsWrap.appendChild(e); }
+  curDots = [...dotsWrap.children];
+}
+function setActiveDot(idx){ curDots.forEach((d,k)=> d.classList.toggle('on', k===idx)); }
+
+// absolute document-top (sticky-proof)
+function absTop(el){ let y=0; while(el){ y+=el.offsetTop; el=el.offsetParent; } return y; }
+let passageTop = 0;
+function measure(){ passageTop = absTop(passage); }
+measure();
+
+// fase-grenzen binnen één ruimte
+const RA = 0.34, RB = 0.50, NA_END = 0.80;
+
+function render(){
+  const vh = window.innerHeight;
+  const y = window.scrollY || window.pageYOffset;
+  const scrollable = passage.offsetHeight - vh;
+  const P = clamp((y - passageTop) / scrollable, 0, 1);
+  const segF = P * N;
+  const ci = Math.min(Math.floor(segF), N - 1);
+  const local = segF - ci;
+
+  const naMix = clamp((local - RA) / (RB - RA), 0, 1);
+  const inHandoff = (ci < N - 1) && local > NA_END;
+  const ht = inHandoff ? clamp((local - NA_END) / (1 - NA_END), 0, 1) : 0;
+  const flare = inHandoff ? Math.sin(ht * Math.PI) : 0;
+
+  // alle ruimtes verbergen
+  for (const s of subjects) s.el.style.opacity = '0';
+
+  // ---- huidige ruimte ----
+  const cur = subjects[ci];
+  cur.el.style.opacity = '1';
+  cur.naStack.style.opacity = naMix.toFixed(3);
+  cur.voorStack.style.opacity = (1 - naMix * 0.85).toFixed(3);
+  cur.el.style.setProperty('--ignite', naMix.toFixed(3));
+
+  let dotIndex = -1;
+  if (local < (RA + RB) / 2){
+    const pv = clamp(local / RA, 0, 1);
+    dotIndex = slideshow(cur.voor, pv);
+    cur.na.forEach(im => im.style.opacity = '0');
+  } else {
+    const pn = clamp((local - RB) / (NA_END - RB), 0, 1);
+    const ni = slideshow(cur.na, pn);
+    cur.voor.forEach((im,k) => im.style.opacity = (k === cur.nVoor - 1 ? (1 - naMix) : 0).toFixed(3));
+    dotIndex = cur.nVoor + (ni < 0 ? 0 : ni);
+  }
+
+  // lichtveeg tijdens de voor→na onthulling
+  const sweepP = clamp((local - (RA - 0.04)) / 0.22, 0, 1);
+  sweepEl.style.transform = `translateX(${(-150 + sweepP * 340).toFixed(1)}%) skewX(-14deg)`;
+  sweepEl.style.opacity = (sweepP > 0 && sweepP < 1 ? Math.sin(sweepP * Math.PI) : 0).toFixed(3);
+
+  // ---- doorgang naar de volgende ruimte ----
+  if (inHandoff){
+    const nx = subjects[ci + 1];
+    cur.el.style.opacity = clamp(1 - ht / 0.55, 0, 1).toFixed(3);
+    nx.el.style.opacity  = clamp((ht - 0.45) / 0.55, 0, 1).toFixed(3);
+    nx.voorStack.style.opacity = '1';
+    nx.naStack.style.opacity = '0';
+    nx.voor.forEach((im,k) => im.style.opacity = (k === 0 ? '1' : '0'));
+    nx.na.forEach(im => im.style.opacity = '0');
+    nx.el.style.setProperty('--ignite', '0');
+  }
+
+  // nis-flits (ring + keystone + bloom) en doorgang-scrim
+  nis.style.setProperty('--ignite', naMix.toFixed(3));
+  nis.style.setProperty('--flare', flare.toFixed(3));
+  doorScrim.style.opacity = (flare * 0.92).toFixed(3);
+
+  // caption (wisselt op het midden van de doorgang)
+  const capIndex = (inHandoff && ht >= 0.5) ? ci + 1 : ci;
+  setCaption(capIndex);
+  caption.style.opacity = (1 - flare * 0.82).toFixed(3);
+  setActiveDot(capIndex === ci ? dotIndex : 0);
+
+  // fase-pill
+  if (inHandoff && flare > 0.25){ capPill.style.color='var(--gold)'; capPill.style.borderColor='var(--gold)'; capPillText.textContent='doorgang · prijelaz'; }
+  else if (inHandoff && ht >= 0.5){ capPill.style.color='var(--voor)'; capPill.style.borderColor='var(--voor)'; capPillText.textContent='prije · voor'; }
+  else if (naMix > 0.5){ capPill.style.color='var(--na)'; capPill.style.borderColor='var(--na)'; capPillText.textContent='poslije · na'; }
+  else if (naMix > 0.05){ capPill.style.color='var(--tijdens)'; capPill.style.borderColor='var(--tijdens)'; capPillText.textContent='…radovi · in opbouw'; }
+  else { capPill.style.color='var(--voor)'; capPill.style.borderColor='var(--voor)'; capPillText.textContent='prije · voor'; }
+
+  // HUD + progress
+  hudItems.forEach((h,i) => h.classList.toggle('active', i === capIndex));
+  pnum.querySelector('b').textContent = STATIONS[capIndex].num;
+  pname.textContent = STATIONS[capIndex].name;
+}
+
+let ticking = false;
+function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(()=>{ render(); ticking=false; }); } }
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('resize', ()=>{ measure(); render(); });
+window.__render = render;   // beschikbaar voor verificatie
+measure(); render();
+
+// Outro-finale
+const outro = document.getElementById('outro');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); });
+}, { threshold: 0.3 });
+io.observe(outro);
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voorstel 2 — Voor & Na · Renovatie IKC DIN</title>
+<link rel="stylesheet" href="shared.css"/>
+<script src="photos.js"></script>
+<style>
+/* ====== Voorstel 2 — Voor & Na tijdlijn ====== */
+.hero { padding: 120px 24px 60px; text-align: center; position: relative; }
+.hero .eyebrow { display:block; margin-bottom: 16px; }
+.hero h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem,6vw,4.4rem); line-height: 1.05; }
+.hero h1 b { color: var(--gold); font-weight: 700; }
+.hero p { color: var(--text-muted); max-width: 560px; margin: 18px auto 26px; font-size: 1.05rem; }
+.hero .legend { justify-content: center; }
+
+.timeline { max-width: 1080px; margin: 0 auto; padding: 40px 24px 120px; position: relative; }
+.timeline::before {           /* verticale lijn */
+  content:''; position:absolute; left: 40px; top: 0; bottom: 90px; width: 1.5px;
+  background: linear-gradient(180deg, transparent, var(--gold-border) 8%, var(--gold-border) 92%, transparent);
+}
+@media (max-width: 760px){ .timeline::before { left: 19px; } }
+
+.milestone {
+  position: relative;
+  padding-left: 86px;
+  margin-bottom: 92px;
+  opacity: 0;
+  transform: translateY(38px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+.milestone.in { opacity: 1; transform: none; }
+@media (max-width: 760px){ .milestone { padding-left: 48px; } }
+
+.dot {
+  position: absolute; left: 32px; top: 6px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--bg-deep); border: 2px solid var(--mile-c, var(--gold));
+  box-shadow: 0 0 0 5px var(--bg-deep), 0 0 16px var(--mile-glow, rgba(201,168,76,0.4));
+  z-index: 2;
+}
+@media (max-width: 760px){ .dot { left: 11px; } }
+
+.mile-head { display:flex; align-items:baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+.mile-date { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; color: var(--mile-c, var(--gold)); text-transform: uppercase; }
+.mile-phase { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 2px 9px; border-radius: 100px; border:1px solid var(--mile-c, var(--gold-border)); color: var(--mile-c, var(--gold)); }
+.mile-title { font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2rem); font-weight: 600; line-height: 1.15; margin-bottom: 4px; }
+.mile-title .bos { color: var(--text-muted); font-style: italic; font-weight: 400; font-size: 0.8em; }
+.mile-text { color: var(--text-muted); font-size: 14.5px; max-width: 620px; margin-bottom: 18px; }
+
+/* before/after comparison */
+.ba {
+  position: relative; width: 100%; aspect-ratio: 16 / 10;
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  user-select: none; touch-action: pan-y;
+  cursor: ew-resize;
+}
+.ba-layer { position: absolute; inset: 0; }
+.ba-after { clip-path: inset(0 calc(100% - var(--pos,50%)) 0 0); }
+.ba .ph { border-radius: 0; }
+.ba-layer img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:2; }
+.ba-before img { filter: saturate(0.62) brightness(0.9) contrast(0.96); }  /* 'voor' iets koeler */
+.ba-badge { position: absolute; top: 14px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 11px; border-radius: 100px; background: rgba(3,7,10,0.7); backdrop-filter: blur(4px); z-index: 4; }
+.ba-badge.voor { right: 14px; color: var(--voor); border:1px solid rgba(109,127,134,0.4); }
+.ba-badge.na { left: 14px; color: var(--gold); border:1px solid var(--gold-border); }
+.ba-divider {
+  position: absolute; top: 0; bottom: 0; left: var(--pos,50%);
+  width: 2px; background: var(--gold); transform: translateX(-1px); z-index: 5;
+  box-shadow: 0 0 14px rgba(201,168,76,0.6);
+}
+.ba-handle {
+  position: absolute; top: 50%; left: var(--pos,50%);
+  transform: translate(-50%,-50%); z-index: 6;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--gold); color: #06140b;
+  display: grid; place-items: center; font-size: 17px; font-weight: 700;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 0 6px rgba(201,168,76,0.18);
+  cursor: grab;
+}
+.ba.dragging { cursor: grabbing; }
+.ba.dragging .ba-handle { cursor: grabbing; box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 0 9px rgba(201,168,76,0.26); }
+.ba-handle::before, .ba-handle::after { content:''; position:absolute; top:50%; width:6px; height:6px; border-top:2px solid #06140b; border-right:2px solid #06140b; }
+.ba-handle::before { left:11px; transform: translateY(-50%) rotate(-135deg); }
+.ba-handle::after  { right:11px; transform: translateY(-50%) rotate(45deg); }
+/* sleep-hint, verdwijnt na eerste interactie */
+.ba-hint {
+  position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:7;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+  color:#06140b; background:var(--gold); padding:7px 15px; border-radius:100px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4); white-space:nowrap; pointer-events:none;
+  animation: hintpulse 1.8s ease-in-out infinite;
+}
+.ba.touched .ba-hint { opacity:0; transition:opacity .4s; }
+@keyframes hintpulse { 0%,100%{ transform:translateX(-50%) translateY(0) } 50%{ transform:translateX(-50%) translateY(-3px) } }
+
+.coda { text-align:center; padding: 30px 24px 120px; max-width: 640px; margin: 0 auto; }
+.coda .bismi { font-size: 1.2rem; display:block; margin-bottom: 12px; }
+.coda p { color: var(--text-soft); font-family: var(--font-display); font-size: 1.5rem; font-style: italic; line-height: 1.4; }
+
+.milestone[data-c="voor"]   { --mile-c: var(--voor);    --mile-glow: rgba(109,127,134,0.5); }
+.milestone[data-c="tijdens"]{ --mile-c: var(--tijdens); --mile-glow: rgba(201,138,60,0.5); }
+.milestone[data-c="na"]     { --mile-c: var(--na);      --mile-glow: rgba(201,168,76,0.5); }
+
+/* ---- Finale: full-bleed eindresultaat ---- */
+.finale { position: relative; margin: 0 0 0; min-height: 86vh; display: grid; place-items: end start; overflow: hidden; }
+.finale-img { position: absolute; inset: 0; }
+.finale-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.finale::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(3,7,10,0.45) 0%, transparent 35%, rgba(3,7,10,0.55) 75%, rgba(3,7,10,0.95) 100%); }
+.finale-cap { position: relative; z-index: 2; padding: 0 8vw 80px; max-width: 720px; }
+.finale-cap .eyebrow { display:block; margin-bottom: 12px; }
+.finale-cap h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem,6vw,4.2rem); line-height: 1.04; }
+.finale-cap h2 b { color: var(--gold-light); font-weight: 700; }
+.finale-cap p { color: var(--text-soft); font-size: 1.1rem; margin-top: 14px; max-width: 540px; text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
+
+/* ---- De visie (architecttekeningen) ---- */
+.visie { max-width: 1200px; margin: 0 auto; padding: 90px 24px 40px; }
+.visie-head { max-width: 640px; margin-bottom: 30px; }
+.visie-head .eyebrow { display:block; margin-bottom: 12px; color: #9d8ee8; }
+.visie-head h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.9rem,4vw,2.8rem); line-height: 1.08; }
+.visie-head h2 b { color: #b3a6f0; font-weight: 700; }
+.visie-head p { color: var(--text-muted); margin-top: 12px; }
+.visie-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(280px, 32%); gap: 16px; overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; }
+.visie-strip::-webkit-scrollbar { height: 8px; }
+.visie-strip::-webkit-scrollbar-thumb { background: rgba(124,107,209,0.4); border-radius: 100px; }
+.visie-card { position: relative; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; border: 1px solid rgba(124,107,209,0.35); background: #11102a; scroll-snap-align: start; }
+.visie-card img { width:100%; height:100%; object-fit: cover; display:block; }
+.visie-card .vlabel { position:absolute; left:10px; bottom:10px; z-index:2; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #b3a6f0; background: rgba(8,8,24,0.78); padding: 4px 10px; border-radius: 100px; }
+.visie-card .vfb { position:absolute; inset:0; display:grid; place-items:center; color:#6c63a8; font-family: var(--font-mono); font-size: 11px; }
+@media (max-width: 760px){ .visie-strip { grid-auto-columns: 78%; } }
+</style>
+</head>
+<body data-screen-label="Voorstel 2 — Voor & Na">
+
+<a class="back-link" href="../Renovatie Voorstellen.html">← Voorstellen</a>
+
+<section class="hero tile-pattern">
+  <span class="eyebrow">Naša priča · Renovacija 2020–2021</span>
+  <h1>Voor &amp; <b>Na</b></h1>
+  <p>Sleep over elke foto en zie de transformatie — van bouwval naar ons huis. Een tijdlijn door de coronaperiode, ruimte voor ruimte.</p>
+  <div class="legend">
+    <span class="legend-chip"><span class="legend-dot voor"></span>Voor · prije</span>
+    <span class="legend-chip"><span class="legend-dot tijdens"></span>Tijdens · radovi</span>
+    <span class="legend-chip"><span class="legend-dot na"></span>Na · poslije</span>
+  </div>
+</section>
+
+<div class="timeline" id="timeline"></div>
+
+<!-- Finale: het eindresultaat -->
+<section class="finale" id="finale">
+  <div class="finale-img">
+    <img alt="IKC DIN džamija" referrerpolicy="no-referrer" id="finale-photo">
+  </div>
+  <div class="finale-cap">
+    <span class="eyebrow">Alhamdulillah · 2021</span>
+    <h2>Onze <b>džamija</b></h2>
+    <p>Wat een bouwval was, werd ons huis — mesdžid, mekteb en plek van samenkomst voor de Bosnische gemeenschap in Eindhoven.</p>
+  </div>
+</section>
+
+<!-- De visie van de architect -->
+<section class="visie">
+  <div class="visie-head">
+    <span class="eyebrow">Prije početka · vóór de eerste steen</span>
+    <h2>De visie van de <b>architect</b></h2>
+    <p>Voordat er één muur viel, bestond ons huis al op papier. Dit waren de ontwerpen die ons door de renovatie droegen.</p>
+  </div>
+  <div class="visie-strip" id="visie-strip"></div>
+</section>
+
+<div class="coda tile-pattern">
+  <span class="bismi">Rabbenā taqabbel minnā</span>
+  <p>"Onze Heer, aanvaard dit van ons." — een huis gebouwd met de handen van de gemeenschap.</p>
+</div>
+
+<script>
+const MILES = [
+  { date:'2020 · de start', phase:'Voor', c:'voor',    title:'De gevel & entree', bos:'pročelje', text:'Een leeg, vervallen pand aan het Hugo de Grootplein. Dichtgetimmerd, koud, stil — maar vol belofte. Hier zou onze BOSANSKA KUĆA komen.', voor:1, na:'exterieur', vcap:'Vervallen voorgevel', ncap:'Onze entree aan het plein' },
+  { date:'Sloop & ruwbouw', phase:'Tijdens', c:'tijdens', title:'De mesdžid', bos:'gebedshal', text:'De gebedshal als kaal casco: muren gestript, vloeren eruit, alles terug naar de basis. Het zware werk, met eigen handen, in volle coronatijd.', voor:5, na:'nightpray', vcap:'Kale ruwbouw', ncap:'De mesdžid bij avond' },
+  { date:'Het hart', phase:'Tijdens', c:'tijdens', title:'De mihrab', bos:'mihrab', text:'Waar eerst een lege muurnis stond, kwam de mihrab — met zorg afgewerkt en gericht naar de qibla. Het hart van de ruimte.', voor:8, na:'mihrab', vcap:'Lege muurnis', ncap:'De mihrab, naar de qibla' },
+  { date:'Onder de grond', phase:'Tijdens', c:'tijdens', title:'De podrum', bos:'kelder', text:'Ook de kelder werd onder handen genomen — van donkere ruwbouw tot een bruikbare, afgewerkte ruimte voor de gemeenschap.', voor:16, na:'podrum', vcap:'Donkere kelder', ncap:'De afgewerkte podrum' },
+  { date:'Gastvrijheid', phase:'Tijdens', c:'tijdens', title:'De divanhana', bos:'gemeenschapsruimte', text:'De gemeenschapsruimte kreeg vorm: zithoek, keuken, plek voor muhabet en kafa na het gebed. Het hart van de gastvrijheid.', voor:20, na:'divanhana', vcap:'Open casco', ncap:'De gezellige divanhana' },
+  { date:'2021 · klaar', phase:'Na', c:'na', title:'De mekteb-klassen', bos:'mektebske učionice', text:'Zijruimtes werden lichte, warme lokalen voor onze kinderen — een veilige plek om te leren wie ze zijn. Van bouwval tot thuis, alhamdulillah.', voor:17, na:'mekteb', vcap:'Onafgewerkte ruimte', ncap:'De lichte mekteb-klas' },
+];
+
+const tl = document.getElementById('timeline');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function phLayer(fase, src, cap, ref){
+  const icon = fase==='voor' ? '▤' : '☾';
+  const tag  = fase==='voor' ? 'Voor · prije' : 'Na · poslije';
+  // gestileerde placeholder blijft zichtbaar tot de foto laadt (en als fallback)
+  return `<div class="ph" data-fase="${fase}"><div class="ph-inner">
+      <div class="ph-icon">${icon}</div>
+      <div class="ph-tag">${tag}</div>
+      <div class="ph-cap">${cap}</div>
+      <div class="ph-num">${ref}</div>
+    </div></div>
+    <img alt="${cap}" loading="lazy" referrerpolicy="no-referrer" src="${src}" onerror="this.style.display='none'">`;
+}
+
+MILES.forEach((m, idx) => {
+  const el = document.createElement('div');
+  el.className = 'milestone';
+  el.dataset.c = m.c;
+  el.innerHTML = `
+    <span class="dot"></span>
+    <div class="mile-head">
+      <span class="mile-date">${m.date}</span>
+      <span class="mile-phase">${m.phase}</span>
+    </div>
+    <h2 class="mile-title">${m.title} <span class="bos">· ${m.bos}</span></h2>
+    <p class="mile-text">${m.text}</p>
+    <div class="ba" style="--pos:50%">
+      <div class="ba-layer ba-before">${phLayer('voor', renoSrc(m.voor,1200), m.vcap, 'renovatie · '+m.voor)}</div>
+      <div class="ba-layer ba-after">${phLayer('na', naSrc(m.na,1400), m.ncap, m.ncap)}</div>
+      <span class="ba-badge voor">Voor</span>
+      <span class="ba-badge na">Na</span>
+      <div class="ba-divider"></div>
+      <div class="ba-handle"></div>
+      <div class="ba-hint">◂ sleep voor &amp; na ▸</div>
+    </div>`;
+  tl.appendChild(el);
+
+  // slider drag — document-level, geen pointer-capture nodig (robuust op muis + touch)
+  const ba = el.querySelector('.ba');
+  const setPos = pct => { ba.style.setProperty('--pos', clamp(pct,1,99) + '%'); };
+  const posFromX = clientX => {
+    const r = ba.getBoundingClientRect();
+    setPos((clientX - r.left) / r.width * 100);
+  };
+  let dragging = false;
+  const onMove = e => { if (!dragging) return; e.preventDefault(); posFromX(e.touches ? e.touches[0].clientX : e.clientX); };
+  const stop = () => { dragging = false; ba.classList.remove('dragging'); };
+  const start = e => {
+    dragging = true; ba.classList.add('dragging'); ba.classList.add('touched');
+    posFromX(e.touches ? e.touches[0].clientX : e.clientX);
+  };
+  ba.addEventListener('mousedown',  e => { e.preventDefault(); start(e); });
+  ba.addEventListener('touchstart', start, {passive:true});
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('touchmove', onMove, {passive:false});
+  document.addEventListener('mouseup', stop);
+  document.addEventListener('touchend', stop);
+  // klik om de scheidingslijn meteen naar die plek te zetten
+  ba.addEventListener('click', e => { if (!ba.classList.contains('just-dragged')) posFromX(e.clientX); });
+
+  // entrance + één-malige reveal-sweep
+  el._ba = ba; el._swept = false;
+});
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('in');
+      if (!en.target._swept) {
+        en.target._swept = true;
+        const ba = en.target._ba;
+        let t0 = null; const dur = 1100;
+        ba.style.setProperty('--pos','22%');
+        const ease = x => 1-Math.pow(1-x,3);
+        function sweep(ts){ if(!t0)t0=ts; const k=clamp((ts-t0)/dur,0,1); const p=22+(50-22)*ease(k); ba.style.setProperty('--pos',p+'%'); if(k<1) requestAnimationFrame(sweep); }
+        setTimeout(()=>requestAnimationFrame(sweep), 350);
+      }
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.milestone').forEach(m => io.observe(m));
+
+// Finale-foto (de džamija — jouw highlight)
+document.getElementById('finale-photo').src = naSrc('dzamija', 2000);
+
+// De visie: architecttekeningen (foto's 21–28 uit de renovatiemap)
+const RENDERS = [21,23,24,25,27,28]; // #22 en #26 stonden op Overslaan — eruit gehaald
+const strip = document.getElementById('visie-strip');
+RENDERS.forEach(n => {
+  const c = document.createElement('div');
+  c.className = 'visie-card';
+  c.innerHTML = `<div class="vfb">tekening ${n}</div>
+    <img alt="Ontwerp ${n}" loading="lazy" referrerpolicy="no-referrer" src="${renoSrc(n,900)}"
+         onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">
+    <span class="vlabel">Ontwerp · ${n}</span>`;
+  strip.appendChild(c);
+});
+</script>
+</body>
+</html>

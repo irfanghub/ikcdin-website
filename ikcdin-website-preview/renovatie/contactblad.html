@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contactblad — alle renovatiefoto's</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+body { padding: 40px 28px 80px; }
+h1 { font-family: var(--font-display); font-weight: 300; font-size: 2rem; margin-bottom: 6px; }
+h1 b { color: var(--gold); font-weight: 700; }
+.sub { color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; margin-bottom: 28px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 14px; }
+.cell { position: relative; aspect-ratio: 4/3; border:1px solid var(--gold-border); border-radius: 8px; overflow: hidden; background: var(--card); }
+.cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cell .n { position: absolute; left: 8px; top: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--gold); background: rgba(3,7,10,0.78); padding: 3px 9px; border-radius: 6px; z-index: 2; }
+.cell .fb { position:absolute; inset:0; display:grid; place-items:center; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; text-align:center; padding: 10px; }
+</style>
+</head>
+<body class="tile-pattern">
+<h1>Contactblad — <b>renovatie 2020–2021</b></h1>
+<div class="sub">28 foto's · zodra de Drive-map publiek is, laden ze hier</div>
+<div class="grid" id="grid"></div>
+<script src="photos.js"></script>
+<script>
+const grid = document.getElementById('grid');
+for (let n=1;n<=28;n++){
+  const c = document.createElement('div');
+  c.className='cell';
+  c.innerHTML = `<span class="n">${n}</span>
+    <div class="fb">foto ${n}<br>laadt na delen</div>
+    <img alt="foto ${n}" loading="lazy" referrerpolicy="no-referrer" src="${renoSrc(n, 600)}"
+         onload="this.previousElementSibling.style.display='none'"
+         onerror="this.style.display='none'">`;
+  grid.appendChild(c);
+}
+</script>
+</body>
+</html>

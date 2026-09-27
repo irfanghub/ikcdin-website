@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mekteb App · IKC DIN Eindhoven</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+:root {
+  --bg:#07140e; --gold:#c9a84c; --gold-light:#e8d07a; --gold-border:rgba(201,168,76,0.26);
+  --green:#1f8a5b; --green-deep:#136844; --text:#f0ede6; --muted:#9ab7a3;
+  --font-display:'Cormorant Garamond', serif; --font-body:'DM Sans', sans-serif;
+  /* light dashboard */
+  --l-bg:#f3f6f3; --l-card:#ffffff; --l-text:#172019; --l-muted:#6b7d70; --l-line:#e6ece7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-body);background:radial-gradient(1200px 700px at 50% -10%, #103022 0%, #07140e 60%, #050d09 100%);min-height:100vh;color:var(--text);display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.05)' stroke-width='0.7'%3E%3Cpolygon points='60,4 116,32 116,88 60,116 4,88 4,32'/%3E%3Cpolygon points='60,20 100,42 100,78 60,100 20,78 20,42'/%3E%3C/g%3E%3C/svg%3E");background-size:120px 120px;}
+#root{position:relative;z-index:1;width:100%;max-width:460px;}
+.app{background:linear-gradient(180deg, rgba(10,24,16,0.7), rgba(7,18,12,0.85));border:1px solid var(--gold-border);border-radius:30px;overflow:hidden;box-shadow:0 40px 90px -25px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.02) inset;min-height:760px;display:flex;flex-direction:column;}
+.app.light{background:var(--l-bg);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-family:var(--font-body);font-weight:600;cursor:pointer;transition:all .2s;font-size:15px;}
+.btn-gold{background:var(--gold);color:#0a1109;padding:14px 24px;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-green{background:var(--green);color:#fff;padding:13px 22px;}
+.btn-green:hover{background:#1aa069;}
+.link{background:none;border:none;color:var(--muted);font-family:var(--font-body);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+
+/* ---------- ROLE PICKER ---------- */
+.pick{padding:34px 26px 30px;display:flex;flex-direction:column;flex:1;}
+.pick-logo{display:block;width:64px;height:64px;object-fit:contain;margin:0 auto 10px;filter:drop-shadow(0 6px 18px rgba(31,138,91,0.4));}
+.pick-title{font-family:var(--font-display);font-size:1.7rem;font-weight:700;text-align:center;color:var(--gold-light);letter-spacing:0.01em;}
+.pick-sub{text-align:center;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin:18px 0 14px;}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.role-card{background:rgba(8,18,12,0.66);border:1px solid var(--gold-border);border-radius:18px;padding:22px 18px 20px;cursor:pointer;text-align:left;transition:all .22s;position:relative;overflow:hidden;color:var(--text);font-family:var(--font-body);}
+.role-card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 18px 36px -16px rgba(0,0,0,0.7);}
+.role-ico{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg, rgba(31,138,91,0.3), rgba(201,168,76,0.18));border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;}
+.role-name{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text);line-height:1.1;}
+.role-desc{font-size:12.5px;color:var(--gold-light);margin-top:4px;}
+.lang-toggle{display:flex;gap:0;background:rgba(8,18,12,0.7);border:1px solid var(--gold-border);border-radius:11px;overflow:hidden;margin:22px auto 0;width:fit-content;}
+.lang-btn{padding:9px 18px;border:none;background:transparent;color:var(--muted);font-family:var(--font-body);font-weight:600;font-size:13px;cursor:pointer;}
+.lang-btn.active{background:var(--gold);color:#0a1109;}
+.pick-foot{margin-top:auto;padding-top:24px;text-align:center;font-size:11px;color:var(--muted);letter-spacing:0.08em;}
+
+/* ---------- LOGIN ---------- */
+.login{padding:40px 30px;display:flex;flex-direction:column;flex:1;}
+.login-back{align-self:flex-start;background:none;border:none;color:var(--muted);font-family:var(--font-body);font-size:14px;cursor:pointer;margin-bottom:24px;}
+.login-role{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
+.login-role .role-ico{margin-bottom:0;}
+.login-role-t{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text);}
+.login-role-s{font-size:12.5px;color:var(--gold-light);}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12px;font-weight:600;letter-spacing:0.04em;color:var(--muted);margin-bottom:7px;}
+.field input{width:100%;padding:13px 15px;background:rgba(8,18,12,0.7);border:1.5px solid var(--gold-border);border-radius:10px;color:var(--text);font-family:var(--font-body);font-size:15px;}
+.field input:focus{outline:none;border-color:var(--gold);}
+.login-demo{font-size:12px;color:var(--muted);background:rgba(31,138,91,0.12);border:1px solid rgba(31,138,91,0.3);border-radius:10px;padding:11px 14px;margin-bottom:20px;line-height:1.5;}
+.login-demo b{color:var(--gold-light);}
+
+/* ---------- DASHBOARD shared (light) ---------- */
+.dash{flex:1;display:flex;flex-direction:column;color:var(--l-text);}
+.dash-top{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 14px;}
+.dash-id{display:flex;align-items:center;gap:12px;}
+.dash-av{width:46px;height:46px;border-radius:50%;background:var(--gold);color:#0a1109;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;font-family:var(--font-display);}
+.dash-av.green{background:var(--green);color:#fff;}
+.dash-name{font-weight:700;font-size:16px;color:var(--l-text);line-height:1.1;}
+.dash-meta{font-size:12px;color:var(--l-muted);margin-top:2px;}
+.dash-top-r{display:flex;align-items:center;gap:8px;}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:6px 11px;border-radius:100px;}
+.pill-fire{background:#ffece0;color:#d4761f;}
+.icon-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--l-line);background:var(--l-card);color:var(--l-muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.dash-body{padding:6px 22px 26px;overflow-y:auto;flex:1;}
+.greet{font-family:var(--font-display);font-size:1.7rem;font-weight:700;color:var(--l-text);line-height:1.1;margin-top:8px;}
+.greet-sub{font-size:13.5px;color:var(--l-muted);margin:4px 0 18px;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+.stat{background:var(--l-card);border:1px solid var(--l-line);border-radius:16px;padding:14px 10px;text-align:center;}
+.stat-ic{font-size:18px;}
+.stat-n{font-size:1.5rem;font-weight:700;color:var(--l-text);line-height:1;margin:6px 0 2px;}
+.stat-l{font-size:11px;color:var(--l-muted);}
+.sec-h{font-size:13px;font-weight:700;color:var(--l-text);margin:18px 0 10px;display:flex;align-items:center;justify-content:space-between;}
+.sec-h a,.sec-h button{font-size:12px;color:var(--green);font-weight:600;background:none;border:none;cursor:pointer;}
+.badges{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+.badge{flex:0 0 auto;width:72px;text-align:center;}
+.badge-c{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;}
+.badge.on .badge-c{background:var(--gold);box-shadow:0 6px 14px -4px rgba(201,168,76,0.6);}
+.badge.off .badge-c{background:#e3e8e3;filter:grayscale(1);opacity:.7;}
+.badge-l{font-size:10.5px;color:var(--l-muted);font-weight:600;}
+.lesson{border-radius:18px;padding:18px 18px 16px;margin-bottom:12px;color:#fff;position:relative;overflow:hidden;}
+.lesson.sura{background:linear-gradient(135deg,#1f8a5b,#136844);}
+.lesson.ilm{background:linear-gradient(135deg,#e0982f,#c2731a);}
+.lesson-tag{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;opacity:.92;display:flex;align-items:center;gap:6px;}
+.lesson-t{font-family:var(--font-display);font-size:1.45rem;font-weight:700;margin:6px 0 3px;}
+.lesson-s{font-size:12.5px;opacity:.9;margin-bottom:14px;}
+.lesson-btn{background:rgba(255,255,255,0.18);border:none;color:#fff;font-family:var(--font-body);font-weight:600;font-size:13px;padding:9px 16px;border-radius:9px;cursor:pointer;backdrop-filter:blur(4px);}
+.lesson-btn:hover{background:rgba(255,255,255,0.3);}
+.card{background:var(--l-card);border:1px solid var(--l-line);border-radius:16px;padding:16px 18px;margin-bottom:12px;}
+.prog-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:600;color:var(--l-text);margin-bottom:8px;}
+.prog-track{height:9px;border-radius:100px;background:#e3e8e3;overflow:hidden;}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,#1f8a5b,#2bb377);}
+.prog-note{font-size:11.5px;color:var(--l-muted);margin-top:7px;}
+.row-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--l-line);}
+.row-item:last-child{border-bottom:none;}
+.row-ic{width:38px;height:38px;border-radius:11px;background:#eef3ee;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.row-t{font-size:14px;font-weight:600;color:var(--l-text);}
+.row-s{font-size:12px;color:var(--l-muted);}
+.row-r{margin-left:auto;font-size:13px;font-weight:700;}
+.toggle{width:46px;height:27px;border-radius:100px;background:#d7ddd7;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:none;}
+.toggle.on{background:var(--green);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle.on::after{left:22px;}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
+.kpi{background:var(--l-card);border:1px solid var(--l-line);border-radius:16px;padding:16px;}
+.kpi-n{font-size:1.8rem;font-weight:700;color:var(--l-text);line-height:1;font-family:var(--font-display);}
+.kpi-l{font-size:12px;color:var(--l-muted);margin-top:5px;}
+.kpi-d{font-size:11px;font-weight:700;margin-top:6px;}
+.up{color:var(--green);} .down{color:#d4761f;}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px;padding-top:8px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+.bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#2bb377,#1f8a5b);}
+.bar-l{font-size:10px;color:var(--l-muted);}
+.chip{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#eef3ee;color:var(--green);}
+.dash-foot{padding:12px 22px 18px;border-top:1px solid var(--l-line);display:flex;justify-content:space-between;align-items:center;}
+.dash-foot .link{color:var(--l-muted);}
+.dash-foot .brand{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--l-muted);}
+.dash-foot .brand img{width:22px;height:22px;object-fit:contain;}
+@media (max-width:480px){ .app{border-radius:22px;min-height:calc(100vh - 32px);} }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const LOGO = "logo-icon.png";
+
+const TXT = {
+  nl:{ selectRole:'Selecteer jouw rol', loginAs:'Inloggen als', email:'E-mailadres', pass:'Wachtwoord',
+    demo:(e)=>(<>Demo · vul gerust in. Voorbeeld: <b>{e}</b> / <b>mekteb</b></>), login:'Prijavi se · Inloggen',
+    back:'Terug', logout:'Uitloggen', back2roles:'← Andere rol' },
+  bs:{ selectRole:'Odaberi svoju ulogu', loginAs:'Prijava kao', email:'E-mail', pass:'Lozinka',
+    demo:(e)=>(<>Demo · slobodno unesi. Npr: <b>{e}</b> / <b>mekteb</b></>), login:'Prijavi se',
+    back:'Nazad', logout:'Odjava', back2roles:'← Druga uloga' },
+};
+const ROLES = [
+  { key:'leerling', ico:'⭐', email:'ibrahim@mekteb.nl',
+    name:{nl:'Leerling',bs:'Učenik'}, desc:{nl:'Mijn prestaties',bs:'Moj napredak'} },
+  { key:'ouder', ico:'👨‍👩‍👧', email:'amela@email.nl',
+    name:{nl:'Ouder',bs:'Roditelj'}, desc:{nl:'Voortgang kind',bs:'Napredak djeteta'} },
+];
+const T = (o,lang)=> o[lang]??o.nl;
+
+// ────────────────── ROLE PICKER ──────────────────
+function RolePicker({ lang, setLang, onPick }) {
+  const t = TXT[lang];
+  return (
+    <div className="app">
+      <div className="pick">
+        <img className="pick-logo" src={LOGO} alt="IKC DIN"/>
+        <div className="pick-title">Mekteb IKC DIN Eindhoven</div>
+        <div className="pick-sub">{t.selectRole}</div>
+        <div className="role-grid">
+          {ROLES.map(r=>(
+            <button key={r.key} className="role-card" onClick={()=>onPick(r.key)}>
+              <div className="role-ico">{r.ico}</div>
+              <div className="role-name">{T(r.name,lang)}</div>
+              <div className="role-desc">{T(r.desc,lang)}</div>
+            </button>
+          ))}
+        </div>
+        <div className="lang-toggle">
+          <button className={`lang-btn${lang==='nl'?' active':''}`} onClick={()=>setLang('nl')}>🇳🇱 NL</button>
+          <button className={`lang-btn${lang==='bs'?' active':''}`} onClick={()=>setLang('bs')}>🇧🇦 BiH</button>
+        </div>
+        <div className="pick-foot">Eindhoven · Hugo de Grootplein 47B</div>
+      </div>
+    </div>
+  );
+}
+
+// ────────────────── LOGIN ──────────────────
+function Login({ lang, role, onBack, onLogin }) {
+  const t = TXT[lang];
+  const r = ROLES.find(x=>x.key===role);
+  const [email,setEmail] = useState(r.email);
+  const [pass,setPass] = useState('mekteb');
+  return (
+    <div className="app">
+      <div className="login">
+        <button className="login-back" onClick={onBack}>{t.back2roles}</button>
+        <div className="login-role">
+          <div className="role-ico">{r.ico}</div>
+          <div>
+            <div className="login-role-t">{t.loginAs} {T(r.name,lang)}</div>
+            <div className="login-role-s">{T(r.desc,lang)}</div>
+          </div>
+        </div>
+        <form onSubmit={e=>{e.preventDefault();onLogin(role);}}>
+          <div className="field">
+            <label>{t.email}</label>
+            <input type="email" value={email} onChange={e=>setEmail(e.target.value)}/>
+          </div>
+          <div className="field">
+            <label>{t.pass}</label>
+            <input type="password" value={pass} onChange={e=>setPass(e.target.value)}/>
+          </div>
+          <div className="login-demo">{t.demo(r.email)}</div>
+          <button type="submit" className="btn btn-gold" style={{width:'100%'}}>{t.login} →</button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ────────────────── DASHBOARD SHELL ──────────────────
+function DashShell({ lang, av, avGreen, name, meta, right, children, onLogout }) {
+  return (
+    <div className="app light">
+      <div className="dash">
+        <div className="dash-top">
+          <div className="dash-id">
+            <div className={`dash-av${avGreen?' green':''}`}>{av}</div>
+            <div>
+              <div className="dash-name">{name}</div>
+              <div className="dash-meta">{meta}</div>
+            </div>
+          </div>
+          <div className="dash-top-r">{right}</div>
+        </div>
+        <div className="dash-body">{children}</div>
+        <div className="dash-foot">
+          <div className="brand"><img src={LOGO} alt=""/> Mekteb · IKC DIN</div>
+          <button className="link" onClick={onLogout}>{TXT[lang].logout}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ────────────────── LEERLING ──────────────────
+function LeerlingDash({ lang, onLogout }) {
+  const badges = [
+    {ic:'🌱',l:{nl:'Welkom!',bs:'Dobro došao!'},on:true},
+    {ic:'⚡',l:{nl:'Op dreef',bs:'U zaletu'},on:true},
+    {ic:'📖',l:{nl:'Eerste les',bs:'Prvi čas'},on:false},
+    {ic:'✅',l:{nl:'Huiswerker',bs:'Zadaće'},on:false},
+    {ic:'⭐',l:{nl:'Hafiz',bs:'Hafiz'},on:false},
+  ];
+  return (
+    <DashShell lang={lang} av="I" name="Ibrahim" meta={lang==='nl'?'Niveau 1 · #3 in groep':'Nivo 1 · #3 u grupi'}
+      right={<><span className="pill pill-fire">🔥 3</span><button className="icon-btn">🔔</button></>} onLogout={onLogout}>
+      <div className="greet">{lang==='nl'?'Esselamu alejkum, Ibrahim!':'Esselamu alejkum, Ibrahime!'}</div>
+      <div className="greet-sub">{lang==='nl'?'Klaar voor je volgende les?':'Spreman za sljedeći čas?'}</div>
+      <div className="stat-row">
+        <div className="stat"><div className="stat-ic">🔥</div><div className="stat-n">3</div><div className="stat-l">Streak</div></div>
+        <div className="stat"><div className="stat-ic">⭐</div><div className="stat-n">110</div><div className="stat-l">{lang==='nl'?'Hifz (pt)':'Hifz (b.)'}</div></div>
+        <div className="stat"><div className="stat-ic">🌙</div><div className="stat-n">35</div><div className="stat-l">Ilmihal</div></div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Mijn badges':'Moje značke'}</div>
+      <div className="badges">
+        {badges.map((b,i)=>(
+          <div key={i} className={`badge ${b.on?'on':'off'}`}><div className="badge-c">{b.ic}</div><div className="badge-l">{T(b.l,lang)}</div></div>
+        ))}
+      </div>
+      <div className="sec-h" style={{marginTop:22}}>{lang==='nl'?'Volgende lessen':'Sljedeći časovi'}</div>
+      <div className="lesson sura">
+        <div className="lesson-tag">📖 {lang==='nl'?'Sura':'Sura'}</div>
+        <div className="lesson-t">El-Kafiroun — 6 {lang==='nl'?'ajeta':'ajeta'}</div>
+        <div className="lesson-s">{lang==='nl'?'Volgende taak · leer Sura El-Fatiha':'Sljedeća zadaća · nauči suru El-Fatiha'}</div>
+        <button className="lesson-btn">{lang==='nl'?'Verder leren →':'Nastavi učiti →'}</button>
+      </div>
+      <div className="lesson ilm">
+        <div className="lesson-tag">🌙 Ilmihal</div>
+        <div className="lesson-t">Dinski šarti</div>
+        <div className="lesson-s">{lang==='nl'?'Geloof (Akaid) · 5 zuilen':'Vjerovanje (Akaid) · 5 šarta'}</div>
+        <button className="lesson-btn">{lang==='nl'?'Verder leren →':'Nastavi učiti →'}</button>
+      </div>
+      <div className="card" style={{marginTop:14}}>
+        <div className="prog-row"><span>Ilmihal</span><span>3 / 32</span></div>
+        <div className="prog-track"><div className="prog-fill" style={{width:'9%'}}/></div>
+        <div className="prog-note">{lang==='nl'?'9% voltooid — niveau N1':'9% završeno — nivo N1'}</div>
+      </div>
+    </DashShell>
+  );
+}
+
+// ────────────────── OUDER ──────────────────
+function OuderDash({ lang, onLogout }) {
+  return (
+    <DashShell lang={lang} av="A" avGreen name="Amela Hadžić" meta={lang==='nl'?'Ouder van Ajla (8 jaar)':'Roditelj · Ajla (8 god.)'}
+      right={<button className="icon-btn">🔔</button>} onLogout={onLogout}>
+      <div className="greet">{lang==='nl'?'Voortgang van Ajla':'Napredak za Ajlu'}</div>
+      <div className="greet-sub">{lang==='nl'?'Groep 2 · Hfz. Mehmed':'Grupa 2 · Hfz. Mehmed'}</div>
+      <div className="stat-row">
+        <div className="stat"><div className="stat-ic">📅</div><div className="stat-n">14/16</div><div className="stat-l">{lang==='nl'?'Aanwezig':'Prisutna'}</div></div>
+        <div className="stat"><div className="stat-ic">⭐</div><div className="stat-n">88%</div><div className="stat-l">{lang==='nl'?'Opkomst':'Posjeta'}</div></div>
+        <div className="stat"><div className="stat-ic">🔥</div><div className="stat-n">5</div><div className="stat-l">Streak</div></div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Koran-voortgang':'Napredak Kur\'ana'}</div>
+      <div className="card">
+        <div className="prog-row"><span>Sura El-Fatiha</span><span>5 / 7 {lang==='nl'?'ajeta':'ajeta'}</span></div>
+        <div className="prog-track"><div className="prog-fill" style={{width:'71%'}}/></div>
+        <div className="prog-note">{lang==='nl'?'Volgende les zondag · 10:00':'Sljedeći čas nedjelja · 10:00'}</div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Huiswerk deze week':'Zadaća ove sedmice'}</div>
+      <div className="card">
+        <div className="row-item"><div className="row-ic">📖</div><div><div className="row-t">{lang==='nl'?'Leer Sura El-Fatiha':'Nauči suru El-Fatiha'}</div><div className="row-s">{lang==='nl'?'Inleveren: zondag':'Rok: nedjelja'}</div></div><span className="chip" style={{marginLeft:'auto'}}>{lang==='nl'?'Bezig':'U toku'}</span></div>
+        <div className="row-item"><div className="row-ic">✍️</div><div><div className="row-t">Tedžvid {lang==='nl'?'oefening':'vježba'}</div><div className="row-s">{lang==='nl'?'Afgerond':'Završeno'}</div></div><span className="row-r up" style={{marginLeft:'auto'}}>✓</span></div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Bericht van de učitelj':'Poruka od mualima'}</div>
+      <div className="card" style={{borderLeft:'3px solid var(--green)'}}>
+        <div className="row-s" style={{marginBottom:6,fontWeight:600,color:'var(--green)'}}>Hfz. Mehmed · {lang==='nl'?'gisteren':'jučer'}</div>
+        <div style={{fontSize:13.5,lineHeight:1.55,color:'var(--l-text)'}}>{lang==='nl'?'Ajla doet het uitstekend met tedžvid, mašallah. Graag thuis Sura El-Fatiha herhalen.':'Ajla odlično napreduje s tedžvidom, mašallah. Molim da kod kuće ponovi suru El-Fatiha.'}</div>
+      </div>
+    </DashShell>
+  );
+}
+
+// ────────────────── EFENDIJA ──────────────────
+function EfendijaDash({ lang, onLogout }) {
+  const [students,setStudents] = useState([
+    {n:'Ajla H.', p:true},{n:'Tarik M.', p:true},{n:'Lejla S.', p:false},
+    {n:'Emir K.', p:true},{n:'Hana B.', p:true},{n:'Adnan R.', p:false},
+  ]);
+  const present = students.filter(s=>s.p).length;
+  return (
+    <DashShell lang={lang} av="M" avGreen name="Hfz. Mehmed" meta={lang==='nl'?'Muallim · 4 groepen':'Muallim · 4 grupe'}
+      right={<button className="icon-btn">＋</button>} onLogout={onLogout}>
+      <div className="greet">{lang==='nl'?'Beheer klassen':'Upravljanje grupama'}</div>
+      <div className="greet-sub">{lang==='nl'?'Zondag · 9:00 · Willemstraat 67':'Nedjelja · 9:00 · Willemstraat 67'}</div>
+      <div className="stat-row">
+        <div className="stat"><div className="stat-ic">👥</div><div className="stat-n">24</div><div className="stat-l">{lang==='nl'?'Leerlingen':'Učenika'}</div></div>
+        <div className="stat"><div className="stat-ic">🏫</div><div className="stat-n">4</div><div className="stat-l">{lang==='nl'?'Groepen':'Grupe'}</div></div>
+        <div className="stat"><div className="stat-ic">✅</div><div className="stat-n">{present}/{students.length}</div><div className="stat-l">{lang==='nl'?'Aanwezig':'Prisutni'}</div></div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Aanwezigheid — Groep 2':'Prisustvo — Grupa 2'}<span className="chip">{lang==='nl'?'Vandaag':'Danas'}</span></div>
+      <div className="card">
+        {students.map((s,i)=>(
+          <div key={i} className="row-item">
+            <div className="row-ic">{s.n.charAt(0)}</div>
+            <div className="row-t">{s.n}</div>
+            <button className={`toggle${s.p?' on':''}`} style={{marginLeft:'auto'}}
+              onClick={()=>setStudents(st=>st.map((x,j)=>j===i?{...x,p:!x.p}:x))}/>
+          </div>
+        ))}
+      </div>
+      <div className="sec-h">{lang==='nl'?'Huiswerk toewijzen':'Dodijeli zadaću'}</div>
+      <div className="card">
+        <div className="row-item"><div className="row-ic">📖</div><div><div className="row-t">{lang==='nl'?'Leer Sura El-Fatiha':'Nauči suru El-Fatiha'}</div><div className="row-s">{lang==='nl'?'Toegewezen aan Groep 2':'Dodijeljeno Grupi 2'}</div></div><span className="chip" style={{marginLeft:'auto'}}>{lang==='nl'?'Actief':'Aktivno'}</span></div>
+        <div style={{marginTop:12}}><button className="btn btn-green" style={{width:'100%'}}>＋ {lang==='nl'?'Nieuwe taak':'Nova zadaća'}</button></div>
+      </div>
+    </DashShell>
+  );
+}
+
+// ────────────────── BESTUUR ──────────────────
+function BestuurDash({ lang, onLogout }) {
+  const weeks = [82,86,79,88,91,88];
+  const wl = ['W1','W2','W3','W4','W5','W6'];
+  return (
+    <DashShell lang={lang} av="📊" name={lang==='nl'?'Bestuur IKC DIN':'Uprava IKC DIN'} meta={lang==='nl'?'Dashboard & inzichten':'Pregled i podaci'}
+      right={<button className="icon-btn">⚙️</button>} onLogout={onLogout}>
+      <div className="greet">{lang==='nl'?'Mekteb in cijfers':'Mekteb u brojkama'}</div>
+      <div className="greet-sub">{lang==='nl'?'Schooljaar 2026 · bijgewerkt vandaag':'Školska 2026 · ažurirano danas'}</div>
+      <div className="kpi-grid">
+        <div className="kpi"><div className="kpi-n">42</div><div className="kpi-l">{lang==='nl'?'Leerlingen':'Učenika'}</div><div className="kpi-d up">▲ 6 {lang==='nl'?'dit jaar':'ove god.'}</div></div>
+        <div className="kpi"><div className="kpi-n">88%</div><div className="kpi-l">{lang==='nl'?'Gem. opkomst':'Prosj. posjeta'}</div><div className="kpi-d up">▲ 4%</div></div>
+        <div className="kpi"><div className="kpi-n">4</div><div className="kpi-l">{lang==='nl'?'Actieve groepen':'Aktivne grupe'}</div><div className="kpi-d">{lang==='nl'?'+ volwassenen':'+ odrasli'}</div></div>
+        <div className="kpi"><div className="kpi-n">4.6</div><div className="kpi-l">{lang==='nl'?'Ouder-tevredenheid':'Zadovoljstvo'}</div><div className="kpi-d up">★ /5</div></div>
+      </div>
+      <div className="sec-h" style={{marginTop:18}}>{lang==='nl'?'Opkomst per week':'Posjeta po sedmici'}</div>
+      <div className="card">
+        <div className="bars">
+          {weeks.map((v,i)=>(
+            <div key={i} className="bar-wrap"><div className="bar" style={{height:`${v}%`}}/><div className="bar-l">{wl[i]}</div></div>
+          ))}
+        </div>
+      </div>
+      <div className="sec-h">{lang==='nl'?'Recente activiteit':'Nedavna aktivnost'}</div>
+      <div className="card">
+        <div className="row-item"><div className="row-ic">📝</div><div><div className="row-t">{lang==='nl'?'3 nieuwe inschrijvingen':'3 nove prijave'}</div><div className="row-s">{lang==='nl'?'Groep 1 · deze week':'Grupa 1 · ove sedmice'}</div></div></div>
+        <div className="row-item"><div className="row-ic">🎓</div><div><div className="row-t">{lang==='nl'?'Certificaten uitgereikt':'Podijeljeni certifikati'}</div><div className="row-s">12 {lang==='nl'?'leerlingen':'učenika'}</div></div></div>
+        <div className="row-item"><div className="row-ic">💬</div><div><div className="row-t">{lang==='nl'?'Ouderavond gepland':'Roditeljski sastanak'}</div><div className="row-s">{lang==='nl'?'Zaterdag 14:00':'Subota 14:00'}</div></div></div>
+      </div>
+    </DashShell>
+  );
+}
+
+// ────────────────── APP ──────────────────
+function getParam(k){ return new URLSearchParams(window.location.search).get(k); }
+function App() {
+  const [lang,setLang] = useState(()=> getParam('lang')==='bs'?'bs':'nl');
+  const initRole = getParam('role');
+  const valid = ROLES.some(r=>r.key===initRole);
+  const [screen,setScreen] = useState(valid?'dash':'pick'); // pick | dash (login skipped — demo)
+  const [role,setRole] = useState(valid?initRole:null);
+
+  function backToSite(){
+    if (document.referrer && /Website/i.test(document.referrer)) window.history.back();
+    else window.location.href = 'index.html';
+  }
+
+  if (screen==='pick') return <RolePicker lang={lang} setLang={setLang} onPick={r=>{setRole(r);setScreen('dash');}}/>;
+  if (role==='leerling') return <LeerlingDash lang={lang} onLogout={backToSite}/>;
+  if (role==='ouder')    return <OuderDash lang={lang} onLogout={backToSite}/>;
+  return <RolePicker lang={lang} setLang={setLang} onPick={r=>{setRole(r);setScreen('dash');}}/>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="56" fill="#07140e"/>
+  <circle cx="40" cy="24" r="11" fill="none" stroke="#c9a84c" stroke-width="2"/>
+  <circle cx="44" cy="24" r="9" fill="#07140e"/>
+  <text x="40" y="46" font-family="serif" font-size="9" fill="#c9a84c" text-anchor="middle">Mekteb</text>
+</svg>
+</template>
+</body>
+</html>
