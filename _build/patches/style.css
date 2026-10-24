@@ -90,4 +90,18 @@
 .hutba-arch.flash{animation:archFlash 1.8s ease}
 @keyframes archFlash{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}25%{box-shadow:0 0 0 6px rgba(201,168,76,.28)}}
 @media (max-width:900px){.hutba-archbtn{position:static;margin-top:22px}}
+
+/* hero activities card (option C) + full-width news */
+.hero-ev{margin-top:14px;padding:14px 16px 6px!important}
+.hero-ev-t{font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--gold);margin-bottom:8px}
+.hero-ev-row{display:flex;gap:12px;align-items:center;padding:9px 0;border-top:1px solid rgba(255,255,255,.07)}
+.hero-ev-d{flex:none;width:44px;text-align:center;border-radius:10px;padding:5px 0 4px;background:var(--gold-dim);border:1px solid var(--gold-border)}
+.hero-ev-d b{display:block;font-family:var(--font-display);font-size:1.25rem;line-height:1;color:var(--gold);font-weight:500}
+.hero-ev-d small{display:block;font-size:9px;letter-spacing:.12em;color:var(--text-soft);margin-top:2px}
+.hero-ev-n{font-size:13px;font-weight:500;color:var(--text);line-height:1.25}
+.hero-ev-m{font-size:11.5px;color:var(--text-muted);margin-top:1px}
+@media (max-height:860px) and (min-width:881px){.hero-vk{top:max(112px,15%)}}
+.ikc-news-grid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:16px!important}
+@media (max-width:1050px){.ikc-news-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:680px){.ikc-news-grid{grid-template-columns:1fr}}
 </style>

@@ -50,9 +50,20 @@ bundle = bundle[:i] + '_p=' + jd(json.load(open(B('content', 'news.json'), encod
 bundle = rep(bundle, '_p.map((r,a)=>', 'IkcNews(_p).map((r,a)=>')
 bundle = rep(bundle, '[r.date,r.flyer&&', '[e==="bs"&&r.date_bs?r.date_bs:r.date,r.flyer&&')
 
-# 3. upcoming activities (self-updating, chronological)
-bundle = rep(bundle, 'Ep.map((r,a)=>', 'IkcEvents().map((r,a)=>')
-bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\nfunction Wp({lang:e}){')
+# 3. upcoming activities: card in the hero under the vaktija panel (option C); news gets full width
+bundle = rep(bundle, 'className:"hero-vk",children:(0,o.jsxs)("div",{className:"vk-panel",children:[',
+             'className:"hero-vk",children:[(0,o.jsxs)("div",{className:"vk-panel",children:[')
+bundle = rep(bundle, '[0]]})]})]})})]})}function Op(',
+             '[0]]})]})]}),(0,o.jsx)(IkcHeroEvents,{lang:e})]})]})}function Op(')
+bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\n' + rd(B('patches', 'heroevents.js')).strip() + '\nfunction Wp({lang:e}){')
+bundle = rep(bundle, 'gridTemplateColumns:"1fr 1fr",gap:64,alignItems:"start"', 'gridTemplateColumns:"1fr",gap:0,alignItems:"start"')
+bundle = rep(bundle, 'className:"stagger",children:IkcNews(_p).map((r,a)=>', 'className:"stagger ikc-news-grid",children:IkcNews(_p).map((r,a)=>')
+# drop the old events column from the news section
+k = bundle.find(',(0,o.jsxs)("div",{children:[(0,o.jsxs)("div",{className:"section-label",children:["\\u{1F4C5} ",t.events_label]})')
+assert k > 0, 'events column not found'
+p = bundle.find('(0,o.jsxs)(', k)
+q = match(bundle, bundle.find('(', p + 10), '(', ')')
+bundle = bundle[:k] + bundle[q+1:]
 
 # 4. contact block: Džuma time summer/winter
 bundle = rep(bundle, r'Vrijdag Jumua: 13:30', r'Vrijdag Jumua: 14:00 (zomertijd) \xB7 13:00 (wintertijd)')
