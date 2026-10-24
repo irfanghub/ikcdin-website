@@ -66,4 +66,28 @@
 @media (max-width:900px){.hutba-card{grid-template-columns:1fr}.hutba-ayah{border-left:none;border-top:1px solid var(--gold-border)}.hutba-main{padding:28px 22px}.hutba-paper{padding:22px 20px 32px}}
 .hb-quote{margin:0;padding:0 0 18px 20px;border-left:2px solid var(--gold);font-size:17px;line-height:1.9;color:var(--text-soft);font-style:italic}
 .hutba-arch-note{font-size:13px;color:var(--text-muted);margin-top:2px}
+
+/* hutba: whatsapp share + archive tile + hover announcements */
+.hutba-main{position:relative}
+.hb-ic{flex:none}
+.hb-wa{display:inline-flex;align-items:center;gap:9px;transition:background .25s,border-color .25s,color .25s,transform .2s}
+.hb-wa .hb-ic{color:#25D366;transition:color .25s}
+.hb-wa:hover{background:#25D366!important;border-color:#25D366!important;color:#06210f!important;transform:translateY(-2px)}
+.hb-wa:hover .hb-ic{color:#06210f}
+[data-tip]{position:relative}
+[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 14px);transform:translate(-50%,6px);width:max-content;max-width:320px;padding:9px 14px;border-radius:12px;background:rgba(9,18,13,.97);border:1px solid rgba(201,168,76,.4);color:var(--text);font-size:12.5px;font-weight:500;line-height:1.4;text-align:center;letter-spacing:0;text-transform:none;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 14px 30px -10px rgba(0,0,0,.7);z-index:30}
+[data-tip]::before{content:"";position:absolute;left:50%;bottom:calc(100% + 8px);width:10px;height:10px;background:rgba(9,18,13,.97);border-right:1px solid rgba(201,168,76,.4);border-bottom:1px solid rgba(201,168,76,.4);transform:translate(-50%,6px) rotate(45deg);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:31}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+[data-tip]:hover::before,[data-tip]:focus-visible::before{opacity:1;transform:translate(-50%,0) rotate(45deg)}
+.hb-wa[data-tip]::after{border-color:#25D366}
+.hb-wa[data-tip]::before{border-color:#25D366}
+.hutba-archbtn{position:absolute;right:40px;bottom:36px;display:flex;align-items:center;gap:14px;padding:12px 20px 12px 14px;border-radius:16px;cursor:pointer;color:var(--text);background:linear-gradient(160deg,rgba(201,168,76,.14),rgba(201,168,76,.05));border:1px solid var(--gold-border);font-family:var(--font-body);text-align:left;transition:background .25s,border-color .25s,transform .2s}
+.hutba-archbtn:hover{background:linear-gradient(160deg,rgba(201,168,76,.28),rgba(201,168,76,.10));border-color:var(--gold);transform:translateY(-2px)}
+.hutba-archbtn-ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:var(--gold);background:rgba(10,20,14,.55);border:1px solid var(--gold-border)}
+.hutba-archbtn-t{display:flex;flex-direction:column;gap:2px}
+.hutba-archbtn-t b{font-size:14px;font-weight:600;color:var(--text)}
+.hutba-archbtn-t small{font-size:12px;color:var(--text-muted)}
+.hutba-arch.flash{animation:archFlash 1.8s ease}
+@keyframes archFlash{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}25%{box-shadow:0 0 0 6px rgba(201,168,76,.28)}}
+@media (max-width:900px){.hutba-archbtn{position:static;margin-top:22px}}
 </style>
