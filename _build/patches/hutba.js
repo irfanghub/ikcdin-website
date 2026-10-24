@@ -33,6 +33,6 @@ J("h3",{className:"hutba-title",children:nl?cur.title_nl:cur.title_bs}),
 J("blockquote",{className:"hutba-teaser",children:"\u201e"+cur.teaser+"\u201c"}),
 X("div",{className:"hutba-info",children:["\u23f1 "+cur.min+T.min,"  \u00b7  \u{1F399} "+T.lang]}),
 X("div",{className:"hutba-actions",children:[J("button",{className:"btn btn-gold",onClick:function(){setOp(cur)},children:T.read+" \u2192"}),X("a",{className:"btn btn-outline",href:wa,target:"_blank",rel:"noopener",children:["\u{1F4AC} ",T.share]})]})]}),
-cur.ayah&&X("div",{className:"hutba-ayah",children:[J("div",{className:"hutba-ayah-ar",dir:"rtl",lang:"ar",children:cur.ayah.ar}),J("div",{className:"hutba-ayah-bs",children:cur.ayah.bs}),J("div",{className:"hutba-ayah-ref",children:"\u2014 "+cur.ayah.ref})]})]}),
+cur.ayah&&X("div",{className:"hutba-ayah",children:[J("div",{className:"hutba-ayah-ar",dir:"rtl",lang:"ar",children:cur.ayah.ar}),J("div",{className:"hutba-ayah-bs",children:cur.ayah.bs}),cur.ayah.ref&&J("div",{className:"hutba-ayah-ref",children:"\u2014 "+cur.ayah.ref})]})]}),
 X("div",{className:"hutba-arch",children:[J("div",{className:"hutba-arch-t",children:T.old}),H.map(function(a,i){return X("button",{className:"hutba-arch-row",onClick:function(){setOp(a)},children:[J("span",{children:(i===0?T.now+" \u00b7 ":"")+(nl?a.title_nl:a.title_bs)}),J("span",{className:"hutba-arch-d",children:nl?a.date_nl:a.date_bs})]},i)}),H.length<2&&J("div",{className:"hutba-arch-note",children:T.note})]})]}),
 op&&J(IkcHutbaReader,{lang:e,item:op,onClose:function(){setOp(null)}})]})}
