@@ -66,7 +66,7 @@ bundle = rep(bundle, 'u(s.sent_ago_days)', 'u(Math.max(0,Math.floor((Date.now()-
 # 5b. newsletters: real mails from info@icc-din.nl instead of the Mailchimp placeholders
 i = bundle.find('Cp=[{'); j = match(bundle, bundle.find('[', i), '[', ']')
 bundle = bundle[:i] + 'Cp=' + jd(json.load(open(B('content', 'newsletters.json'), encoding='utf-8'))) + bundle[j+1:]
-bundle = rep(bundle, 'Cp.map((s,c)=>', 'IkcLetters(Cp).map((s,c)=>')
+bundle = rep(bundle, 'Cp.map((s,c)=>', 'IkcLetterList(Cp,fd).map((s,c)=>')
 bundle = rep(bundle, 'onClick:s.flyer?v=>{v.preventDefault(),i(s)}:void 0,style:{"--i":c,cursor:"pointer"}',
              'onClick:s.flyer?v=>{v.preventDefault(),i(s)}:s.blocks?v=>{v.preventDefault(),window.dispatchEvent(new CustomEvent("ikc-read",{detail:s}))}:void 0,style:{"--i":c,cursor:"pointer"}')
 bundle = rep(bundle, r'nl_live:"Live \xB7 Mailchimp feed"', r'nl_live:"Uit onze inbox"')
@@ -78,6 +78,11 @@ bundle = rep(bundle, r'nl_sub:"Svaki newsletter koji po\u0161aljemo automatski s
 bundle = rep(bundle, 'title:"Auto-sync via Mailchimp RSS"', 'title:"info@icc-din.nl"')
 bundle = rep(bundle, 's.preventDefault();let c=s.target.elements.email.value;c&&(a(c),s.target.reset())',
              's.preventDefault();let c=s.target.elements.email.value;c&&(window.location.href="mailto:info@icc-din.nl?subject="+encodeURIComponent("Prijava na newsletter / Aanmelding nieuwsbrief")+"&body="+encodeURIComponent("Molim da me dodate na listu / Graag toevoegen aan de lijst: "+c),s.target.reset())')
+
+# 5b2. live feed of labelled Gmail mails (Google Apps Script) - merged with the curated items above
+bundle = rep(bundle, '[r,a]=_e.default.useState(null);_e.default.useEffect(()=>{if(!r)return;',
+             '[r,a]=_e.default.useState(null),[fd,setFd]=_e.default.useState([]);_e.default.useEffect(function(){if(!window.IKC_FEED_URL)return;var c=!0;fetch(window.IKC_FEED_URL).then(function(x){return x.json()}).then(function(j){c&&j&&j.items&&setFd(j.items)}).catch(function(){});return function(){c=!1}},[]),_e.default.useEffect(()=>{if(!r)return;')
+feed_url = json.load(open(B('content', 'feed.json'), encoding='utf-8')).get('url', '')
 
 # 5c. countdown after the last prayer: use TOMORROW's sabah (not today's)
 bundle = rep(bundle, 'return{idx:0,remain:24*3600-i+(e[0]?r(e[0]):0)}',
@@ -97,7 +102,7 @@ bundle = rep(bundle, 'function Wp({lang:e}){', hut + '\nfunction Wp({lang:e}){')
 bundle = rep(bundle, '(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(Wp,{lang:e})', '(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(IkcHutba,{lang:e}),(0,o.jsx)(Wp,{lang:e})')
 
 # 8. styling
-html = rep(html, '</head>', '<style id="ikc-patch">\n' + rd(B('patches', 'style.css')).replace('<style id="ikc-patch-okt26">', '').replace('</style>', '').strip() + '\n</style>\n</head>')
+html = rep(html, '</head>', '<script>window.IKC_FEED_URL=' + json.dumps(feed_url) + ';</script>\n<style id="ikc-patch">\n' + rd(B('patches', 'style.css')).replace('<style id="ikc-patch-okt26">', '').replace('</style>', '').strip() + '\n</style>\n</head>')
 
 open(os.path.join(ROOT, 'bundle.js'), 'w', encoding='utf-8').write(bundle)
 open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(html)

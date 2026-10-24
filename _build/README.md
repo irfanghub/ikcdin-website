@@ -19,3 +19,8 @@ Bouwen:  `python3 _build/apply_patches.py`  (vanuit de root van de repo)
 - Nieuws: nieuw object in `content/news.json` (sortering nieuwste eerst gaat vanzelf op `date`).
 - Vaktija 2027: nieuwe tabel in `content/vaktija_2026.json`-formaat (365 regels van 24 cijfers) en jaartal in `patches/vaktija.js` aanpassen.
 - Activiteiten (Halaqa, Mekteb, Džuma) staan in `patches/events.js`; de Džuma-tijd wisselt automatisch (14:00 zomertijd / 13:00 wintertijd).
+
+## Nieuwsbrieven uit Gmail (label "website")
+- `_build/gmail-feed/Code.gs` = Google Apps Script (draait in Irfans Gmail). Alleen mails met het label **website** komen in de feed.
+- De web-app-URL van dat script staat in `content/feed.json` (`{"url": "..."}`). Leeg = alleen de vaste kaarten uit `content/newsletters.json`.
+- De site toont de nieuwste 6 (feed + vaste kaarten, dubbele onderwerpen worden samengevoegd).
