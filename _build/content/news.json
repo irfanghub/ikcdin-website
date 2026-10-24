@@ -1,0 +1,34 @@
+[
+ {
+  "tag_nl": "Aankondiging",
+  "tag_bs": "Obavijest",
+  "title_nl": "Wintertijd: vrijdaggebed om 13:00",
+  "title_bs": "Zimsko računanje vremena: džuma u 13:00",
+  "body_nl": "Dit weekend gaat de wintertijd weer in (zondag 25 oktober). Daarom begint het vrijdaggebed vanaf komende vrijdag 30 oktober om 13:00.",
+  "body_bs": "Ovog vikenda ponovo počinje zimsko računanje vremena (nedjelja, 25. oktobra). Zato džuma od narednog petka, 30. oktobra, počinje u 13:00.",
+  "date": "23 oktober 2026",
+  "date_bs": "23. oktobar 2026."
+ },
+ {
+  "tag_nl": "Bajram",
+  "tag_bs": "Bajram",
+  "title_nl": "Bajram-pakketjes voor de kinderen in Meerhoven",
+  "title_bs": "Bajramski paketići za djecu u Meerhovenu",
+  "body_nl": "We deelden bajram-pakketjes uit aan de kinderen in Noodopvang Meerhoven — een klein gebaar, maar de glimlachen zeiden alles. Bekijk de flyer.",
+  "body_bs": "Podijelili smo bajramske paketiće djeci u Noodopvang Meerhoven — mala gesta, ali osmijesi su rekli sve. Pogledaj letak.",
+  "date": "22 april 2026",
+  "date_bs": "22. april 2026.",
+  "img": "news-kids.jpg",
+  "flyer": "newsletter-bajram-flyer.jpg"
+ },
+ {
+  "tag_nl": "Aankondiging",
+  "tag_bs": "Obavijest",
+  "title_nl": "Vrijdaggebed: nieuwe tijd vanaf 3 april",
+  "title_bs": "Džuma: novo vrijeme od 3. aprila",
+  "body_nl": "Vanaf vrijdag 3 april start het vrijdaggebed om 14:00. Wij verzoeken iedereen op tijd aanwezig te zijn.",
+  "body_bs": "Od petka, 3. aprila, džuma počinje u 14:00. Molimo sve da budu na vrijeme.",
+  "date": "30 maart 2026",
+  "date_bs": "30. mart 2026."
+ }
+]

@@ -900,6 +900,74 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 .welcome-card .wc-mail { color: var(--gold); font-weight: 600; word-break: break-all; }
 .welcome-card .wc-close { margin-top: 28px; }
 </style>
+<style id="ikc-patch">
+/* --- modern nav tabs + hover windows --- */
+.nav-tabs{display:flex;align-items:center;gap:2px;padding:5px;border-radius:999px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(10px)}
+.nav-item{position:relative}
+.nav-link{padding:8px 17px!important;border-radius:999px!important;font-weight:500;transition:background .25s,color .25s,box-shadow .25s!important}
+.nav-link::after{display:none!important}
+.nav-item.is-open>.nav-link,.nav-link:hover{background:rgba(255,255,255,.08)!important;color:var(--gold-light)!important}
+.nav-link.active{background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.08))!important;color:var(--gold-light)!important;box-shadow:inset 0 0 0 1px rgba(201,168,76,.35),0 0 18px -6px rgba(201,168,76,.45)}
+.nav-pop{position:absolute;top:100%;left:-6px;padding-top:20px;z-index:700;animation:navPopIn .28s cubic-bezier(.16,1,.3,1) both}
+.nav-pop-r{left:auto;right:-6px}
+@keyframes navPopIn{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
+.nav-pop-card{width:372px;border-radius:20px;overflow:hidden;cursor:pointer;background:linear-gradient(160deg,rgba(36,58,45,.97),rgba(15,29,21,.98));backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);border:1px solid rgba(201,168,76,.3);box-shadow:0 34px 70px -22px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px rgba(0,0,0,.25)}
+.nav-pop-img{height:124px;background-size:cover;background-position:center;position:relative}
+.nav-pop-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,27,20,.05),rgba(14,27,20,.86))}
+.nav-pop-body{padding:6px 20px 18px;margin-top:-34px;position:relative;z-index:1}
+.nav-pop-title{font-family:var(--font-display);font-size:1.5rem;line-height:1.15;color:var(--text);margin-bottom:4px}
+.nav-pop-text{font-size:13px;line-height:1.55;color:var(--text-soft);margin-bottom:12px}
+.nav-pop-times{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.nav-pop-time{font-size:12px;color:var(--gold-light);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:6px 8px;display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.nav-pop-time b{font-weight:500;color:var(--text-soft)}
+.nav-pop-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.nav-pop-row{display:flex;gap:10px;align-items:baseline;font-size:13px;color:var(--text)}
+.nav-pop-step{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--gold);min-width:26px}
+.nav-pop-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.nav-pop-chip{font-size:12px;padding:5px 11px;border-radius:999px;background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold-light)}
+.nav-pop-cta{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+@media (max-width:900px){.nav-pop{display:none}}
+/* --- hutba --- */
+.hutba-sec{padding:70px 0 20px}
+.hutba-card{display:grid;grid-template-columns:1.45fr 1fr;border-radius:22px;overflow:hidden;border:1px solid var(--gold-border);background:var(--card);box-shadow:0 30px 60px -34px rgba(0,0,0,.7);position:relative}
+.hutba-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--green),var(--gold))}
+.hutba-main{padding:38px 40px 36px}
+.hutba-tags{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.hutba-tag{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#080d09;background:var(--gold);padding:4px 11px;border-radius:999px}
+.hutba-date{font-size:13px;color:var(--text-muted)}
+.hutba-title{font-family:var(--font-display);font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1.1;color:var(--text);margin-bottom:18px}
+.hutba-teaser{font-family:var(--font-display);font-style:italic;font-size:1.28rem;line-height:1.5;color:var(--text-soft);border-left:2px solid var(--gold);padding-left:18px;margin:0 0 20px}
+.hutba-info{font-size:13px;color:var(--text-muted);margin-bottom:24px;white-space:pre}
+.hutba-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hutba-ayah{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:34px 30px;background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,.16),transparent 70%),linear-gradient(160deg,#1c3526,#112019);border-left:1px solid var(--gold-border)}
+.hutba-ayah-ar{font-size:clamp(1.5rem,2.3vw,2rem);line-height:2.1;color:var(--gold-light);margin-bottom:14px;font-family:'Amiri','Scheherazade New',serif}
+.hutba-ayah-bs{font-family:var(--font-display);font-style:italic;font-size:1.05rem;line-height:1.55;color:var(--text-soft);margin-bottom:10px}
+.hutba-ayah-ref{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.hutba-arch{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+.hutba-arch-t{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.hutba-arch-row{display:flex;justify-content:space-between;gap:14px;text-align:left;padding:13px 18px;border-radius:12px;background:var(--card);border:1px solid var(--gold-border);color:var(--text);font-family:var(--font-body);font-size:14px;cursor:pointer;transition:border-color .2s}
+.hutba-arch-row:hover{border-color:var(--gold)}
+.hutba-arch-d{color:var(--text-muted);font-size:12px;white-space:nowrap}
+.hutba-lb{position:fixed;inset:0;z-index:1200;background:rgba(4,8,5,.93);backdrop-filter:blur(12px);overflow-y:auto;padding:36px 16px;animation:fadeIn .25s ease}
+.hutba-paper{max-width:760px;margin:0 auto;background:var(--card);border:1px solid var(--gold-border);border-radius:22px;padding:30px 52px 44px;box-shadow:0 40px 90px rgba(0,0,0,.65)}
+.hutba-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.hutba-bar-l{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.hutba-close{width:40px;height:40px;border-radius:50%;background:rgba(20,33,25,.9);border:1px solid var(--gold-border);color:var(--text);cursor:pointer;font-size:16px;transition:all .2s}
+.hutba-close:hover{background:var(--gold);color:#080d09}
+.hutba-h{font-family:var(--font-display);font-weight:500;font-size:clamp(2rem,4vw,2.9rem);line-height:1.1;color:var(--text);margin:0 0 8px}
+.hutba-meta{font-size:13px;color:var(--text-muted)}
+.hb-p,.hb-lead{font-size:17px;line-height:1.9;color:var(--text-soft);margin:0 0 20px}
+.hb-lead{font-family:var(--font-display);font-size:1.5rem;color:var(--gold-light);margin:30px 0 16px}
+.hb-ayah,.hb-hadith{margin:26px 0 8px;padding:20px 24px;border-radius:14px;background:rgba(201,168,76,.07);border-left:3px solid var(--gold);font-family:var(--font-display);font-style:italic;font-size:1.3rem;line-height:1.6;color:var(--text)}
+.hb-hadith{margin-bottom:22px}
+.hb-ar{direction:rtl;text-align:center;font-family:'Amiri','Scheherazade New',serif;font-size:1.9rem;line-height:2.1;color:var(--gold-light);margin:6px 0 4px}
+.hb-ref{text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:26px}
+.hb-sup{font-size:.7em;color:var(--gold);margin-left:2px}
+.hb-dua{font-family:var(--font-display);font-size:1.45rem;line-height:1.6;text-align:center;color:var(--gold-light);margin:36px 0 8px;padding-top:26px;border-top:1px solid var(--gold-border)}
+.hutba-foot{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+@media (max-width:900px){.hutba-card{grid-template-columns:1fr}.hutba-ayah{border-left:none;border-top:1px solid var(--gold-border)}.hutba-main{padding:28px 22px}.hutba-paper{padding:22px 20px 32px}}
+.hb-quote{margin:0;padding:0 0 18px 20px;border-left:2px solid var(--gold);font-size:17px;line-height:1.9;color:var(--text-soft);font-style:italic}
+</style>
 </head>
 <body>
 <div id="root"></div>
