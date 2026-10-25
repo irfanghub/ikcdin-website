@@ -110,7 +110,7 @@ bundle = rep(bundle, old_map, new_map)
 # 7. Friday hutba section on the home page (between hadis strip and news)
 hut = rd(B('patches', 'hutba.js')).strip().replace('__HUTBE__', jd(json.load(open(B('content', 'hutbe.json'), encoding='utf-8'))))
 bundle = rep(bundle, 'function Wp({lang:e}){', hut + '\nfunction Wp({lang:e}){')
-bundle = rep(bundle, '(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(Wp,{lang:e})', '(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(IkcHutba,{lang:e}),(0,o.jsx)(Wp,{lang:e})')
+bundle = rep(bundle, '(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(Wp,{lang:e})', '(0,o.jsx)(IkcHutba,{lang:e}),(0,o.jsx)(rv,{lang:e}),(0,o.jsx)(Wp,{lang:e})')
 
 # 8. styling
 html = rep(html, '</head>', '<script>window.IKC_FEED_URL=' + json.dumps(feed_url) + ';</script>\n<style id="ikc-patch">\n' + rd(B('patches', 'style.css')).replace('<style id="ikc-patch-okt26">', '').replace('</style>', '').strip() + '\n</style>\n</head>')
