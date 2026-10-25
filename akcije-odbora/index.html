@@ -207,7 +207,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
     if(!name){$("l-msg").textContent="Izaberi svoje ime.";return;}
     this.disabled=true;$("l-msg").textContent="Provjeravam…";
     try{var r=await rpc("akcije_login",{p_code:code});
-      if(!r){$("l-msg").textContent="Kod nije tačan. Provjeri poruku u WhatsApp grupi.";}
+      if(!r){$("l-msg").textContent="Kod nije tačan. Provjeri poruku u WhatsApp grupi. Nakon više pogrešnih pokušaja prijava je blokirana 15 minuta.";}
       else{sess={code:code,name:name};role=r;save(sess);showApp();refresh();}
     }catch(e){$("l-msg").textContent="Nema veze sa serverom. Pokušaj ponovo.";}
     this.disabled=false;
@@ -216,7 +216,9 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 
   async function refresh(){
     if(!sess||busy)return;
-    try{docs=await rpc("akcije_list",{p_code:sess.code})||[];notice("");renderChips();if(!editing)render();else renderTally();}
+    try{var res=await rpc("akcije_list",{p_code:sess.code})||[];
+      if(!res.length){var r=await rpc("akcije_login",{p_code:sess.code});if(!r){save(null);showLogin("Kod je promijenjen ili je pristup privremeno blokiran. Upiši kod iz WhatsApp grupe.");return;}}
+      docs=res;notice("");renderChips();if(!editing)render();else renderTally();}
     catch(e){if(e.auth){save(null);showLogin("Kod je promijenjen. Upiši novi kod iz WhatsApp grupe.");}else notice("Nema veze sa serverom. Lista se osvježava automatski.");}
   }
   async function act(fn,args){
