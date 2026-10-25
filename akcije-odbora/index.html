@@ -112,6 +112,12 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 .ctrl-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.4rem}
 .me{font-size:.88rem;color:var(--muted)}
 .linkbtn{background:none;border:0;padding:0;color:var(--green);cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:.88rem}
+[hidden]{display:none!important}
+.topbar{margin:1rem 0 .25rem}
+.picker{display:grid;gap:.4rem;min-width:0}
+.addform>*,.two>*,.lbl>*,.edit>*,.picker>*{min-width:0;max-width:100%}
+.lbl{display:grid;gap:.2rem;font-size:.9rem;color:var(--muted)}
+.two>.picker{align-self:start}
 </style>
 </head>
 <body>
@@ -134,8 +140,9 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   <label>Ko si ti?<select id="l-name">
     <option value="">Izaberi ime…</option>
     <option>Admir</option><option>Ali ef.</option><option>Edin</option><option>Esma</option>
-    <option>Irfan</option><option>Samir</option><option>Zumreta</option><option>Drugi član</option>
+    <option>Irfan</option><option>Samir</option><option>Zumreta</option><option value="__other">Neko drugi…</option>
   </select></label>
+  <label id="l-other-wrap" hidden>Tvoje ime<input type="text" id="l-other" maxlength="40" autocomplete="name"></label>
   <button class="btn" id="l-go" type="button">Otvori akcije</button>
   <div class="status-msg" id="l-msg" role="alert"></div>
 </section>
@@ -148,6 +155,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
     <span class="me">Prijavljen: <b id="me"></b> · <button type="button" class="linkbtn" id="logout">Odjava</button></span>
   </div>
 </div>
+<div class="topbar"><button class="btn" type="button" id="openAdd">+ Nova akcija</button></div>
 <div id="notice" class="notice" hidden></div>
 <ol class="list" id="list"><li class="empty">Učitavanje akcija…</li></ol>
 
@@ -156,7 +164,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   <div class="addform">
     <label>Akcija<textarea id="f-what" maxlength="400" placeholder="Šta treba uraditi?"></textarea></label>
     <div class="two">
-      <label>Odgovoran<input type="text" id="f-who" maxlength="60" placeholder="npr. Samir" list="people"></label>
+      <div class="lbl">Odgovoran<div id="f-who-slot"></div></div>
       <label>Rok<input type="text" id="f-due" maxlength="30" placeholder="npr. 15.11."></label>
     </div>
     <label>Izvor<input type="text" id="f-src" maxlength="80" placeholder="npr. Sjednica 04.11.2026."></label>
@@ -179,6 +187,20 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   var $=function(id){return document.getElementById(id);};
   var listEl=$("list"), hideDone=$("hideDone");
 
+  var NAMES=["Admir","Ali ef.","Edin","Esma","Irfan","Samir","Zumreta","Odbor","Svi"];
+  function whoPicker(initial){
+    var wrap=el("div","picker");var sel=document.createElement("select");sel.setAttribute("aria-label","Odgovoran");
+    var o0=document.createElement("option");o0.value="";o0.textContent="Izaberi…";sel.appendChild(o0);
+    NAMES.forEach(function(n){var o=document.createElement("option");o.value=n;o.textContent=n;sel.appendChild(o);});
+    var oo=document.createElement("option");oo.value="__other";oo.textContent="Neko drugi…";sel.appendChild(oo);
+    var inp=document.createElement("input");inp.type="text";inp.maxLength=60;inp.placeholder="Upiši ime (ili više imena, npr. Samir + Esma)";inp.hidden=true;
+    initial=String(initial||"").trim();
+    if(initial&&initial!=="—"){if(NAMES.indexOf(initial)>-1)sel.value=initial;else{sel.value="__other";inp.value=initial;inp.hidden=false;}}
+    sel.addEventListener("change",function(){inp.hidden=sel.value!=="__other";if(!inp.hidden)inp.focus();});
+    wrap.appendChild(sel);wrap.appendChild(inp);
+    return {el:wrap,value:function(){return sel.value==="__other"?inp.value.trim():sel.value;},reset:function(){sel.value="";inp.value="";inp.hidden=true;}};
+  }
+  var addWho=null;
   function load(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
   function save(v){try{v?localStorage.setItem(LS,JSON.stringify(v)):localStorage.removeItem(LS);}catch(e){}}
   async function rpc(fn,args){
@@ -198,20 +220,23 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
     return new Date(m[3]?+m[3]:new Date().getFullYear(),+m[2]-1,+m[1],23,59)<new Date();}
 
   function showLogin(msg){$("login").hidden=false;$("app").hidden=true;$("tally").hidden=true;$("l-msg").textContent=msg||"";
-    var s=load();if(s&&s.name)$("l-name").value=s.name;}
-  function showApp(){$("login").hidden=true;$("app").hidden=false;$("tally").hidden=false;$("me").textContent=sess.name;}
+    var s=load();if(s&&s.name){var opt=[].some.call($("l-name").options,function(o){return o.value===s.name;});
+      if(opt)$("l-name").value=s.name;else{$("l-name").value="__other";$("l-other").value=s.name;$("l-other-wrap").hidden=false;}}}
+  function showApp(){if(!addWho){addWho=whoPicker("");$("f-who-slot").appendChild(addWho.el);}$("login").hidden=true;$("app").hidden=false;$("tally").hidden=false;$("me").textContent=sess.name;}
 
   $("l-go").addEventListener("click",async function(){
     var code=$("l-code").value.trim(), name=$("l-name").value;
+    if(name==="__other")name=$("l-other").value.trim();
     if(!code){$("l-msg").textContent="Upiši kod odbora.";return;}
     if(!name){$("l-msg").textContent="Izaberi svoje ime.";return;}
     this.disabled=true;$("l-msg").textContent="Provjeravam…";
     try{var r=await rpc("akcije_login",{p_code:code});
       if(!r){$("l-msg").textContent="Kod nije tačan. Provjeri poruku u WhatsApp grupi. Nakon više pogrešnih pokušaja prijava je blokirana 15 minuta.";}
-      else{sess={code:code,name:name};role=r;save(sess);showApp();refresh();}
+      else{sess={code:code,name:name};role=r;save(sess);$("l-msg").textContent="";showApp();refresh();}
     }catch(e){$("l-msg").textContent="Nema veze sa serverom. Pokušaj ponovo.";}
     this.disabled=false;
   });
+  $("l-name").addEventListener("change",function(){$("l-other-wrap").hidden=this.value!=="__other";});
   $("logout").addEventListener("click",function(){save(null);sess=null;docs=[];$("l-code").value="";showLogin();});
 
   async function refresh(){
@@ -269,22 +294,22 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
       } else if(editing===d.id&&editingMode==="item"){
         var ed2=el("div","edit");
         var ta2=document.createElement("textarea");ta2.maxLength=400;ta2.value=d.akcija;ta2.setAttribute("aria-label","Akcija");
-        var who=document.createElement("input");who.type="text";who.maxLength=60;who.value=d.odgovoran;who.setAttribute("aria-label","Odgovoran");who.setAttribute("list","people");
+        var who=whoPicker(d.odgovoran);
         var due=document.createElement("input");due.type="text";due.maxLength=30;due.value=d.rok;due.setAttribute("aria-label","Rok");
-        ed2.appendChild(ta2);var two=el("div","two");two.appendChild(who);two.appendChild(due);ed2.appendChild(two);
+        ed2.appendChild(ta2);var two=el("div","two");two.appendChild(who.el);two.appendChild(due);ed2.appendChild(two);
         var bt2=el("div","btns");
         var sv2=el("button","btn","Spremi");sv2.type="button";
-        sv2.addEventListener("click",function(){editing=null;act("akcije_edit",{p_id:d.id,p_akcija:ta2.value,p_odgovoran:who.value,p_rok:due.value,p_by:sess.name});});
+        sv2.addEventListener("click",function(){editing=null;act("akcije_edit",{p_id:d.id,p_akcija:ta2.value,p_odgovoran:who.value(),p_rok:due.value,p_by:sess.name});});
         var cn2=el("button","btn ghost","Odustani");cn2.type="button";cn2.addEventListener("click",function(){editing=null;render();});
         var del=el("button","btn danger","Obriši akciju");del.type="button";
         del.addEventListener("click",function(){if(!confirm("Obrisati akciju "+d.nr+"?"))return;editing=null;act("akcije_delete",{p_id:d.id});});
-        bt2.appendChild(sv2);bt2.appendChild(cn2);bt2.appendChild(del);ed2.appendChild(bt2);body.appendChild(ed2);
+        bt2.appendChild(sv2);bt2.appendChild(cn2);if(role==="admin")bt2.appendChild(del);ed2.appendChild(bt2);body.appendChild(ed2);
       } else {
         if(d.napomena)body.appendChild(el("div","note",d.napomena));
         var links=el("div","links");
         var nb=el("button","",d.napomena?"Izmijeni napomenu":"Dodaj napomenu");nb.type="button";
         nb.addEventListener("click",function(){editing=d.id;editingMode="note";render();});links.appendChild(nb);
-        if(role==="admin"){var eb=el("button","","Uredi akciju");eb.type="button";eb.addEventListener("click",function(){editing=d.id;editingMode="item";render();});links.appendChild(eb);}
+        var eb=el("button","","Uredi akciju");eb.type="button";eb.addEventListener("click",function(){editing=d.id;editingMode="item";render();});links.appendChild(eb);
         body.appendChild(links);
       }
       if(d.updated_by)body.appendChild(el("div","stamp","Zadnja izmjena "+fmtDate(d.updated_at)+" — "+d.updated_by));
@@ -292,13 +317,14 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
     });
   }
   hideDone.addEventListener("change",render);
+  $("openAdd").addEventListener("click",function(){var b=$("addBox");b.open=true;b.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(function(){$("f-what").focus();},300);});
 
   $("f-save").addEventListener("click",async function(){
     var msg=$("f-msg"),what=$("f-what").value.trim();
     if(!what){msg.textContent="Upiši šta treba uraditi.";return;}
     this.disabled=true;msg.textContent="";
-    var ok=await act("akcije_add",{p_akcija:what,p_odgovoran:$("f-who").value,p_rok:$("f-due").value,p_izvor:$("f-src").value,p_by:sess.name});
-    if(ok){["f-what","f-who","f-due","f-src"].forEach(function(i){$(i).value="";});$("addBox").open=false;}
+    var ok=await act("akcije_add",{p_akcija:what,p_odgovoran:addWho.value(),p_rok:$("f-due").value,p_izvor:$("f-src").value,p_by:sess.name});
+    if(ok){["f-what","f-due","f-src"].forEach(function(i){$(i).value="";});addWho.reset();$("addBox").open=false;}
     this.disabled=false;
   });
 
