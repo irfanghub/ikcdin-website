@@ -54,8 +54,8 @@ bundle = rep(bundle, '[r.date,r.flyer&&', '[e==="bs"&&r.date_bs?r.date_bs:r.date
 bundle = rep(bundle, 'className:"hero-vk",children:(0,o.jsxs)("div",{className:"vk-panel",children:[',
              'className:"hero-vk",children:[(0,o.jsxs)("div",{className:"vk-panel",children:[')
 bundle = rep(bundle, '[0]]})]})]})})]})}function Op(',
-             '[0]]})]})]}),(0,o.jsx)(IkcHeroEvents,{lang:e})]})]})}function Op(')
-bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\n' + rd(B('patches', 'heroevents.js')).strip() + '\nfunction Wp({lang:e}){')
+             '[0]]})]})]}),(0,o.jsx)(IkcHeroSched,{lang:e})]})]})}function Op(')
+bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\n' + rd(B('patches', 'herosched.js')).strip().replace('__RASP__', jd(json.load(open(B('content', 'raspored.json'), encoding='utf-8')))) + '\nfunction Wp({lang:e}){')
 bundle = rep(bundle, 'gridTemplateColumns:"1fr 1fr",gap:64,alignItems:"start"', 'gridTemplateColumns:"1fr",gap:0,alignItems:"start"')
 bundle = rep(bundle, 'className:"stagger",children:IkcNews(_p).map((r,a)=>', 'className:"stagger ikc-news-grid",children:IkcNews(_p).map((r,a)=>')
 # drop the old events column from the news section

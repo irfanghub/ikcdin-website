@@ -1,0 +1,198 @@
+{
+ "days_bs": [
+  "Ponedjeljak",
+  "Utorak",
+  "Srijeda",
+  "Četvrtak",
+  "Petak",
+  "Subota",
+  "Nedjelja"
+ ],
+ "days_nl": [
+  "Maandag",
+  "Dinsdag",
+  "Woensdag",
+  "Donderdag",
+  "Vrijdag",
+  "Zaterdag",
+  "Zondag"
+ ],
+ "letters_bs": [
+  "P",
+  "U",
+  "S",
+  "Č",
+  "P",
+  "S",
+  "N"
+ ],
+ "letters_nl": [
+  "M",
+  "D",
+  "W",
+  "D",
+  "V",
+  "Z",
+  "Z"
+ ],
+ "prayers": {
+  "0": "none",
+  "1": "none",
+  "2": "evening",
+  "3": "evening",
+  "4": "juma",
+  "5": "all",
+  "6": "all"
+ },
+ "acts": [
+  {
+   "id": "mekteb",
+   "icon": "📖",
+   "color": "#3fae78",
+   "aud": "djeca",
+   "title_bs": "Mekteb za djecu",
+   "title_nl": "Mekteb voor kinderen",
+   "sub_bs": "5–16 godina",
+   "sub_nl": "5–16 jaar",
+   "slots": [
+    {
+     "day": 6,
+     "from": "10:00",
+     "to": "11:00",
+     "note_bs": "Grupa 1 · 5–8 godina",
+     "note_nl": "Groep 1 · 5–8 jaar"
+    },
+    {
+     "day": 6,
+     "from": "11:00",
+     "to": "12:00",
+     "note_bs": "Grupa 2 · 9–16 godina",
+     "note_nl": "Groep 2 · 9–16 jaar"
+    },
+    {
+     "day": 6,
+     "from": "12:00",
+     "to": "13:00",
+     "note_bs": "Grupa Sufara i Kur'an",
+     "note_nl": "Groep Soefara en Koran"
+    }
+   ]
+  },
+  {
+   "id": "bs",
+   "icon": "🗣️",
+   "color": "#4fb3c7",
+   "aud": "djeca",
+   "title_bs": "Časovi bosanskog jezika",
+   "title_nl": "Lessen Bosnische taal",
+   "sub_bs": "6–10 godina",
+   "sub_nl": "6–10 jaar",
+   "slots": [
+    {
+     "day": 6,
+     "from": "10:00",
+     "to": "10:45",
+     "note_bs": "Grupa 1",
+     "note_nl": "Groep 1"
+    },
+    {
+     "day": 6,
+     "from": "11:00",
+     "to": "11:45",
+     "note_bs": "Grupa 2",
+     "note_nl": "Groep 2"
+    }
+   ]
+  },
+  {
+   "id": "halka",
+   "icon": "📿",
+   "color": "#e0a16b",
+   "aud": "zene",
+   "title_bs": "Halka — učenje Kur'ana za žene",
+   "title_nl": "Halka — Koranlessen voor vrouwen",
+   "sub_bs": "žene",
+   "sub_nl": "vrouwen",
+   "slots": [
+    {
+     "day": 6,
+     "from": "10:00",
+     "to": "",
+     "note_bs": "",
+     "note_nl": ""
+    }
+   ]
+  },
+  {
+   "id": "sufara",
+   "icon": "📚",
+   "color": "#9b8cd6",
+   "aud": "odrasli",
+   "title_bs": "Sufara i Kur'an za odrasle",
+   "title_nl": "Soefara en Koran voor volwassenen",
+   "sub_bs": "16+",
+   "sub_nl": "16+",
+   "slots": [
+    {
+     "day": 2,
+     "from": "",
+     "to": "",
+     "sort": "17:30",
+     "when_bs": "između akšama i jacije (po vaktiji)",
+     "when_nl": "tussen maghrib en isha (volgens vaktija)"
+    }
+   ]
+  },
+  {
+   "id": "hor",
+   "icon": "🎶",
+   "color": "#d98aa0",
+   "aud": "hor",
+   "title_bs": "Hor veterani — probe",
+   "title_nl": "Koor veteranen — repetitie",
+   "sub_bs": "hor",
+   "sub_nl": "koor",
+   "slots": [
+    {
+     "day": 0,
+     "from": "18:00",
+     "to": "21:00",
+     "note_bs": "",
+     "note_nl": ""
+    }
+   ]
+  },
+  {
+   "id": "zene",
+   "icon": "☕",
+   "color": "#d4a24a",
+   "aud": "zene",
+   "title_bs": "Druženje za žene",
+   "title_nl": "Ontmoeting voor vrouwen",
+   "sub_bs": "žene",
+   "sub_nl": "vrouwen",
+   "slots": [
+    {
+     "day": 4,
+     "from": "19:30",
+     "to": "22:00",
+     "note_bs": "",
+     "note_nl": ""
+    }
+   ]
+  },
+  {
+   "id": "omladina",
+   "icon": "⚽",
+   "color": "#6fc3a0",
+   "aud": "omladina",
+   "title_bs": "Druženje za omladinu",
+   "title_nl": "Ontmoeting voor jongeren",
+   "sub_bs": "omladina",
+   "sub_nl": "jongeren",
+   "slots": [],
+   "soon_bs": "termin uskoro",
+   "soon_nl": "tijdstip volgt binnenkort"
+  }
+ ]
+}
