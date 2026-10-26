@@ -53,6 +53,12 @@ h1{font:800 clamp(2.2rem,7vw,3.2rem)/1 "Alegreya",Georgia,serif;margin:0}
 .tally .t-open b{color:var(--open)}
 .tally .t-prog b{color:var(--gold)}
 .tally .t-done b{color:var(--green)}
+.tally button{border:1px solid transparent;background:none;padding:.3rem .5rem;margin:-.3rem -.5rem;border-radius:4px;cursor:pointer;text-align:left;font-size:.95rem;color:var(--muted)}
+.tally button[aria-pressed="true"]{border-color:var(--rule);background:var(--paper)}
+.sfilter{display:inline-flex;margin-top:.6rem;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--paper)}
+.sfilter button{border:0;background:none;padding:.3rem .8rem;cursor:pointer;font-size:.92rem;border-right:1px solid var(--rule)}
+.sfilter button:last-child{border-right:0}
+.sfilter button[aria-pressed="true"]{background:var(--green);color:var(--on-green);font-weight:700}
 
 .controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:.9rem 0 .7rem;border-bottom:1px solid var(--rule)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
@@ -127,9 +133,9 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   <h1>Akcije odbora</h1>
   <p class="lede">Svako ažurira svoje akcije prije sjednice. Tako na sjednici ne pitamo „status?“, nego razgovaramo samo o onome što zapinje.</p>
   <div class="tally" id="tally" hidden aria-live="polite">
-    <div class="t-open"><b id="c-open">–</b>otvoreno</div>
-    <div class="t-prog"><b id="c-prog">–</b>u toku</div>
-    <div class="t-done"><b id="c-done">–</b>završeno</div>
+    <div class="t-open"><button type="button" data-sf="otvoreno" aria-pressed="false"><b id="c-open">–</b>otvoreno</button></div>
+    <div class="t-prog"><button type="button" data-sf="u toku" aria-pressed="false"><b id="c-prog">–</b>u toku</button></div>
+    <div class="t-done"><button type="button" data-sf="završeno" aria-pressed="false"><b id="c-done">–</b>završeno</button></div>
   </div>
 </header>
 
@@ -151,7 +157,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 <div class="controls">
   <div class="chips" id="chips" role="group" aria-label="Filtriraj po odgovornoj osobi"></div>
   <div class="ctrl-row">
-    <label class="toggle"><input type="checkbox" id="hideDone" checked> Sakrij završene</label>
+    <div class="sfilter" id="sfilter" role="group" aria-label="Filtriraj po statusu"><button type="button" data-sf="aktivno">Aktivno</button><button type="button" data-sf="završeno">Završeno</button><button type="button" data-sf="sve">Sve</button></div>
     <span class="me">Prijavljen: <b id="me"></b> · <button type="button" class="linkbtn" id="logout">Odjava</button></span>
   </div>
 </div>
@@ -185,7 +191,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   var STATUSES=["otvoreno","u toku","završeno"];
   var sess=null, role=null, docs=[], filter="Svi", editing=null, editingMode=null, busy=false;
   var $=function(id){return document.getElementById(id);};
-  var listEl=$("list"), hideDone=$("hideDone");
+  var listEl=$("list"), sf="aktivno";
 
   var NAMES=["Admir","Ali ef.","Edin","Esma","Irfan","Samir","Zumreta","Odbor","Svi"];
   function whoPicker(initial){
@@ -263,11 +269,11 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 
   function render(){
     renderTally();
-    var rows=docs.filter(matches).filter(function(d){return !(hideDone.checked&&d.status==="završeno");});
+    syncSf();var rows=docs.filter(matches).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
     rows.sort(function(a,b){var sa=a.status==="završeno",sb=b.status==="završeno";if(sa!==sb)return sa?1:-1;return a.nr-b.nr;});
     listEl.textContent="";
     if(!docs.length){listEl.appendChild(el("li","empty","Još nema akcija."));return;}
-    if(!rows.length){listEl.appendChild(el("li","empty",hideDone.checked?"Nema otvorenih akcija za ovaj filter.":"Nema akcija za ovaj filter."));return;}
+    if(!rows.length){listEl.appendChild(el("li","empty",{"aktivno":"Nema otvorenih akcija za ovaj filter.","završeno":"Nema završenih akcija za ovaj filter.","otvoreno":"Nema otvorenih akcija za ovaj filter.","u toku":"Nema akcija u toku za ovaj filter."}[sf]||"Nema akcija za ovaj filter."));return;}
     rows.forEach(function(d){
       var li=el("li","row"+(d.status==="završeno"?" is-done":""));
       li.appendChild(el("div","nr",String(d.nr)));
@@ -316,7 +322,9 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
       li.appendChild(body);listEl.appendChild(li);
     });
   }
-  hideDone.addEventListener("change",render);
+  function syncSf(){document.querySelectorAll("#sfilter button,#tally button").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-sf")===sf));});}
+  $("sfilter").addEventListener("click",function(e){var b=e.target.closest("button");if(b){sf=b.getAttribute("data-sf");render();}});
+  $("tally").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=b.getAttribute("data-sf");sf=(sf===v)?"aktivno":v;render();if(!$("app").hidden)listEl.scrollIntoView({behavior:"smooth",block:"start"});});
   $("openAdd").addEventListener("click",function(){var b=$("addBox");b.open=true;b.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(function(){$("f-what").focus();},300);});
 
   $("f-save").addEventListener("click",async function(){
