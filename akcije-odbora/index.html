@@ -164,6 +164,10 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 <div class="topbar"><button class="btn" type="button" id="openAdd">+ Nova akcija</button></div>
 <div id="notice" class="notice" hidden></div>
 <ol class="list" id="list"><li class="empty">Učitavanje akcija…</li></ol>
+<details class="add" id="trash" hidden>
+  <summary id="trash-sum">Korpa</summary>
+  <div class="addform"><p class="stamp" style="margin:0">Obrisane akcije ostaju ovdje 30 dana, zatim se brišu automatski. Vidljivo samo adminu.</p><ol class="list" id="trash-list"></ol></div>
+</details>
 
 <details class="add" id="addBox">
   <summary>Nova akcija</summary>
@@ -189,7 +193,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   var KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWJwbmljcW5tZ3ZuYXN2ZWt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5OTYwNDgsImV4cCI6MjA5MTU3MjA0OH0.41gzbB1MJhmuVX6z_xqY9AQs_hWQWXiN0Izx3ySlhCo";
   var LS="ikcdin-akcije";
   var STATUSES=["otvoreno","u toku","završeno"];
-  var sess=null, role=null, docs=[], filter="Svi", editing=null, editingMode=null, busy=false;
+  var sess=null, role=null, docs=[], trash=[], filter="Svi", editing=null, editingMode=null, busy=false;
   var $=function(id){return document.getElementById(id);};
   var listEl=$("list"), sf="aktivno";
 
@@ -249,7 +253,7 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
     if(!sess||busy)return;
     try{var res=await rpc("akcije_list",{p_code:sess.code})||[];
       if(!res.length){var r=await rpc("akcije_login",{p_code:sess.code});if(!r){save(null);showLogin("Kod je promijenjen ili je pristup privremeno blokiran. Upiši kod iz WhatsApp grupe.");return;}}
-      docs=res;notice("");renderChips();if(!editing)render();else renderTally();}
+      docs=res.filter(function(d){return !d.deleted_at;});trash=res.filter(function(d){return !!d.deleted_at;});notice("");renderChips();if(!editing)render();else renderTally();}
     catch(e){if(e.auth){save(null);showLogin("Kod je promijenjen. Upiši novi kod iz WhatsApp grupe.");}else notice("Nema veze sa serverom. Lista se osvježava automatski.");}
   }
   async function act(fn,args){
@@ -267,8 +271,18 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
   function renderTally(){var c={"otvoreno":0,"u toku":0,"završeno":0};docs.forEach(function(d){if(c[d.status]!=null)c[d.status]++;});
     $("c-open").textContent=c["otvoreno"];$("c-prog").textContent=c["u toku"];$("c-done").textContent=c["završeno"];}
 
+  function renderTrash(){var box=$("trash");box.hidden=!(role==="admin"&&trash.length);if(box.hidden)return;
+    $("trash-sum").textContent="Korpa ("+trash.length+")";var tl=$("trash-list");tl.textContent="";
+    trash.slice().sort(function(a,b){return String(b.deleted_at).localeCompare(String(a.deleted_at));}).forEach(function(d){
+      var li=el("li","row");li.appendChild(el("div","nr",String(d.nr)));var body=el("div","");
+      body.appendChild(el("div","",d.akcija));var dt=new Date(d.deleted_at);
+      body.appendChild(el("div","stamp","Obrisao/la "+(d.deleted_by||"?")+" · "+dt.toLocaleDateString("bs-BA")));
+      var bt=el("div","btns");bt.style.marginTop=".5rem";
+      var rs=el("button","btn ghost","Vrati");rs.type="button";rs.addEventListener("click",function(){act("akcije_restore",{p_id:d.id});});
+      var pg=el("button","btn danger","Trajno obriši");pg.type="button";pg.addEventListener("click",function(){if(!confirm("Akcija "+d.nr+" se briše zauvijek. Nastaviti?"))return;act("akcije_purge",{p_id:d.id});});
+      bt.appendChild(rs);bt.appendChild(pg);body.appendChild(bt);li.appendChild(body);tl.appendChild(li);});}
   function render(){
-    renderTally();
+    renderTally();renderTrash();
     syncSf();var rows=docs.filter(matches).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
     rows.sort(function(a,b){var sa=a.status==="završeno",sb=b.status==="završeno";if(sa!==sb)return sa?1:-1;return a.nr-b.nr;});
     listEl.textContent="";
@@ -308,8 +322,8 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
         sv2.addEventListener("click",function(){editing=null;act("akcije_edit",{p_id:d.id,p_akcija:ta2.value,p_odgovoran:who.value(),p_rok:due.value,p_by:sess.name});});
         var cn2=el("button","btn ghost","Odustani");cn2.type="button";cn2.addEventListener("click",function(){editing=null;render();});
         var del=el("button","btn danger","Obriši akciju");del.type="button";
-        del.addEventListener("click",function(){if(!confirm("Obrisati akciju "+d.nr+"?"))return;editing=null;act("akcije_delete",{p_id:d.id});});
-        bt2.appendChild(sv2);bt2.appendChild(cn2);if(role==="admin")bt2.appendChild(del);ed2.appendChild(bt2);body.appendChild(ed2);
+        del.addEventListener("click",function(){if(!confirm("Obrisati akciju "+d.nr+"?\nAdmin je može vratiti u roku od 30 dana."))return;editing=null;act("akcije_delete",{p_id:d.id,p_by:sess.name});});
+        bt2.appendChild(sv2);bt2.appendChild(cn2);bt2.appendChild(del);ed2.appendChild(bt2);body.appendChild(ed2);
       } else {
         if(d.napomena)body.appendChild(el("div","note",d.napomena));
         var links=el("div","links");
