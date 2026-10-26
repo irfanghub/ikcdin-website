@@ -1037,6 +1037,46 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 .hutba-arch-main small{font-size:12.5px;color:var(--text-muted);font-style:italic;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hutba-arch-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .hutba-arch-new{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0b130e;background:var(--gold);padding:3px 9px;border-radius:99px}
+
+/* Aktivnosti page: calendar */
+.nav-tabs .nav-link{padding-left:13px!important;padding-right:13px!important}
+.ikc-aktiv{padding:140px 0 70px!important}
+.ikc-scroller{overflow-x:auto;padding-bottom:10px;margin:0 -24px;padding-left:24px;padding-right:24px}
+.ikc-cal{min-width:1000px;border-radius:24px;border:1px solid var(--gold-border);background:linear-gradient(160deg,rgba(40,60,48,.9),rgba(24,40,31,.95));overflow:hidden;box-shadow:0 30px 60px -36px rgba(0,0,0,.9)}
+.ikc-cal-grid{display:grid;grid-template-columns:54px repeat(6,minmax(96px,1fr)) minmax(250px,2.4fr)}
+.ikc-hd{padding:12px 6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--text-soft)}
+.ikc-hd.today{color:#0b130e;background:var(--gold)}
+.ikc-today{display:block;font-size:9px;letter-spacing:.14em;margin-top:1px;opacity:.85}
+.ikc-pr{padding:7px 6px;border-bottom:1px solid var(--gold-border);background:rgba(201,168,76,.06);text-align:center;font-size:11px;color:var(--gold-light);line-height:1.25;min-height:46px;display:flex;align-items:center;justify-content:center}
+.ikc-pr.none{color:transparent}
+.ikc-axis{position:relative;height:var(--H)}
+.ikc-axis span{position:absolute;right:8px;transform:translateY(-50%);font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.ikc-col{position:relative;height:var(--H);border-left:1px solid rgba(255,255,255,.08);background-image:repeating-linear-gradient(180deg,transparent 0,transparent calc(var(--HP) - 1px),rgba(255,255,255,.08) calc(var(--HP) - 1px),rgba(255,255,255,.08) var(--HP))}
+.ikc-col.sun{background-color:rgba(201,168,76,.045)}
+.ikc-col.today{background-color:rgba(255,255,255,.025)}
+.ikc-ev{position:absolute;border-radius:10px;padding:5px 8px;overflow:hidden;font-size:11.5px;line-height:1.25;cursor:default;color:var(--text);background:color-mix(in srgb,var(--c) 24%,#1b2d23);border:1px solid color-mix(in srgb,var(--c) 70%,transparent);border-left:4px solid var(--c);transition:transform .15s,box-shadow .15s}
+.ikc-ev b{display:block;font-size:12px;font-weight:700}
+.ikc-ev small{display:block;color:var(--text-soft);font-size:10.5px}
+.ikc-ev:hover{transform:scale(1.025);z-index:6;box-shadow:0 14px 26px -10px rgba(0,0,0,.8)}
+.ikc-ev.dash{border-style:dashed;border-left-style:solid;background:color-mix(in srgb,var(--c) 14%,#1b2d23)}
+.ikc-ev.gold{background:linear-gradient(160deg,rgba(201,168,76,.5),rgba(201,168,76,.28));border-color:var(--gold-light)}
+.ikc-now{position:absolute;left:0;right:0;height:0;border-top:2px solid #ff7a6b;z-index:4;pointer-events:none}
+.ikc-now::before{content:"";position:absolute;left:-5px;top:-6px;width:10px;height:10px;border-radius:50%;background:#ff7a6b}
+.ikc-foot{margin-top:20px;font-size:12.5px;color:var(--text-muted);display:flex;gap:10px 22px;flex-wrap:wrap}
+.ikc-tip{position:fixed;z-index:900;pointer-events:none;max-width:260px;padding:9px 13px;border-radius:12px;background:rgba(9,18,13,.97);border:1px solid var(--gold-border);font-size:12.5px;line-height:1.4;box-shadow:0 14px 30px -10px rgba(0,0,0,.8)}
+.ikc-tip b{display:block;color:var(--gold-light)}
+.hs-all{display:block;width:100%;margin-top:8px;padding:10px 0 2px;border:0;border-top:1px solid rgba(255,255,255,.07);background:none;text-align:right;cursor:pointer;font-family:var(--font-body);font-size:12.5px;font-weight:600;color:var(--gold);transition:color .2s}
+.hs-all:hover{color:var(--gold-light)}
+@media (max-width:700px){.ikc-scroller{margin:0 -16px;padding-left:16px;padding-right:16px}}
+
+/* polish: 7 tabs, long weekday names, calendar bottom label */
+.nav-tabs .nav-link{white-space:nowrap}
+.vk-label,.vk-date{white-space:nowrap}
+.vk-head{gap:6px}
+.vk-date{font-size:10.5px}
+.ikc-cal{padding-bottom:12px}
+@media (max-width:1240px){.nav-tabs .nav-link{padding-left:9px!important;padding-right:9px!important;font-size:13px}}
+@media (max-width:1180px){.nav-logo-sub{display:none}}
 </style>
 </head>
 <body>

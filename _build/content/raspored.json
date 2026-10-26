@@ -76,7 +76,9 @@
      "note_bs": "Grupa Sufara i Kur'an",
      "note_nl": "Groep Soefara en Koran"
     }
-   ]
+   ],
+   "short_bs": "Mekteb",
+   "short_nl": "Mekteb"
   },
   {
    "id": "bs",
@@ -102,7 +104,9 @@
      "note_bs": "Grupa 2",
      "note_nl": "Groep 2"
     }
-   ]
+   ],
+   "short_bs": "Bosanski",
+   "short_nl": "Bosnisch"
   },
   {
    "id": "halka",
@@ -121,7 +125,9 @@
      "note_bs": "",
      "note_nl": ""
     }
-   ]
+   ],
+   "short_bs": "Halka",
+   "short_nl": "Halka"
   },
   {
    "id": "sufara",
@@ -141,7 +147,9 @@
      "when_bs": "između akšama i jacije (po vaktiji)",
      "when_nl": "tussen maghrib en isha (volgens vaktija)"
     }
-   ]
+   ],
+   "short_bs": "Sufara i Kur’an",
+   "short_nl": "Soefara en Koran"
   },
   {
    "id": "hor",
@@ -160,7 +168,9 @@
      "note_bs": "",
      "note_nl": ""
     }
-   ]
+   ],
+   "short_bs": "Hor veterani",
+   "short_nl": "Koor veteranen"
   },
   {
    "id": "zene",
@@ -179,7 +189,9 @@
      "note_bs": "",
      "note_nl": ""
     }
-   ]
+   ],
+   "short_bs": "Druženje žene",
+   "short_nl": "Ontmoeting vrouwen"
   },
   {
    "id": "omladina",
@@ -192,7 +204,9 @@
    "sub_nl": "jongeren",
    "slots": [],
    "soon_bs": "termin uskoro",
-   "soon_nl": "tijdstip volgt binnenkort"
+   "soon_nl": "tijdstip volgt binnenkort",
+   "short_bs": "Omladina",
+   "short_nl": "Jongeren"
   }
  ]
 }

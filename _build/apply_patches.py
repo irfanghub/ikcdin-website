@@ -54,8 +54,8 @@ bundle = rep(bundle, '[r.date,r.flyer&&', '[e==="bs"&&r.date_bs?r.date_bs:r.date
 bundle = rep(bundle, 'className:"hero-vk",children:(0,o.jsxs)("div",{className:"vk-panel",children:[',
              'className:"hero-vk",children:[(0,o.jsxs)("div",{className:"vk-panel",children:[')
 bundle = rep(bundle, '[0]]})]})]})})]})}function Op(',
-             '[0]]})]})]}),(0,o.jsx)(IkcHeroSched,{lang:e})]})]})}function Op(')
-bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\n' + rd(B('patches', 'herosched.js')).strip().replace('__RASP__', jd(json.load(open(B('content', 'raspored.json'), encoding='utf-8')))) + '\nfunction Wp({lang:e}){')
+             '[0]]})]})]}),(0,o.jsx)(IkcHeroSched,{lang:e,setPage:t})]})]})}function Op(')
+bundle = rep(bundle, 'function Wp({lang:e}){', rd(B('patches', 'events.js')).strip() + '\n' + rd(B('patches', 'herosched.js')).strip().replace('__RASP__', jd(json.load(open(B('content', 'raspored.json'), encoding='utf-8')))) + '\n' + rd(B('patches', 'aktiv.js')).strip() + '\nfunction Wp({lang:e}){')
 bundle = rep(bundle, 'gridTemplateColumns:"1fr 1fr",gap:64,alignItems:"start"', 'gridTemplateColumns:"1fr",gap:0,alignItems:"start"')
 bundle = rep(bundle, 'className:"stagger",children:IkcNews(_p).map((r,a)=>', 'className:"stagger ikc-news-grid",children:IkcNews(_p).map((r,a)=>')
 # drop the old events column from the news section
@@ -64,6 +64,13 @@ assert k > 0, 'events column not found'
 p = bundle.find('(0,o.jsxs)(', k)
 q = match(bundle, bundle.find('(', p + 10), '(', ')')
 bundle = bundle[:k] + bundle[q+1:]
+
+# 3b. new tab "Aktivnosti": nav arrays + route
+bundle = rep(bundle, 'nav:["Home","Ons Verhaal","Lidmaatschap","Mekteb","Doneer","Contact"],sections:["home","verhaal","aanmelden","mekteb","inzameling","contact"]',
+             'nav:["Home","Ons Verhaal","Lidmaatschap","Mekteb","Activiteiten","Doneer","Contact"],sections:["home","verhaal","aanmelden","mekteb","aktiv","inzameling","contact"]')
+bundle = rep(bundle, r'nav:["Po\u010Detna","Na\u0161a Pri\u010Da","\u010Clanstvo","Mekteb","Doniraj","Kontakt"],sections:["home","verhaal","aanmelden","mekteb","inzameling","contact"]',
+             r'nav:["Po\u010Detna","Na\u0161a Pri\u010Da","\u010Clanstvo","Mekteb","Aktivnosti","Doniraj","Kontakt"],sections:["home","verhaal","aanmelden","mekteb","aktiv","inzameling","contact"]')
+bundle = rep(bundle, 'n==="mekteb"&&(0,o.jsx)(Fp,{lang:e}),', 'n==="mekteb"&&(0,o.jsx)(Fp,{lang:e}),n==="aktiv"&&(0,o.jsx)(IkcAktiv,{lang:e}),')
 
 # 4. contact block: Džuma time summer/winter
 bundle = rep(bundle, r'Vrijdag Jumua: 13:30', r'Vrijdag Jumua: 14:00 (zomertijd) \xB7 13:00 (wintertijd)')
