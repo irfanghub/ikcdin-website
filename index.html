@@ -1077,6 +1077,11 @@ footer { background: #040a05; border-top: 1px solid rgba(201,168,76,0.12); paddi
 .ikc-cal{padding-bottom:12px}
 @media (max-width:1240px){.nav-tabs .nav-link{padding-left:9px!important;padding-right:9px!important;font-size:13px}}
 @media (max-width:1180px){.nav-logo-sub{display:none}}
+
+/* compact transitions between sections (about 1 cm less above and below the moon/star divider) */
+.star-divider{margin-bottom:22px!important}
+.page-fade > .section:not(:first-child):has(> .container > .star-divider:first-child){padding-top:62px}
+.page-fade > .nl-section{padding-top:6px!important}
 </style>
 </head>
 <body>

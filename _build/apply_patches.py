@@ -106,6 +106,10 @@ feed_url = json.load(open(B('content', 'feed.json'), encoding='utf-8')).get('url
 bundle = rep(bundle, 'return{idx:0,remain:24*3600-i+(e[0]?r(e[0]):0)}',
              'var nx=Ud(new Date(t.getFullYear(),t.getMonth(),t.getDate()+1));return{idx:0,remain:24*3600-i+r(nx[0])}')
 
+# 5d. newsletter subscribe button: nobody pays for a newsletter -> "Prijavite se" / "Aanmelden"
+bundle = rep(bundle, 'nl_subscribe:"Abonneren"', 'nl_subscribe:"Aanmelden"')
+bundle = rep(bundle, 'nl_subscribe:"Pretplatite se"', 'nl_subscribe:"Prijavite se"')
+
 # 6. nav tabs with hover windows
 bundle = rep(bundle, 'function Lp({lang:e,setLang:t', rd(B('patches', 'nav.js')).strip() + '\nfunction Lp({lang:e,setLang:t')
 bundle = rep(bundle, '[c,v]=_e.default.useState(!1),h=f=>{u(f),v(!1),window.scrollTo',
