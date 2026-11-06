@@ -433,7 +433,7 @@ details.blk[open] summary{background:var(--green-soft)}
   /* ---- Sjednice ---- */
   function sjStatus(s){if(s.datum>today())return '<span class="pill gold">Zakazana</span>';if(locked(s))return '<span class="pill">Usvojen ✓ · zaključan</span>';return '<span class="pill gold">Nacrt zapisnika</span>';}
   function metaForm(s){return '<div class="card"><div class="t">'+(s?"Uredi sjednicu":"Nova sjednica")+'</div><div class="two" style="margin-top:.5rem">'+
-    '<label class="lbl">Datum<input type="date" id="sm-d" value="'+(s?s.datum:"")+'"></label><label class="lbl">Vrijeme<input type="text" id="sm-v" maxlength="10" value="'+esc(s?s.vrijeme:"20:00")+'"></label></div>'+
+    '<label class="lbl">Datum<input type="date" id="sm-d" value="'+(s?s.datum:"")+'"></label><label class="lbl">Vrijeme<input type="text" id="sm-v" maxlength="10" value="'+esc(s?s.vrijeme:"19:30")+'"></label></div>'+
     '<label class="lbl" style="margin-top:.5rem">Mjesto<input type="text" id="sm-m" maxlength="80" value="'+esc(s?s.mjesto:"IKC DIN")+'"></label>'+
     '<div class="btns" style="margin-top:.7rem"><button class="btn" data-a="sm-save">Spremi</button><button class="btn ghost" data-a="sm-cancel">Odustani</button>'+
     (s&&!locked(s)?'<button class="btn danger" data-a="sm-del">Obriši sjednicu</button>':'')+'</div></div>';}
