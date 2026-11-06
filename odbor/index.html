@@ -158,6 +158,8 @@ details.blk[open] summary{background:var(--green-soft)}
 .blk-body{padding:.3rem 1rem 1rem}.blk-body .it{padding:.5rem 0;border-bottom:1px solid var(--rule)}
 .wkcard{margin-bottom:.4rem}.wkday{font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin:.7rem 0 .2rem}
 .wk{display:grid;width:100%;text-align:left;border:0;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:4px;padding:.4rem .7rem;margin-top:.3rem;cursor:pointer}
+.inrec{display:block;margin-top:.45rem;padding-top:.4rem;border-top:1px dashed var(--rule);font-size:.78rem;color:var(--muted)}
+.inrec-l{display:block}.inrec-l span{display:inline-block;background:var(--gold-soft);color:var(--ink);border-radius:999px;padding:.05rem .55rem;margin:.25rem .3rem 0 0;font-size:.74rem}
 .archnote{color:var(--muted);font-size:.9rem;padding:1rem 0;text-align:center}
 @media print{nav.tabs{display:none}}
 
@@ -536,17 +538,19 @@ details.blk[open] summary{background:var(--green-soft)}
       .sort(function(a,b){return (a.d+a.v)<(b.d+b.v)?-1:1;});
     var h='<div class="ctrl-row"><div class="sfilter">'+[["sve","Sve"],["s","Sjednice"],["a","Aktivnosti"]].map(function(f){return '<button type="button" data-f="'+f[0]+'" aria-pressed="'+(calF===f[0])+'">'+f[1]+'</button>';}).join("")+'</div>'+
       '<button class="btn" data-a="te-new">+ Dodaj termin</button></div><label class="toggle"><input type="checkbox" id="cal-past" '+(calPast?"checked":"")+'> Prikaži i prošle termine</label>'+
-      (calF!=="s"?' <label class="toggle"><input type="checkbox" id="cal-week" '+(calWeek?"checked":"")+'> Sedmične aktivnosti i u listi po datumima</label>':'');
+      (calF!=="s"?'':'');
     if(termEdit==="new")h+=termForm(null);
     var recEd=rec.filter(function(t){return t.id===termEdit;})[0];
     if(recEd)h+=termForm(recEd);
     else if(calF!=="s"&&rec.length)h+='<div class="card wkcard"><div class="t">Svake sedmice</div>'+rec.map(function(t,i){var dn=DNI[wd(t.datum)],first=!i||wd(rec[i-1].datum)!==wd(t.datum);
       return (first?'<div class="wkday">'+dn+'</div>':'')+'<button class="wk" data-k="a" data-id="'+t.id+'"><span class="t">'+esc(t.naziv)+'</span><span class="m">'+esc([t.vrijeme,t.mjesto].filter(Boolean).join(" · "))+'</span></button>';}).join("")+'</div>';
-    var cur="";
+    var cur="",lastD="";
+    function inRec(x){if(x.w||x.d===lastD)return "";lastD=x.d;var rs=rec.filter(function(t){return wd(t.datum)===wd(x.d)&&t.datum<=x.d;});
+      return rs.length?'<span class="inrec">↻ Isti dan u IKC DIN:<span class="inrec-l">'+rs.map(function(t){return '<span>'+esc([t.vrijeme,t.naziv].filter(Boolean).join(" "))+'</span>';}).join("")+'</span></span>':"";}
     it.forEach(function(x){var mk=x.d.slice(0,7);if(mk!==cur){cur=mk;var mm=+mk.slice(5)-1;h+='<div class="mband m'+(mm%2)+'">'+MJ[mm]+' '+mk.slice(0,4)+'</div>';}
       if(termEdit===x.id&&!x.w){var t=odb.termini.filter(function(y){return y.id===x.id;})[0];h+=termForm(t);return;}
       var d=dpart(x.d);
-      h+='<button class="cal-day" data-k="'+x.k+'" data-id="'+x.id+'"><span class="date'+(x.d===t0?" tod":"")+'"><b>'+d.getDate()+'</b>'+d.toLocaleDateString("bs-BA",{weekday:"short"})+'</span><span class="ev '+x.k+'"><span class="t">'+esc(x.n)+'</span><span class="m">'+esc([x.v,x.m].filter(Boolean).join(" · "))+'</span></span></button>';});
+      h+='<button class="cal-day" data-k="'+x.k+'" data-id="'+x.id+'"><span class="date'+(x.d===t0?" tod":"")+'"><b>'+d.getDate()+'</b>'+d.toLocaleDateString("bs-BA",{weekday:"short"})+'</span><span class="ev '+x.k+'"><span class="t">'+esc(x.n)+'</span><span class="m">'+esc([x.v,x.m].filter(Boolean).join(" · "))+'</span>'+inRec(x)+'</span></button>';});
     if(!it.length)h+='<p class="empty">Nema termina.</p>';
     h+='<p class="stamp">Zeleno = sjednica odbora · zlatno = aktivnost u IKC DIN. Tapni aktivnost za izmjenu.</p>';
     $("v-kalendar").innerHTML=h;}
