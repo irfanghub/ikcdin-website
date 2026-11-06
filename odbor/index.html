@@ -316,7 +316,7 @@ details.blk[open] summary{background:var(--green-soft)}
       b.addEventListener("click",function(){filter=p;renderChips();render();});c.appendChild(b);});
     var dl=$("people");dl.textContent="";people().forEach(function(p){var o=document.createElement("option");o.value=p;dl.appendChild(o);});
   }
-  function renderTally(){var c={"otvoreno":0,"u toku":0,"završeno":0};docs.filter(curPeriod).forEach(function(d){if(c[d.status]!=null)c[d.status]++;});
+  function renderTally(){var c={"otvoreno":0,"u toku":0,"završeno":0};docs.forEach(function(d){if(c[d.status]!=null)c[d.status]++;});
     $("c-open").textContent=c["otvoreno"];$("c-prog").textContent=c["u toku"];$("c-done").textContent=c["završeno"];}
 
   function renderTrash(){var box=$("trash");box.hidden=!(role==="admin"&&trash.length);if(box.hidden)return;
@@ -331,7 +331,7 @@ details.blk[open] summary{background:var(--green-soft)}
       bt.appendChild(rs);bt.appendChild(pg);body.appendChild(bt);li.appendChild(body);tl.appendChild(li);});}
   function render(){
     renderTally();renderTrash();
-    syncSf();var rows=docs.filter(matches).filter(curPeriod).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
+    syncSf();var rows=docs.filter(matches).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
     rows.sort(function(a,b){return b.nr-a.nr;});
     listEl.textContent="";
     if(!docs.length){listEl.appendChild(el("li","empty","Još nema akcija."));return;}
@@ -383,7 +383,7 @@ details.blk[open] summary{background:var(--green-soft)}
       if(d.updated_by)body.appendChild(el("div","stamp","Zadnja izmjena "+fmtDate(d.updated_at)+" — "+d.updated_by));
       li.appendChild(body);listEl.appendChild(li);
     });
-    var arch=docs.filter(function(d){return !curPeriod(d);}).length;if(arch&&sf!=="aktivno"){var an=el("li","archnote",arch+" završenih akcija iz ranijih perioda je u Arhivi.");listEl.appendChild(an);}
+    if(sf==="završeno"){listEl.appendChild(el("li","archnote","Pregled po periodima između sjednica: tab Arhiva."));}
   }
   function syncSf(){document.querySelectorAll("#sfilter button,#tally button").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-sf")===sf));});}
   $("sfilter").addEventListener("click",function(e){var b=e.target.closest("button");if(b){sf=b.getAttribute("data-sf");render();}});
