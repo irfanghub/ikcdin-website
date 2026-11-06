@@ -156,6 +156,8 @@ details.blk summary::-webkit-details-marker{display:none}
 details.blk summary>span:first-child{display:grid}
 details.blk[open] summary{background:var(--green-soft)}
 .blk-body{padding:.3rem 1rem 1rem}.blk-body .it{padding:.5rem 0;border-bottom:1px solid var(--rule)}
+.wkcard{margin-bottom:.4rem}.wkday{font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin:.7rem 0 .2rem}
+.wk{display:grid;width:100%;text-align:left;border:0;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:4px;padding:.4rem .7rem;margin-top:.3rem;cursor:pointer}
 .archnote{color:var(--muted);font-size:.9rem;padding:1rem 0;text-align:center}
 @media print{nav.tabs{display:none}}
 
@@ -401,6 +403,9 @@ details.blk[open] summary{background:var(--green-soft)}
   setInterval(function(){if(!document.hidden&&!editing)refresh();},30000);
 
   /* ===== Odbor: sjednice, kalendar, arhiva ===== */
+  var calWeek=false, DNI=["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota","Nedjelja"];
+  function wd(iso){return (dpart(iso).getDay()+6)%7;}
+  function isoOf(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
   var odb={sjednice:[],termini:[]}, view="akcije", sjSel=null, sjTab="dr", sjEdit=null, calF="sve", calPast=false, termEdit=null, akForm=null;
   var MJ=["Januar","Februar","Mart","April","Maj","Juni","Juli","August","Septembar","Oktobar","Novembar","Decembar"];
   var CLAN=NAMES.filter(function(n){return n!=="Odbor"&&n!=="Svi";});
@@ -522,16 +527,24 @@ details.blk[open] summary{background:var(--green-soft)}
 
   /* ---- Kalendar (lista po mjesecima) ---- */
   function renderKal(){
-    var t0=today(),it=odb.termini.map(function(t){return {d:t.datum,v:t.vrijeme,n:t.naziv,m:t.mjesto,k:"a",id:t.id};})
+    var t0=today(),rec=odb.termini.filter(function(t){return t.sedmicno;}).sort(function(a,b){return (wd(a.datum)-wd(b.datum))||(a.vrijeme<b.vrijeme?-1:1);});
+    var occ=[];if(calWeek&&calF!=="s"){var end=new Date();end.setDate(end.getDate()+56);rec.forEach(function(t){var d=dpart(t.datum<t0?t0:t.datum);while(wd(isoOf(d))!==wd(t.datum))d.setDate(d.getDate()+1);
+      for(;d<=end;d.setDate(d.getDate()+7))occ.push({d:isoOf(d),v:t.vrijeme,n:t.naziv,m:t.mjesto,k:"a",id:t.id,w:1});});}
+    var it=odb.termini.filter(function(t){return !t.sedmicno;}).map(function(t){return {d:t.datum,v:t.vrijeme,n:t.naziv,m:t.mjesto,k:"a",id:t.id};}).concat(occ)
       .concat(odb.sjednice.map(function(s){return {d:s.datum,v:s.vrijeme,n:"Sjednica odbora",m:s.mjesto,k:"s",id:s.id};}))
       .filter(function(x){return (calF==="sve"||x.k===calF)&&(calPast||x.d>=t0);})
       .sort(function(a,b){return (a.d+a.v)<(b.d+b.v)?-1:1;});
     var h='<div class="ctrl-row"><div class="sfilter">'+[["sve","Sve"],["s","Sjednice"],["a","Aktivnosti"]].map(function(f){return '<button type="button" data-f="'+f[0]+'" aria-pressed="'+(calF===f[0])+'">'+f[1]+'</button>';}).join("")+'</div>'+
-      '<button class="btn" data-a="te-new">+ Dodaj termin</button></div><label class="toggle"><input type="checkbox" id="cal-past" '+(calPast?"checked":"")+'> Prikaži i prošle termine</label>';
+      '<button class="btn" data-a="te-new">+ Dodaj termin</button></div><label class="toggle"><input type="checkbox" id="cal-past" '+(calPast?"checked":"")+'> Prikaži i prošle termine</label>'+
+      (calF!=="s"?' <label class="toggle"><input type="checkbox" id="cal-week" '+(calWeek?"checked":"")+'> Sedmične aktivnosti i u listi po datumima</label>':'');
     if(termEdit==="new")h+=termForm(null);
+    var recEd=rec.filter(function(t){return t.id===termEdit;})[0];
+    if(recEd)h+=termForm(recEd);
+    else if(calF!=="s"&&rec.length)h+='<div class="card wkcard"><div class="t">Svake sedmice</div>'+rec.map(function(t,i){var dn=DNI[wd(t.datum)],first=!i||wd(rec[i-1].datum)!==wd(t.datum);
+      return (first?'<div class="wkday">'+dn+'</div>':'')+'<button class="wk" data-k="a" data-id="'+t.id+'"><span class="t">'+esc(t.naziv)+'</span><span class="m">'+esc([t.vrijeme,t.mjesto].filter(Boolean).join(" · "))+'</span></button>';}).join("")+'</div>';
     var cur="";
     it.forEach(function(x){var mk=x.d.slice(0,7);if(mk!==cur){cur=mk;var mm=+mk.slice(5)-1;h+='<div class="mband m'+(mm%2)+'">'+MJ[mm]+' '+mk.slice(0,4)+'</div>';}
-      if(termEdit===x.id){var t=odb.termini.filter(function(y){return y.id===x.id;})[0];h+=termForm(t);return;}
+      if(termEdit===x.id&&!x.w){var t=odb.termini.filter(function(y){return y.id===x.id;})[0];h+=termForm(t);return;}
       var d=dpart(x.d);
       h+='<button class="cal-day" data-k="'+x.k+'" data-id="'+x.id+'"><span class="date'+(x.d===t0?" tod":"")+'"><b>'+d.getDate()+'</b>'+d.toLocaleDateString("bs-BA",{weekday:"short"})+'</span><span class="ev '+x.k+'"><span class="t">'+esc(x.n)+'</span><span class="m">'+esc([x.v,x.m].filter(Boolean).join(" · "))+'</span></span></button>';});
     if(!it.length)h+='<p class="empty">Nema termina.</p>';
@@ -539,9 +552,10 @@ details.blk[open] summary{background:var(--green-soft)}
     $("v-kalendar").innerHTML=h;}
   function termForm(t){return '<div class="card"><div class="t">'+(t?"Uredi termin":"Novi termin")+'</div><label class="lbl" style="margin-top:.5rem">Naziv<input type="text" id="te-n" maxlength="120" value="'+esc(t?t.naziv:"")+'" placeholder="npr. Druženje za žene"></label>'+
     '<div class="two" style="margin-top:.5rem"><label class="lbl">Datum<input type="date" id="te-d" value="'+(t?t.datum:"")+'"></label><label class="lbl">Vrijeme<input type="text" id="te-v" maxlength="20" value="'+esc(t?t.vrijeme:"")+'" placeholder="npr. 19:30"></label></div>'+
-    '<label class="lbl" style="margin-top:.5rem">Mjesto<input type="text" id="te-m" maxlength="80" value="'+esc(t?t.mjesto:"")+'" placeholder="npr. divanhana"></label>'+
+    '<label class="lbl" style="margin-top:.5rem">Mjesto / napomena<input type="text" id="te-m" maxlength="80" value="'+esc(t?t.mjesto:"")+'" placeholder="npr. divanhana"></label>'+
+    '<label class="toggle"><input type="checkbox" id="te-w" '+(t&&t.sedmicno?"checked":"")+'> Ponavlja se svake sedmice (isti dan kao datum)</label>'+
     '<div class="btns" style="margin-top:.7rem"><button class="btn" data-a="te-save">Spremi</button><button class="btn ghost" data-a="te-cancel">Odustani</button>'+(t?'<button class="btn danger" data-a="te-del">Obriši</button>':'')+'</div></div>';}
-  $("v-kalendar").addEventListener("change",function(e){if(e.target.id==="cal-past"){calPast=e.target.checked;renderKal();}});
+  $("v-kalendar").addEventListener("change",function(e){if(e.target.id==="cal-past"){calPast=e.target.checked;renderKal();}if(e.target.id==="cal-week"){calWeek=e.target.checked;renderKal();}});
   $("v-kalendar").addEventListener("click",async function(e){var b=e.target.closest("button");if(!b)return;
     var f=b.getAttribute("data-f");if(f){calF=f;renderKal();return;}
     var k=b.getAttribute("data-k");if(k==="s"){sjSel=b.getAttribute("data-id");sjTab="dr";sjEdit=null;setView("sjednice");return;}
@@ -550,7 +564,7 @@ details.blk[open] summary{background:var(--green-soft)}
     if(a==="te-new"){termEdit="new";renderKal();setTimeout(function(){var x=$("te-n");if(x)x.focus();},0);return;}
     if(a==="te-cancel"){termEdit=null;renderKal();return;}
     if(a==="te-save"){var n=$("te-n").value.trim(),d=$("te-d").value;if(!n||!d){alert("Upiši naziv i datum.");return;}
-      var ok=await act2("termin_save",{p_id:termEdit==="new"?null:termEdit,p_datum:d,p_vrijeme:$("te-v").value,p_naziv:n,p_mjesto:$("te-m").value,p_by:sess.name});if(ok){termEdit=null;renderKal();}return;}
+      var ok=await act2("termin_save",{p_id:termEdit==="new"?null:termEdit,p_datum:d,p_vrijeme:$("te-v").value,p_naziv:n,p_mjesto:$("te-m").value,p_by:sess.name,p_sedmicno:$("te-w").checked});if(ok){termEdit=null;renderKal();}return;}
     if(a==="te-del"){if(!confirm("Obrisati ovaj termin?"))return;var id=termEdit;termEdit=null;await act2("termin_delete",{p_id:id,p_by:sess.name});return;}
   });
 
