@@ -203,6 +203,7 @@ details.blk[open] summary{background:var(--green-soft)}
   <div class="chips" id="chips" role="group" aria-label="Filtriraj po odgovornoj osobi"></div>
   <div class="ctrl-row">
     <div class="sfilter" id="sfilter" role="group" aria-label="Filtriraj po statusu"><button type="button" data-sf="aktivno">Aktivno</button><button type="button" data-sf="završeno">Završeno</button><button type="button" data-sf="sve">Sve</button></div>
+    <button type="button" class="btn ghost" id="clearDone" hidden style="margin:.6rem 0 0 .5rem;padding:.3rem .8rem;font-size:.92rem">Očisti završene</button>
     <span class="me">Prijavljen: <b id="me"></b> · <button type="button" class="linkbtn" id="logout">Odjava</button></span>
   </div>
 </div>
@@ -211,7 +212,7 @@ details.blk[open] summary{background:var(--green-soft)}
 <ol class="list" id="list"><li class="empty">Učitavanje akcija…</li></ol>
 <details class="add" id="trash" hidden>
   <summary id="trash-sum">Korpa</summary>
-  <div class="addform"><p class="stamp" style="margin:0">Obrisane akcije ostaju ovdje 30 dana, zatim se brišu automatski. Vidljivo samo adminu.</p><ol class="list" id="trash-list"></ol></div>
+  <div class="addform"><p class="stamp" style="margin:0">Završene akcije starije od 2 mjeseca dolaze ovdje automatski. Sve u korpi ostaje 30 dana, zatim se trajno briše. Vidljivo samo adminu.</p><ol class="list" id="trash-list"></ol></div>
 </details>
 
 <details class="add" id="addBox">
@@ -331,7 +332,9 @@ details.blk[open] summary{background:var(--green-soft)}
       var rs=el("button","btn ghost","Vrati");rs.type="button";rs.addEventListener("click",function(){act("akcije_restore",{p_id:d.id});});
       var pg=el("button","btn danger","Trajno obriši");pg.type="button";pg.addEventListener("click",function(){if(!confirm("Akcija "+d.nr+" se briše zauvijek. Nastaviti?"))return;act("akcije_purge",{p_id:d.id});});
       bt.appendChild(rs);bt.appendChild(pg);body.appendChild(bt);li.appendChild(body);tl.appendChild(li);});}
-  function render(){
+  function renderClear(){var n=docs.filter(function(d){return d.status==="završeno";}).length,b=$("clearDone");b.hidden=!(role==="admin"&&n);b.textContent="Očisti završene ("+n+")";}
+  $("clearDone").addEventListener("click",function(){var n=docs.filter(function(d){return d.status==="završeno";}).length;if(!n)return;if(!confirm(n+" završenih akcija ide u korpu.\nMožeš ih vratiti u roku od 30 dana. Nastaviti?"))return;act("akcije_clear_done",{p_by:sess.name});});
+  function render(){renderClear();
     renderTally();renderTrash();
     syncSf();var rows=docs.filter(matches).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
     rows.sort(function(a,b){return b.nr-a.nr;});
