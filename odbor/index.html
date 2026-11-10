@@ -122,7 +122,12 @@ footer{margin-top:2.5rem;font-size:.88rem;color:var(--muted)}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--paper);border-top:1px solid var(--rule);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
 nav.tabs button{flex:1;border:0;background:none;padding:.5rem .2rem .55rem;font-size:.8rem;color:var(--muted);cursor:pointer}
 nav.tabs button b{display:block;font-size:1.15rem;line-height:1.2}
-nav.tabs button[aria-current="true"]{color:var(--green);font-weight:700}
+nav.tabs button{position:relative}
+.tabs button b{width:3.3rem;height:1.8rem;margin:0 auto .15rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.tabs button[aria-current="true"]{color:var(--green);font-weight:700}
+.tabs button[aria-current="true"] b{background:var(--green-soft)}
+.tabs button[aria-current="true"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
+.tabs .tb{position:absolute;top:.25rem;left:calc(50% + .55rem);min-width:1.1rem;height:1.1rem;padding:0 .3rem;border-radius:.55rem;background:var(--gold);color:#fff;font-size:.68rem;font-weight:700;line-height:1.1rem;text-align:center}
 .wrap{padding-bottom:6.5rem}
 .card{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:.8rem 1rem;margin-top:.8rem}
 .card.hero{border-left:4px solid var(--green)}
@@ -334,7 +339,7 @@ details.blk[open] summary{background:var(--green-soft)}
       bt.appendChild(rs);bt.appendChild(pg);body.appendChild(bt);li.appendChild(body);tl.appendChild(li);});}
   function renderClear(){var n=docs.filter(function(d){return d.status==="završeno";}).length,b=$("clearDone");b.hidden=!(role==="admin"&&n);b.textContent="Očisti završene ("+n+")";}
   $("clearDone").addEventListener("click",function(){var n=docs.filter(function(d){return d.status==="završeno";}).length;if(!n)return;if(!confirm(n+" završenih akcija ide u korpu.\nMožeš ih vratiti u roku od 30 dana. Nastaviti?"))return;act("akcije_clear_done",{p_by:sess.name});});
-  function render(){renderClear();
+  function render(){renderClear();try{renderBadges();}catch(e){}
     renderTally();renderTrash();
     syncSf();var rows=docs.filter(matches).filter(function(d){return sf==="sve"||(sf==="aktivno"?d.status!=="završeno":d.status===sf);});
     rows.sort(function(a,b){return b.nr-a.nr;});
@@ -432,6 +437,8 @@ details.blk[open] summary{background:var(--green-soft)}
   async function act2(fn,args){busy=true;try{var r=await rpc(fn,Object.assign({p_code:sess.code},args));busy=false;await refresh(true);return r==null?true:r;}
     catch(e){busy=false;notice(/usvojen/.test(e.message)?"Zapisnik je usvojen i zaključan. Ispravke idu kao amandman.":"Spremanje nije uspjelo. Pokušaj ponovo.");await refresh(true);return false;}}
 
+  function renderBadges(){var n={akcije:docs.filter(function(d){return d.status!=="završeno";}).length,sjednice:(odb&&odb.sjednice||[]).filter(function(s){return s.datum>=today();}).length};
+    document.querySelectorAll("#tabs button").forEach(function(b){var x=b.querySelector(".tb");if(x)x.remove();var c=n[b.dataset.v];if(c){var t=el("span","tb",String(c));t.setAttribute("aria-label",c+(b.dataset.v==="akcije"?" otvorenih":" zakazanih"));b.appendChild(t);}});}
   function setView(v){if(!LEDE[v])v="akcije";view=v;["akcije","sjednice","kalendar","arhiva"].forEach(function(k){$("v-"+k).hidden=k!==v;});
     $("tally").hidden=v!=="akcije";$("lede").textContent=LEDE[v];
     document.querySelectorAll("#tabs button").forEach(function(b){b.setAttribute("aria-current",String(b.dataset.v===v));});
