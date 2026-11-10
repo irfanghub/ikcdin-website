@@ -271,7 +271,7 @@ details.blk[open] summary{background:var(--green-soft)}
   }
   function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
   function notice(msg){var n=$("notice");n.textContent=msg;n.hidden=!msg;}
-  function split(s){return String(s||"").split(/\s*[+,\/]\s*/).map(function(p){return p.trim();}).filter(Boolean);}
+  function split(s){return String(s||"").split(/\s*[+,\/&]\s*|\s+i\s+/).map(function(p){p=p.trim();return /\bef$/i.test(p)?p+".":p;}).filter(Boolean);}
   function people(){var s={};docs.forEach(function(d){split(d.odgovoran).forEach(function(p){if(p!=="—")s[p]=1;});});return Object.keys(s).sort(function(a,b){return a.localeCompare(b,"bs");});}
   function matches(d){return filter==="Svi"||split(d.odgovoran).indexOf(filter)>-1;}
   function fmtDate(iso){if(!iso)return "";var d=new Date(iso);if(isNaN(d))return "";
