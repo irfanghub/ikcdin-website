@@ -128,7 +128,7 @@ nav.tabs button{position:relative}
 .tabs button[aria-current="true"] b{background:rgba(255,255,255,.16)}
 .tabs button[aria-current="true"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
 .tabs .tb{position:absolute;top:.25rem;left:calc(50% + .55rem);min-width:1.1rem;height:1.1rem;padding:0 .3rem;border-radius:.55rem;background:var(--gold);color:#fff;font-size:.68rem;font-weight:700;line-height:1.1rem;text-align:center}
-.wrap{padding-bottom:6.5rem}
+.wrap{padding-bottom:2rem}
 .card{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:.8rem 1rem;margin-top:.8rem}
 .card.hero{border-left:4px solid var(--green)}
 .row2{display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start}
@@ -176,6 +176,13 @@ details.blk[open] summary{background:var(--green-soft)}
 .b1{font:700 clamp(.6rem,2.55vw,1.05rem)/1.2 "Alegreya",Georgia,serif;color:#fff;letter-spacing:.01em;text-transform:uppercase;margin:0}
 .b2{font:italic 700 clamp(.92rem,3.9vw,1.35rem)/1.2 "Alegreya",Georgia,serif;color:#C9A86A;margin:.15rem 0 0}
 .wrap{padding-top:1.5rem}
+html,body{height:100%}
+body{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+#scroller{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;scroll-padding-top:env(safe-area-inset-top,0px)}
+nav.tabs{position:relative;flex:none;left:auto;right:auto;bottom:auto}
+nav.tabs[hidden]{display:none}
+.brand{padding-top:calc(.9rem + env(safe-area-inset-top,0px))}
+@media print{body{display:block;height:auto;overflow:visible}#scroller{overflow:visible}}
 .picker{display:grid;gap:.4rem;min-width:0}
 .addform>*,.two>*,.lbl>*,.edit>*,.picker>*{min-width:0;max-width:100%}
 .lbl{display:grid;gap:.2rem;font-size:.9rem;color:var(--muted)}
@@ -183,6 +190,7 @@ details.blk[open] summary{background:var(--green-soft)}
 </style>
 </head>
 <body>
+<div id="scroller">
 <div class="brand"><div class="brand-in"><div class="ring"><img src="/logo-icon.png" alt="" width="40" height="40"></div><div><p class="b1">Islamska zajednica Bošnjaka u Nizozemskoj</p><p class="b2">Islamski kulturni centar Din Eindhoven</p></div></div></div>
 <div class="wrap">
 <header>
@@ -244,11 +252,12 @@ details.blk[open] summary{background:var(--green-soft)}
 <section id="v-sjednice" hidden></section>
 <section id="v-kalendar" hidden></section>
 <section id="v-arhiva" hidden></section>
-<nav class="tabs" id="tabs" aria-label="Dijelovi aplikacije"><button type="button" data-v="akcije"><b>✓</b>Akcije</button><button type="button" data-v="sjednice"><b>☰</b>Sjednice</button><button type="button" data-v="kalendar"><b>▦</b>Kalendar</button><button type="button" data-v="arhiva"><b>⧉</b>Arhiva</button></nav>
 <datalist id="people"></datalist>
 <footer>Promjene su vidljive svim članovima odbora. Ne upisujte lične ili osjetljive podatke o džematlijama.</footer>
 </div>
 </div>
+</div>
+<nav class="tabs" id="tabs" hidden aria-label="Dijelovi aplikacije"><button type="button" data-v="akcije"><b>✓</b>Akcije</button><button type="button" data-v="sjednice"><b>☰</b>Sjednice</button><button type="button" data-v="kalendar"><b>▦</b>Kalendar</button><button type="button" data-v="arhiva"><b>⧉</b>Arhiva</button></nav>
 
 <script>
 (function(){
@@ -292,10 +301,10 @@ details.blk[open] summary{background:var(--green-soft)}
   function isLate(rok){var m=String(rok||"").match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})?/);if(!m)return false;
     return new Date(m[3]?+m[3]:new Date().getFullYear(),+m[2]-1,+m[1],23,59)<new Date();}
 
-  function showLogin(msg){$("login").hidden=false;$("app").hidden=true;$("tally").hidden=true;$("l-msg").textContent=msg||"";
+  function showLogin(msg){$("login").hidden=false;$("app").hidden=true;$("tabs").hidden=true;$("tally").hidden=true;$("l-msg").textContent=msg||"";
     var s=load();if(s&&s.name){var opt=[].some.call($("l-name").options,function(o){return o.value===s.name;});
       if(opt)$("l-name").value=s.name;else{$("l-name").value="__other";$("l-other").value=s.name;$("l-other-wrap").hidden=false;}}}
-  function showApp(){if(!addWho){addWho=whoPicker("");$("f-who-slot").appendChild(addWho.el);}$("login").hidden=true;$("app").hidden=false;$("tally").hidden=false;$("me").textContent=sess.name;setView((location.hash||"").slice(1)||view);}
+  function showApp(){if(!addWho){addWho=whoPicker("");$("f-who-slot").appendChild(addWho.el);}$("login").hidden=true;$("app").hidden=false;$("tabs").hidden=false;$("tally").hidden=false;$("me").textContent=sess.name;setView((location.hash||"").slice(1)||view);}
 
   $("l-go").addEventListener("click",async function(){
     var code=$("l-code").value.trim(), name=$("l-name").value;
@@ -450,7 +459,7 @@ details.blk[open] summary{background:var(--green-soft)}
     $("tally").hidden=v!=="akcije";$("lede").textContent=LEDE[v];
     document.querySelectorAll("#tabs button").forEach(function(b){b.setAttribute("aria-current",String(b.dataset.v===v));});
     try{history.replaceState(null,"","#"+v);}catch(e){}
-    renderView();window.scrollTo(0,0);}
+    renderView();$("scroller").scrollTop=0;}
   function renderView(){if(view==="sjednice")renderSj();else if(view==="kalendar")renderKal();else if(view==="arhiva")renderArh();}
   $("tabs").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setView(b.dataset.v);});
 
