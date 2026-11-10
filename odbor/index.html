@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231F5C2E%22/><path d=%22M28 52l15 15 30-34%22 stroke=%22%23D4B06A%22 stroke-width=%2212%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,700;0,800;1,700&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F6F8F5; --paper:#FFFFFF; --ink:#1B2620; --muted:#5A6B61;
@@ -61,7 +61,7 @@ h1{font:800 clamp(2.2rem,7vw,3.2rem)/1 "Alegreya",Georgia,serif;margin:0}
 .sfilter button[aria-pressed="true"]{background:var(--green);color:var(--on-green);font-weight:700}
 
 .controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:.9rem 0 .7rem;border-bottom:1px solid var(--rule)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#0B140E}
 .chips{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.2rem;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{border:1px solid var(--rule);background:var(--paper);border-radius:999px;padding:.3rem .8rem;white-space:nowrap;cursor:pointer;font-size:.92rem}
@@ -169,6 +169,13 @@ details.blk[open] summary{background:var(--green-soft)}
 @media print{nav.tabs{display:none}}
 
 .topbar{margin:1rem 0 .25rem}
+.brand{background:#0B140E;padding:.9rem 1rem}
+.brand-in{max-width:48rem;margin:0 auto;display:flex;align-items:center;gap:.85rem}
+.ring{flex:none;width:3.4rem;height:3.4rem;border-radius:50%;background:#10241A;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(59,255,143,.35),0 0 16px rgba(59,255,143,.28)}
+.ring img{width:2.5rem;height:2.5rem;filter:saturate(1.35) brightness(1.08) drop-shadow(0 0 4px rgba(59,255,143,.75)) drop-shadow(0 0 12px rgba(59,255,143,.35))}
+.b1{font:700 clamp(.6rem,2.55vw,1.05rem)/1.2 "Alegreya",Georgia,serif;color:#fff;letter-spacing:.01em;text-transform:uppercase;margin:0}
+.b2{font:italic 700 clamp(.92rem,3.9vw,1.35rem)/1.2 "Alegreya",Georgia,serif;color:#C9A86A;margin:.15rem 0 0}
+.wrap{padding-top:1.5rem}
 .picker{display:grid;gap:.4rem;min-width:0}
 .addform>*,.two>*,.lbl>*,.edit>*,.picker>*{min-width:0;max-width:100%}
 .lbl{display:grid;gap:.2rem;font-size:.9rem;color:var(--muted)}
@@ -176,9 +183,9 @@ details.blk[open] summary{background:var(--green-soft)}
 </style>
 </head>
 <body>
+<div class="brand"><div class="brand-in"><div class="ring"><img src="/logo-icon.png" alt="" width="40" height="40"></div><div><p class="b1">Islamska zajednica Bošnjaka u Nizozemskoj</p><p class="b2">Islamski kulturni centar Din Eindhoven</p></div></div></div>
 <div class="wrap">
 <header>
-  <p class="org">Islamski kulturni centar Din, Eindhoven</p>
   <h1>Odbor IKC DIN</h1>
   <p class="lede" id="lede">Svako ažurira svoje akcije prije sjednice. Tako na sjednici ne pitamo „status?“, nego razgovaramo samo o onome što zapinje.</p>
   <div class="tally" id="tally" hidden aria-live="polite">
