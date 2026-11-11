@@ -453,7 +453,7 @@ nav.tabs[hidden]{display:none}
   setInterval(function(){if(!document.hidden&&!editing)refresh();},30000);
 
   /* ===== Odbor: sjednice, kalendar, arhiva ===== */
-  var openRuns={}, calWeek=false, DNI=["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota","Nedjelja"];
+  var docKind=null, openRuns={}, calWeek=false, DNI=["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota","Nedjelja"];
   function wd(iso){return (dpart(iso).getDay()+6)%7;}
   function isoOf(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
   var odb={sjednice:[],termini:[]}, view="akcije", sjSel=null, sjTab="dr", sjEdit=null, calF="sve", calPast=false, termEdit=null, akForm=null;
@@ -530,14 +530,20 @@ nav.tabs[hidden]{display:none}
       h+='<details class="add"><summary>Historija izmjena ('+(s.log||[]).length+')</summary><div class="addform">'+((s.log||[]).map(function(l){return '<div class="stamp">'+new Date(l.at).toLocaleString("bs-BA",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+' · <b>'+esc(l.by)+'</b> — '+esc(l.w)+'</div>';}).join("")||'<div class="stamp">Još nema izmjena.</div>')+'</div></details>';
     } else if(sjTab==="ak"){
       var A=docs.filter(function(d){return d.sjednica_id===s.id;}).sort(function(a,b){return b.nr-a.nr;});
+      h+=akForm==="ak"?'<div class="edit" style="margin-top:1rem"><textarea id="ak-t" maxlength="400" placeholder="Šta treba uraditi?"></textarea>'+
+        '<label class="lbl" style="margin-top:.5rem">Tačka dnevnog reda<select id="ak-tk"><option value="">— bez tačke —</option>'+T.map(function(t,i){return '<option value="'+i+'">'+(i+1)+'. '+esc(t.t)+'</option>';}).join("")+'</select></label>'+
+        '<div class="two"><div id="ak-who"></div><input type="text" id="ak-r" maxlength="30" placeholder="Rok, npr. 15.11."></div><div class="btns"><button class="btn" data-a="ak-save" data-i="">Dodaj akciju</button><button class="btn ghost" data-a="ak-cancel">Odustani</button></div></div>'
+        :'<div class="btns" style="margin-top:1rem"><button class="btn" data-a="ak-new2">+ Nova akcija iz ove sjednice</button></div>';
       h+=A.length?'<ol class="list">'+A.map(function(a){return '<li class="row'+(a.status==="završeno"?" is-done":"")+'"><div class="nr">'+a.nr+'</div><div><p class="what">'+esc(a.akcija)+'</p><div class="meta"><span class="who">'+esc(a.odgovoran)+'</span><span>'+esc(a.status)+'</span>'+(a.tacka!=null&&T[a.tacka]?'<span>tačka '+(a.tacka+1)+'</span>':'')+'</div></div></li>';}).join("")+'</ol>':'<p class="empty">Još nema akcija iz ove sjednice.</p>';
     } else {
-      h+='<div class="btns" style="margin:.8rem 0"><button class="btn" data-a="doc-dl">Preuzmi za Word</button><button class="btn ghost" data-a="doc-pr">Štampaj / PDF</button></div><div class="paperwrap"><div class="paper">'+docBody(s)+'</div></div>';
+      if(!docKind)docKind=s.datum>today()?"dr":"zap";
+      h+='<div class="sfilter tabs2" style="margin-top:.8rem">'+[["dr","Dnevni red"],["zap","Zapisnik"]].map(function(t){return '<button type="button" data-dk="'+t[0]+'" aria-pressed="'+(docKind===t[0])+'">'+t[1]+'</button>';}).join("")+'</div>'+
+        '<div class="btns" style="margin:.8rem 0"><button class="btn" data-a="doc-dl">Preuzmi '+(docKind==="dr"?"dnevni red":"zapisnik")+' za Word</button><button class="btn ghost" data-a="doc-pr">Štampaj / PDF</button></div><div class="paperwrap"><div class="paper">'+docBody(s,docKind)+'</div></div>';
     }
     box.innerHTML=h;
     if(akForm!=null&&$("ak-who")){var w=whoPicker(sess.name);w.el.id="ak-picker";$("ak-who").appendChild(w.el);box._who=w;setTimeout(function(){var x=$("ak-t");if(x)x.focus();},0);}
   }
-  function docBody(s){var zap=s.datum<=today(),T=s.tacke||[],A=docs.filter(function(d){return d.sjednica_id===s.id;}).sort(function(a,b){return a.nr-b.nr;});
+  function docBody(s,kind){var zap=kind?kind==="zap":s.datum<=today(),T=s.tacke||[],A=docs.filter(function(d){return d.sjednica_id===s.id;}).sort(function(a,b){return a.nr-b.nr;});
     var G="#1F5C2E",bar=function(t){return '<p style="background:'+G+';color:#fff;font-weight:bold;font-size:10pt;padding:4px 8px;margin:14px 0 6px">'+t+'</p>';},
       td='style="border:1px solid #C9D6CC;padding:4px 7px;font-size:10pt;vertical-align:top"',tdh='style="border:1px solid #C9D6CC;padding:4px 7px;font-size:10pt;background:#EAF2EC;font-weight:bold;width:28%"';
     var h='<p style="background:'+G+';color:#fff;font-size:9pt;letter-spacing:1px;padding:5px 8px;margin:0 0 10px">ISLAMSKI KULTURNI CENTAR DIN · EINDHOVEN</p>'+
@@ -549,9 +555,9 @@ nav.tabs[hidden]{display:none}
     if(zap&&A.length)h+=bar("AKCIJE")+'<table style="width:100%;border-collapse:collapse"><tr><td '+tdh+'>Akcija</td><td '+tdh+'>Odgovoran</td><td '+tdh+'>Rok</td></tr>'+A.map(function(a){return '<tr><td '+td+'>'+a.nr+'. '+esc(a.akcija)+'</td><td '+td+'>'+esc(a.odgovoran)+'</td><td '+td+'>'+esc(a.rok)+'</td></tr>';}).join("")+'</table>';
     if(zap&&(s.amandmani||[]).length)h+=bar("AMANDMANI")+s.amandmani.map(function(a){return '<p style="font-size:10pt;margin:3px 0">'+esc(a.t)+' <i>('+esc(a.by)+', '+new Date(a.at).toLocaleDateString("bs-BA")+')</i></p>';}).join("");
     return h;}
-  function docHtml(s){return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>'+(s.datum<=today()?"Zapisnik":"Dnevni red")+' '+dfmt(s.datum)+'</title><style>body{font-family:Arial,sans-serif;color:#1B2620}@page{margin:2cm}</style></head><body>'+docBody(s)+'</body></html>';}
+  function docHtml(s,kind){var zk=kind?kind==="zap":s.datum<=today();return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>'+(zk?"Zapisnik":"Dnevni red")+' '+dfmt(s.datum)+'</title><style>body{font-family:Arial,sans-serif;color:#1B2620}@page{margin:2cm}</style></head><body>'+docBody(s,kind)+'</body></html>';}
   $("v-sjednice").addEventListener("change",function(e){
-    if(e.target.id==="sj-sel"){sjSel=e.target.value;sjEdit=null;akForm=null;renderSj();return;}
+    if(e.target.id==="sj-sel"){sjSel=e.target.value;docKind=null;sjEdit=null;akForm=null;renderSj();return;}
     var zi=e.target.getAttribute("data-z");if(zi!=null){var s=sjById(sjSel),i=+zi,v=e.target.value;if(((s.tacke[i]||{}).z||"")===v)return;
       s.tacke[i].z=v;var m=$("zs-"+i);if(m)m.textContent="Spremam…";
       rpc("sjednica_tacka",{p_code:sess.code,p_id:s.id,p_op:"set",p_idx:i,p_t:null,p_z:v,p_by:sess.name}).then(function(){var m2=$("zs-"+i);if(m2)m2.textContent="Spremljeno ✓";loadOdbor();})
@@ -559,6 +565,7 @@ nav.tabs[hidden]{display:none}
   });
   $("v-sjednice").addEventListener("click",async function(e){
     var b=e.target.closest("button");if(!b)return;var tb=b.getAttribute("data-t");if(tb){sjTab=tb;akForm=null;renderSj();return;}
+    var dk=b.getAttribute("data-dk");if(dk){docKind=dk;renderSj();return;}
     var a=b.getAttribute("data-a"),i=+b.getAttribute("data-i"),s=sjById(sjSel);if(!a)return;
     if(a==="sm-new"){sjEdit="new";renderSj();return;} if(a==="sm-edit"){sjEdit="edit";renderSj();return;} if(a==="sm-cancel"){sjEdit=null;renderSj();return;}
     if(a==="sm-save"){var d=$("sm-d").value;if(!d){alert("Izaberi datum.");return;}var id=await act2("sjednica_save",{p_id:sjEdit==="edit"?s.id:null,p_datum:d,p_vrijeme:$("sm-v").value,p_mjesto:$("sm-m").value,p_by:sess.name});
@@ -571,15 +578,15 @@ nav.tabs[hidden]{display:none}
     if(a==="t-del"){if(confirm("Obrisati tačku "+(i+1)+"?\n„"+s.tacke[i].t+"“"))await tk("del",i,null);return;}
     if(a==="pr"){var p=b.getAttribute("data-p"),P=(s.prisutni||[]).slice(),k=P.indexOf(p);if(k>-1)P.splice(k,1);else P.push(p);s.prisutni=P;b.setAttribute("aria-pressed",String(k<0));
       rpc("sjednica_prisutni",{p_code:sess.code,p_id:s.id,p_prisutni:P,p_by:sess.name}).then(loadOdbor).catch(function(){notice("Prisutni nisu spremljeni.");});return;}
-    if(a==="ak-new"){akForm=i;renderSj();return;} if(a==="ak-cancel"){akForm=null;renderSj();return;}
-    if(a==="ak-save"){var t=$("ak-t").value.trim();if(!t){$("ak-t").focus();return;}b.disabled=true;
-      try{var nid=await rpc("akcije_add",{p_code:sess.code,p_akcija:t,p_odgovoran:$("v-sjednice")._who.value(),p_rok:$("ak-r").value,p_izvor:"Sjednica "+dfmt(s.datum).slice(0,-5)+".",p_by:sess.name});
+    if(a==="ak-new"){akForm=i;renderSj();return;} if(a==="ak-new2"){akForm="ak";renderSj();return;} if(a==="ak-cancel"){akForm=null;renderSj();return;}
+    if(a==="ak-save"){if(b.getAttribute("data-i")===""){var tv=$("ak-tk")?$("ak-tk").value:"";i=tv===""?null:+tv;}var t=$("ak-t").value.trim();if(!t){$("ak-t").focus();return;}b.disabled=true;
+      try{var nid=await rpc("akcije_add",{p_code:sess.code,p_akcija:t,p_odgovoran:$("v-sjednice")._who.value(),p_rok:$("ak-r").value,p_izvor:"Sjednica "+s.datum.slice(8,10)+"."+s.datum.slice(5,7)+".",p_by:sess.name});
         if(nid)await rpc("akcije_link",{p_code:sess.code,p_id:nid,p_sjednica:s.id,p_tacka:i,p_by:sess.name});akForm=null;await refresh(true);}catch(err){b.disabled=false;notice("Akcija nije spremljena. Pokušaj ponovo.");}return;}
     if(a==="usvoji"){if(!confirm("Označiti zapisnik od "+dfmt(s.datum)+" kao usvojen?\nNakon toga se zaključava; ispravke idu kao amandman."))return;await act2("sjednica_usvoji",{p_id:s.id,p_by:sess.name});return;}
     if(a==="am-save"){var am=$("am-t").value.trim();if(am)await act2("sjednica_amandman",{p_id:s.id,p_text:am,p_by:sess.name});return;}
-    if(a==="doc-dl"){var blob=new Blob(["\ufeff",docHtml(s)],{type:"application/msword"});var u=URL.createObjectURL(blob),l=document.createElement("a");
-      var dd=s.datum.split("-");l.href=u;l.download=(s.datum<=today()?"Zapisnik":"Dnevni_red")+"_IKC_DIN_"+dd[2]+"-"+dd[1]+"-"+dd[0]+".doc";document.body.appendChild(l);l.click();setTimeout(function(){URL.revokeObjectURL(u);l.remove();},500);return;}
-    if(a==="doc-pr"){var w=window.open("","_blank");if(!w){alert("Dozvoli pop-up prozore za štampanje.");return;}w.document.write(docHtml(s));w.document.close();setTimeout(function(){w.print();},400);return;}
+    if(a==="doc-dl"){var blob=new Blob(["\ufeff",docHtml(s,docKind)],{type:"application/msword"});var u=URL.createObjectURL(blob),l=document.createElement("a");
+      var dd=s.datum.split("-");l.href=u;l.download=(docKind==="zap"?"Zapisnik":"Dnevni_red")+"_IKC_DIN_"+dd[2]+"-"+dd[1]+"-"+dd[0]+".doc";document.body.appendChild(l);l.click();setTimeout(function(){URL.revokeObjectURL(u);l.remove();},500);return;}
+    if(a==="doc-pr"){var w=window.open("","_blank");if(!w){alert("Dozvoli pop-up prozore za štampanje.");return;}w.document.write(docHtml(s,docKind));w.document.close();setTimeout(function(){w.print();},400);return;}
   });
 
   /* ---- Kalendar (lista po mjesecima) ---- */
