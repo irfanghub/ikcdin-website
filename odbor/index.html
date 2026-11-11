@@ -174,11 +174,7 @@ details.blk[open] summary{background:var(--green-soft)}
 .wrap{padding-bottom:2rem}
 .rrow{display:flex;gap:.7rem;align-items:baseline;font-size:.8rem;color:var(--muted);margin:0 0 .55rem}
 .rrow .rd{width:3.2rem;flex:none;text-align:center;font-weight:700;text-transform:uppercase;font-size:.72rem}.rrow.tod .rd{color:var(--gold)}
-.minitabs{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;background:#0B140E;padding-top:env(safe-area-inset-top,0px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.minitabs[hidden]{display:none}
-.minitabs button{flex:1;border:0;background:none;color:rgba(255,255,255,.7);font:inherit;font-size:.85rem;padding:.65rem .2rem .6rem;border-bottom:3px solid transparent;cursor:pointer}
-.minitabs button[aria-current="true"]{color:#fff;font-weight:700;border-bottom-color:var(--gold)}
-@media print{.minitabs{display:none!important}}
+@media print{}
 .archnote{color:var(--muted);font-size:.9rem;padding:1rem 0;text-align:center}
 @media print{nav.tabs{display:none}}
 
@@ -232,7 +228,6 @@ nav.tabs[hidden]{display:none}
 </section>
 
 <div id="app" hidden>
-<nav class="minitabs" id="minitabs" hidden aria-hidden="true"><button type="button" data-v="akcije">Akcije</button><button type="button" data-v="sjednice">Sjednice</button><button type="button" data-v="kalendar">Kalendar</button><button type="button" data-v="arhiva">Arhiva</button></nav>
 <nav class="tiles" id="tabs" aria-label="Dijelovi aplikacije">
 <button type="button" data-v="akcije"><b>✓</b><span><span class="tl">Akcije</span><span class="ts" id="ts-akcije"></span></span></button>
 <button type="button" data-v="sjednice"><b>☰</b><span><span class="tl">Sjednice</span><span class="ts" id="ts-sjednice"></span></span></button>
@@ -477,7 +472,7 @@ nav.tabs[hidden]{display:none}
     document.querySelectorAll("#tabs button").forEach(function(b){var x=b.querySelector(".tb");if(x)x.remove();var c=0;if(c){var t=el("span","tb",String(c));t.setAttribute("aria-label",c+(b.dataset.v==="akcije"?" otvorenih":" zakazanih"));b.appendChild(t);}});}
   function setView(v){if(!LEDE[v])v="akcije";view=v;["akcije","sjednice","kalendar","arhiva"].forEach(function(k){$("v-"+k).hidden=k!==v;});
     $("tally").hidden=v!=="akcije";$("lede").textContent=LEDE[v];
-    document.querySelectorAll("#tabs button,#minitabs button").forEach(function(b){b.setAttribute("aria-current",String(b.dataset.v===v));});
+    document.querySelectorAll("#tabs button").forEach(function(b){b.setAttribute("aria-current",String(b.dataset.v===v));});
     try{history.replaceState(null,"","#"+v);}catch(e){}
     renderView();$("scroller").scrollTop=0;}
   function updTiles(){var t0=today(),s=function(id,v){var e=$(id);if(e)e.textContent=v;};
@@ -486,8 +481,6 @@ nav.tabs[hidden]{display:none}
     var mk=t0.slice(0,7);s("ts-kalendar","ovaj mjesec: "+(odb.termini.filter(function(t){return !t.sedmicno&&t.datum.slice(0,7)===mk;}).length+odb.sjednice.filter(function(x){return x.datum.slice(0,7)===mk;}).length));
     s("ts-arhiva",held().length+" sjednica");}
   function renderView(){updTiles();if(view==="sjednice")renderSj();else if(view==="kalendar")renderKal();else if(view==="arhiva")renderArh();}
-  $("minitabs").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setView(b.dataset.v);});
-  if("IntersectionObserver" in window){new IntersectionObserver(function(en){var vis=en[0].isIntersecting;$("minitabs").hidden=vis||$("app").hidden;},{threshold:0}).observe($("tabs"));}
   $("tabs").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setView(b.dataset.v);});
 
   /* ---- Sjednice ---- */
