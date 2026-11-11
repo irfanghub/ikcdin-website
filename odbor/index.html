@@ -165,6 +165,15 @@ details.blk[open] summary{background:var(--green-soft)}
 .wk{display:grid;width:100%;text-align:left;border:0;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:4px;padding:.4rem .7rem;margin-top:.3rem;cursor:pointer}
 .inrec{display:block;margin-top:.45rem;padding-top:.4rem;border-top:1px dashed var(--rule);font-size:.78rem;color:var(--muted)}
 .inrec-l{display:block}.inrec-l span{display:inline-block;background:var(--gold-soft);color:var(--ink);border-radius:999px;padding:.05rem .55rem;margin:.25rem .3rem 0 0;font-size:.74rem}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1rem}
+.tiles button{display:flex;gap:.6rem;align-items:center;text-align:left;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:.6rem .7rem;color:var(--ink);cursor:pointer;font:inherit}
+.tiles button>b{width:2.1rem;height:2.1rem;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green);font-size:1.05rem}
+.tiles .tl{display:block;font-weight:700}.tiles .ts{display:block;font-size:.78rem;color:var(--muted)}
+.tiles button[aria-current="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.tiles button[aria-current="true"]>b{background:rgba(255,255,255,.2);color:var(--on-green)}.tiles button[aria-current="true"] .ts{color:var(--on-green);opacity:.85}
+.wrap{padding-bottom:2rem}
+.rrow{display:flex;gap:.7rem;align-items:baseline;font-size:.8rem;color:var(--muted);margin:0 0 .55rem}
+.rrow .rd{width:3.2rem;flex:none;text-align:center;font-weight:700;text-transform:uppercase;font-size:.72rem}.rrow.tod .rd{color:var(--gold)}
 .archnote{color:var(--muted);font-size:.9rem;padding:1rem 0;text-align:center}
 @media print{nav.tabs{display:none}}
 
@@ -218,6 +227,12 @@ nav.tabs[hidden]{display:none}
 </section>
 
 <div id="app" hidden>
+<nav class="tiles" id="tabs" aria-label="Dijelovi aplikacije">
+<button type="button" data-v="akcije"><b>✓</b><span><span class="tl">Akcije</span><span class="ts" id="ts-akcije"></span></span></button>
+<button type="button" data-v="sjednice"><b>☰</b><span><span class="tl">Sjednice</span><span class="ts" id="ts-sjednice"></span></span></button>
+<button type="button" data-v="kalendar"><b>▦</b><span><span class="tl">Kalendar</span><span class="ts" id="ts-kalendar"></span></span></button>
+<button type="button" data-v="arhiva"><b>⧉</b><span><span class="tl">Arhiva</span><span class="ts" id="ts-arhiva"></span></span></button>
+</nav>
 <section id="v-akcije">
 <div class="controls">
   <div class="chips" id="chips" role="group" aria-label="Filtriraj po odgovornoj osobi"></div>
@@ -257,7 +272,6 @@ nav.tabs[hidden]{display:none}
 </div>
 </div>
 </div>
-<nav class="tabs" id="tabs" hidden aria-label="Dijelovi aplikacije"><button type="button" data-v="akcije"><b>✓</b>Akcije</button><button type="button" data-v="sjednice"><b>☰</b>Sjednice</button><button type="button" data-v="kalendar"><b>▦</b>Kalendar</button><button type="button" data-v="arhiva"><b>⧉</b>Arhiva</button></nav>
 
 <script>
 (function(){
@@ -325,7 +339,7 @@ nav.tabs[hidden]{display:none}
     if(!sess||busy)return;
     try{var res=await rpc("akcije_list",{p_code:sess.code})||[];
       if(!res.length){var r=await rpc("akcije_login",{p_code:sess.code});if(!r){save(null);showLogin("Kod je promijenjen ili je pristup privremeno blokiran. Upiši kod iz WhatsApp grupe.");return;}}
-      docs=res.filter(function(d){return !d.deleted_at;});trash=res.filter(function(d){return !!d.deleted_at;});await loadOdbor();notice("");renderChips();if(!editing)render();else renderTally();if(view!=="akcije"&&(force||!typing()))renderView();}
+      docs=res.filter(function(d){return !d.deleted_at;});trash=res.filter(function(d){return !!d.deleted_at;});await loadOdbor();notice("");renderChips();updTiles();if(!editing)render();else renderTally();if(view!=="akcije"&&(force||!typing()))renderView();}
     catch(e){if(e.auth){save(null);showLogin("Kod je promijenjen. Upiši novi kod iz WhatsApp grupe.");}else notice("Nema veze sa serverom. Lista se osvježava automatski.");}
   }
   async function act(fn,args){
@@ -454,13 +468,18 @@ nav.tabs[hidden]{display:none}
     catch(e){busy=false;notice(/usvojen/.test(e.message)?"Zapisnik je usvojen i zaključan. Ispravke idu kao amandman.":"Spremanje nije uspjelo. Pokušaj ponovo.");await refresh(true);return false;}}
 
   function renderBadges(){var n={akcije:docs.filter(function(d){return d.status!=="završeno";}).length,sjednice:(odb&&odb.sjednice||[]).filter(function(s){return s.datum>=today();}).length};
-    document.querySelectorAll("#tabs button").forEach(function(b){var x=b.querySelector(".tb");if(x)x.remove();var c=n[b.dataset.v];if(c){var t=el("span","tb",String(c));t.setAttribute("aria-label",c+(b.dataset.v==="akcije"?" otvorenih":" zakazanih"));b.appendChild(t);}});}
+    document.querySelectorAll("#tabs button").forEach(function(b){var x=b.querySelector(".tb");if(x)x.remove();var c=0;if(c){var t=el("span","tb",String(c));t.setAttribute("aria-label",c+(b.dataset.v==="akcije"?" otvorenih":" zakazanih"));b.appendChild(t);}});}
   function setView(v){if(!LEDE[v])v="akcije";view=v;["akcije","sjednice","kalendar","arhiva"].forEach(function(k){$("v-"+k).hidden=k!==v;});
     $("tally").hidden=v!=="akcije";$("lede").textContent=LEDE[v];
     document.querySelectorAll("#tabs button").forEach(function(b){b.setAttribute("aria-current",String(b.dataset.v===v));});
     try{history.replaceState(null,"","#"+v);}catch(e){}
     renderView();$("scroller").scrollTop=0;}
-  function renderView(){if(view==="sjednice")renderSj();else if(view==="kalendar")renderKal();else if(view==="arhiva")renderArh();}
+  function updTiles(){var t0=today(),s=function(id,v){var e=$(id);if(e)e.textContent=v;};
+    s("ts-akcije",docs.filter(function(d){return d.status!=="završeno";}).length+" otvorenih");
+    var up=odb.sjednice.filter(function(x){return x.datum>=t0;});s("ts-sjednice",up.length?"sljedeća: "+dfmt(up[up.length-1].datum).slice(0,-5):"nema zakazane");
+    var mk=t0.slice(0,7);s("ts-kalendar","ovaj mjesec: "+(odb.termini.filter(function(t){return !t.sedmicno&&t.datum.slice(0,7)===mk;}).length+odb.sjednice.filter(function(x){return x.datum.slice(0,7)===mk;}).length));
+    s("ts-arhiva",held().length+" sjednica");}
+  function renderView(){updTiles();if(view==="sjednice")renderSj();else if(view==="kalendar")renderKal();else if(view==="arhiva")renderArh();}
   $("tabs").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setView(b.dataset.v);});
 
   /* ---- Sjednice ---- */
@@ -562,6 +581,10 @@ nav.tabs[hidden]{display:none}
       .concat(odb.sjednice.map(function(s){return {d:s.datum,v:s.vrijeme,n:"Sjednica odbora",m:s.mjesto,k:"s",id:s.id};}))
       .filter(function(x){return (calF==="sve"||x.k===calF)&&(calPast||x.d>=t0);})
       .sort(function(a,b){return (a.d+a.v)<(b.d+b.v)?-1:1;});
+    if(calF!=="s"&&rec.length){var have={};it.forEach(function(x){have[x.d]=1;});var e8=new Date();e8.setDate(e8.getDate()+56);var endI=isoOf(e8),lastI=it.length?it[it.length-1].d:t0;if(lastI>endI)endI=lastI;
+      var cap=new Date();cap.setDate(cap.getDate()+183);if(endI>isoOf(cap))endI=isoOf(cap);
+      for(var dd=dpart(t0);isoOf(dd)<=endI;dd.setDate(dd.getDate()+1)){var kk=isoOf(dd);if(have[kk])continue;var rsx=rec.filter(function(t){return wd(t.datum)===wd(kk)&&t.datum<=kk;});if(rsx.length)it.push({d:kk,v:"",k:"r",rs:rsx});}
+      it.sort(function(a,b){return (a.d+a.v)<(b.d+b.v)?-1:1;});}
     var h='<div class="ctrl-row"><div class="sfilter">'+[["sve","Sve"],["s","Sjednice"],["a","Aktivnosti"]].map(function(f){return '<button type="button" data-f="'+f[0]+'" aria-pressed="'+(calF===f[0])+'">'+f[1]+'</button>';}).join("")+'</div>'+
       '<button class="btn" data-a="te-new">+ Dodaj termin</button></div><label class="toggle"><input type="checkbox" id="cal-past" '+(calPast?"checked":"")+'> Prikaži i prošle termine</label>'+
       (calF!=="s"?'':'');
@@ -574,6 +597,7 @@ nav.tabs[hidden]{display:none}
     function inRec(x){if(x.w||x.d===lastD)return "";lastD=x.d;var rs=rec.filter(function(t){return wd(t.datum)===wd(x.d)&&t.datum<=x.d;});
       return rs.length?'<span class="inrec">↻ Isti dan u IKC DIN:<span class="inrec-l">'+rs.map(function(t){return '<span>'+esc([t.vrijeme,t.naziv].filter(Boolean).join(" "))+'</span>';}).join("")+'</span></span>':"";}
     it.forEach(function(x){var mk=x.d.slice(0,7);if(mk!==cur){cur=mk;var mm=+mk.slice(5)-1;h+='<div class="mband m'+(mm%2)+'">'+MJ[mm]+' '+mk.slice(0,4)+'</div>';}
+      if(x.k==="r"){var dr=dpart(x.d);h+='<div class="rrow'+(x.d===t0?" tod":"")+'"><span class="rd">'+dr.toLocaleDateString("bs-BA",{weekday:"short"})+' '+dr.getDate()+'</span><span>↻ '+x.rs.map(function(t){return esc([t.vrijeme,t.naziv].filter(Boolean).join(" "));}).join(" · ")+'</span></div>';return;}
       if(termEdit===x.id&&!x.w){var t=odb.termini.filter(function(y){return y.id===x.id;})[0];h+=termForm(t);return;}
       var d=dpart(x.d);
       h+='<button class="cal-day" data-k="'+x.k+'" data-id="'+x.id+'"><span class="date'+(x.d===t0?" tod":"")+'"><b>'+d.getDate()+'</b>'+d.toLocaleDateString("bs-BA",{weekday:"short"})+'</span><span class="ev '+x.k+'"><span class="t">'+esc(x.n)+'</span><span class="m">'+esc([x.v,x.m].filter(Boolean).join(" · "))+'</span>'+inRec(x)+'</span></button>';});
